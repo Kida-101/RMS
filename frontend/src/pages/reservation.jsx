@@ -4,6 +4,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-input-2/lib/style.css";
 import "./pageStyls/reservation.css";
+import Menu from "../components/menu/menu";
 
 const ReservationForm = () => {
   const [formData, setFormData] = useState({
@@ -31,107 +32,118 @@ const ReservationForm = () => {
   };
 
   return (
-    <div className="reservation-container">
-      <h1 className="">Reservation</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="full-name">
-          <input
-            type="text"
-            name="fullName"
-            placeholder="Full Name"
-            value={formData.fullName}
-            onChange={handleChange}
-            required
-            className="full-name"
-          />
-        </div>
-        <div>
-          <PhoneInput
-            country={"et"}
-            value={formData.phone}
-            onChange={(phone) => setFormData({ ...formData, phone })}
-            inputStyle={{ width: "100%" }}
-            required
-            className="phone"
-          />
-        </div>
-        <div>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email (optional)"
-            value={formData.email}
-            onChange={handleChange}
-            optional
-            className="email"
-          />
-        </div>
-        <div className="date">
-          <span>
+    <div>
+      <div className="reservation-container">
+        <h1 className="">Reservation</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="full-name">
+            <span>
+              <label>Full Name:&nbsp;</label>
+              <input
+                type="text"
+                name="fullName"
+                placeholder="Full Name"
+                value={formData.fullName}
+                onChange={handleChange}
+                required
+                className="full-name"
+              />
+            </span>
+          </div>
+          <div>
+            <span>
+              <label>Phone Number:&nbsp;</label>
+              <PhoneInput
+                country={"et"}
+                value={formData.phone}
+                onChange={(phone) => setFormData({ ...formData, phone })}
+                inputStyle={{ width: "100%" }}
+                required
+                className="phone"
+              />
+            </span>
+          </div>
+          <div>
+            <span>
+              <label>Email:&nbsp;</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email (optional)"
+                value={formData.email}
+                onChange={handleChange}
+                optional
+                className="email"
+              />
+            </span>
+          </div>
+          <div className="date">
             <label>Date:&nbsp;</label>
             <DatePicker
+              className="date-picker"
               selected={formData.date}
               onChange={(date) => setFormData({ ...formData, date })}
               dateFormat="yyyy/MM/dd"
             />
-          </span>
-        </div>
-        <div className="time">
-          <span className="span-time">
-            <span>
-              <label>Time(from):</label>&nbsp;
-              <input
-                type="time"
-                name="startTime"
-                value={formData.startTime}
-                onChange={handleChange}
-                required
-                className="time-inputs"
-              />
+          </div>
+          <div className="time">
+            <span className="span-time">
+              <span>
+                <label>Time(from):</label>&nbsp;
+                <input
+                  type="time"
+                  name="startTime"
+                  value={formData.startTime}
+                  onChange={handleChange}
+                  required
+                  className="time-inputs"
+                />
+              </span>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <span>
+                <label>Time(to...):</label>&nbsp;
+                <input
+                  type="time"
+                  name="endTime"
+                  value={formData.endTime}
+                  onChange={handleChange}
+                  required
+                  className="time-inputs"
+                />
+              </span>
             </span>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <span>
-              <label>Time(to...):</label>&nbsp;
-              <input
-                type="time"
-                name="endTime"
-                value={formData.endTime}
-                onChange={handleChange}
-                required
-                className="time-inputs"
-              />
-            </span>
-          </span>
-        </div>
-        <select
-          name="menu"
-          value={formData.menu}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Menu</option>
-          {menus.map((item, index) => (
-            <option key={index} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
+          </div>
+          <select
+            name="menu"
+            value={formData.menu}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Menu</option>
+            {menus.map((item, index) => (
+              <option key={index} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
 
-        <select
-          name="table"
-          value={formData.table}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Table</option>
-          {tables.map((item, index) => (
-            <option key={index} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
-        <button type="submit">Reserve</button>
-      </form>
+          <select
+            name="table"
+            value={formData.table}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Table</option>
+            {tables.map((item, index) => (
+              <option key={index} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+          <button type="submit">Reserve</button>
+        </form>
+      </div>
+      <Menu />
     </div>
   );
 };
