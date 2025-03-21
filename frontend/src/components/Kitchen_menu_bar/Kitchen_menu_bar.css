@@ -1,0 +1,104 @@
+/* Maximized Menu */
+.Kitchen_menu_bar_contener_max{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid #ddd;
+    width: 240px;
+    height: 97vh;
+}
+.Kitchen_menu_bar_contener_mini{
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #ddd;
+    width: 60px;
+    justify-content: space-between;
+    height: 97vh;
+}
+.maximize_menu {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    transition: width 0.2s ease;
+}
+.max_logout{
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    transition: width 0.2s ease;
+}
+
+/* Minimized Menu */
+.minimized_menu {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    transition: width 0.2s ease;
+}
+.mini_logout{
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    transition: width 0.2s ease;
+}
+/* Logo Section */
+.menu_logo {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.menu_logo img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.menu_logo p {
+    font-size: 1.5em;
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+/* Hamburger Button */
+.menu_logo button {
+    margin-left: auto;
+    border: none;
+    background-color: transparent;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+/* Menu Buttons */
+.menu_button button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: none;
+    background-color: transparent;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.menu_button button:hover {
+    background-color: #f8f9fa;
+    color: #007bff;
+}
+
+.minimized_menu .menu_button button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    font-size: 1.2em;
+}
+.mini_logout button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    font-size: 1.2em;
+}
