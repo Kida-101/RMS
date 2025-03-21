@@ -1,0 +1,50 @@
+.reservation-container {
+  width: 450px;
+  margin: auto;
+  padding: 20px;
+  background: #eaeaea;
+  /* background-image: url("../../assets/images/bg-1.jfif"); */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input,
+select,
+button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  background: #28a745;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #218838;
+}
+
+.time {
+  display: flex;
+  flex-direction: row;
+  width: auto;
+  gap: 20px;
+}
+
+.time-inputs {
+  max-width: 28%;
+}
