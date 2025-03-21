@@ -1,0 +1,14 @@
+.Kitchen_manager_continer{
+display: flex;
+flex-direction: row;
+}
+.Kitchen_menu_bar{
+    position: relative;
+    top: 0;
+    width: auto;
+    z-index: 10;
+}
+.main {
+    flex-grow: 1;
+    overflow-y: hidden;
+}
