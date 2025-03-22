@@ -142,7 +142,7 @@ const ReceiveRequest = () => {
       </div>
       {showConfirmation && (
         <ConfirmationPopup
-          message={`Are you sure you want to Handed over this to ${updateRequest?.requester} ?`}
+          message={`Are you sure you want to Handed over ${updateRequest?.item} to ${updateRequest?.requester} ?`}
           onConfirm={handleConfirmUpdate}
           onCancel={handleCancelPopup}
         />
