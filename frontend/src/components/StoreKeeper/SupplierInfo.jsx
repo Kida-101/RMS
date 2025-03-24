@@ -3,27 +3,10 @@ import Card from "./Card";
 import Form from "./Form";
 import ConfirmationPopup from "./ConfirmationPopup";
 
-const SupplierInfo = () => {
+const SupplierInfo = ({ suppliersInfo }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [deletedId, setDeleteId] = useState();
-  const [suppliers, setSuppliers] = useState([
-    {
-      id: 1,
-      name: "Supplier A",
-      address: "123 Main St, City A",
-      contacts: ["123-456-7890", "1234567890"],
-      stockType: "Electronics",
-      email: "jhon@gamil.com",
-    },
-    {
-      id: 2,
-      name: "Supplier B",
-      address: "456 Elm St, City B",
-      contacts: ["987-654-3210"],
-      stockType: "Furniture",
-      email: "man@gamil.com",
-    },
-  ]);
+  const [suppliers, setSuppliers] = useState(suppliersInfo);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentSupplier, setCurrentSupplier] = useState({
     id: null,

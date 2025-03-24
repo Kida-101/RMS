@@ -9,6 +9,24 @@ import ReportAnalysis from "../components/StoreKeeper/ReportAnalysis";
 import SideBar from "../components/StoreKeeper/SideBar";
 
 function StoreKeeper() {
+  const suppliersInfo = [
+    {
+      id: 1,
+      name: "Supplier A",
+      address: "123 Main St, City A",
+      contacts: ["123-456-7890", "1234567890"],
+      stockType: "Electronics",
+      email: "jhon@gamil.com",
+    },
+    {
+      id: 2,
+      name: "Supplier B",
+      address: "456 Elm St, City B",
+      contacts: ["987-654-3210"],
+      stockType: "Furniture",
+      email: "man@gamil.com",
+    },
+  ];
   const [activeComponent, setActiveComponent] = useState("ReceiveRequest");
 
   const renderComponent = () => {
@@ -16,13 +34,13 @@ function StoreKeeper() {
       case "ReceiveRequest":
         return <ReceiveRequest />;
       case "RequestStock":
-        return <RequestStock />;
+        return <RequestStock suppliersInfo={suppliersInfo} />;
       case "TrackStock":
         return <TrackStock />;
       case "StockInfo":
         return <StockInfo />;
       case "SupplierInfo":
-        return <SupplierInfo />;
+        return <SupplierInfo suppliersInfo={suppliersInfo} />;
       case "ReportAnalysis":
         return <ReportAnalysis />;
       default:
