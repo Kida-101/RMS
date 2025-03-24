@@ -1,0 +1,136 @@
+/* Container: Align items in a row and set max height to 97vh */
+.Kitchen_Available_Menu_container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    max-height: 97vh;
+    /* Set max height to 97% of the viewport */
+    overflow-y: auto;
+    /* Allows scrollbar when content overflows */
+}
+
+/* Left Side: Form Styling */
+.Kitchen_Available_form {
+    flex: 0.66;
+    /* Set to 66% width */
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Input Styling */
+.Kitchen_Available_form input {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Button Styling */
+.Kitchen_Available_form button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.Kitchen_Available_form button:hover {
+    background: #0056b3;
+}
+
+/* Suggestion List */
+.suggestions-list {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+.suggestions-list li {
+    padding: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.suggestions-list li:hover {
+    background: #ddd;
+}
+
+/* Selected Menu Item */
+.Selected_menu_item {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f1f1f1;
+    border-radius: 8px;
+}
+
+.Kitchen_Available_selector {
+    margin-left: 10px;
+    padding: 5px;
+    width: 150px;
+    /* Ensures the select box fits properly */
+}
+
+/* Right Side: Kitchen Menu (Column Layout) */
+.Kitchen_Available_menu_contener {
+    flex: 1;
+    /* Remaining space */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* Gap between each menu */
+    padding-left: 20px;
+    overflow-y: auto;
+    /* Scroll bar will appear when needed */
+}
+
+/* Kitchen Menu Items */
+.Kitchen_Available_menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Removed overflow-y from here */
+}
+
+/* List inside Kitchen Menu */
+.Kitchen_Available_menu li {
+    list-style: none;
+    margin: 5px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Make Status Item - Display in one line */
+.Kitchen_Available_menu li select {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+/* Responsive Design (Optional) */
+@media (max-width: 768px) {
+    .Kitchen_Available_Menu_container {
+        flex-direction: column;
+    }
+
+    .Kitchen_Available_form,
+    .Kitchen_Available_menu_contener {
+        flex: 1 1 100%;
+    }
+}
