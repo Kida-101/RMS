@@ -4,7 +4,7 @@ import './Kitchen_request.css';
 function Kitchen_request() {
   const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('');
-  const [remark, setRemark] = useState(''); // Single remark for all items
+  const [remark, setRemark] = useState(''); 
   const [items, setItems] = useState([]);
   const suggestedProducts = ['Rice', 'Tomatoes', 'Chicken', 'Onions', 'Spices','banana','Cornflower'];
   const [Rquste_id, setRquste_id] = useState(''); 
