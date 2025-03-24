@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+
 node_modules
 dist
 dist-ssr
@@ -16,9 +17,45 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+*.local
+
+# Optional npm cache directory
+.npm/
+
+# dotenv environment variable files
+.env
+.env.*.local
+
+# Editor directories and files
+.vscode/
+!.vscode/extensions.json
+.idea/
+>>>>>>> 438b2b05c1e06b01bf658a25b9e9671139f534ec
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+<<<<<<< HEAD
+=======
+
+# Logs folder for error tracking
+debug/
+
+# OS specific files
+Thumbs.db
+>>>>>>> 438b2b05c1e06b01bf658a25b9e9671139f534ec
