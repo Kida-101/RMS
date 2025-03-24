@@ -1,11 +1,10 @@
 import React from "react";
-import Reservation from "./pages/reservation";
-
+import Routing from "./pages/router/router";
 const App = () => {
   return (
-    <div>
-      <Reservation />
-    </div>
+    <>
+      <Routing />
+    </>
   );
 };
 
