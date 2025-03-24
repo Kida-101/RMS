@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './Kitchen_menu_bar.css'
-import logo from '../../assets/logo.png'
+import logo from '../../../assets/logo.png'
 function Kitchen_menu_bar() {
     const [toogle,setToggle]= useState(0);
     
@@ -27,6 +27,9 @@ function Kitchen_menu_bar() {
         </div>
         <div className='menu_button'>
             <button> <i class="fa-solid fa-cart-plus"></i>&nbsp;&nbsp; Requst Stoke</button>
+        </div>
+        <div className='menu_button'>
+            <button> <i class="fa-solid fa-reply"></i>&nbsp;&nbsp; Stoke Responde</button>
         </div>
         <div className='menu_button'>
             <button><i class="fa-solid fa-chart-pie"></i>&nbsp;&nbsp; Report</button>
@@ -63,6 +66,9 @@ function Kitchen_menu_bar() {
         </div>
          <div className='menu_button'>
             <button> <i class="fa-solid fa-cart-plus"></i></button>
+        </div>
+        <div className='menu_button'>
+            <button> <i class="fa-solid fa-reply"></i></button>
         </div>
         <div className='menu_button'>
             <button><i class="fa-solid fa-chart-pie"></i></button>
