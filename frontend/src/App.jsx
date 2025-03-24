@@ -1,9 +1,9 @@
-// import Routing from "./pages/router/router";
+import React from 'react'
+import Routing from "./pages/router/router";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import KitchenManager from "./pages/Kitchen_manager";
 import StoreKeeper from "./pages/StoreKeeper";
 import ManagerDashboard from "./pages/managerDashboard";
-import React from "react";
 const App = () => {
   return (
     <Router>

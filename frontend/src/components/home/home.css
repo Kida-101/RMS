@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Caveat+Brush&family=Rock+Salt&family=Great+Vibes&family=Dancing+Script:wght@600&display=swap");
 
-body {
+.background {
   background: url("../../assets/food-bg/44.jfif") center/cover;
   width: 100%;
   height: 100px;
@@ -9,7 +9,7 @@ body {
   background-color: rgba(0, 0, 0, 0.8);
   background-blend-mode: darken;
   font-family: "Poppins", sans-serif;
-}
+} 
 
 .banner-txt {
   align-items: center;
