@@ -207,7 +207,7 @@ const ReceiveRequest = () => {
                                 >
                                   Handed Over
                                 </button>
-                                <button
+                                <button className="bg-red-500 text-white px-3 py-1 rounded-md text-sm cursor-pointer mr-9"
                                   onClick={() =>
                                     OutOfStockHandler(
                                       request,
@@ -215,7 +215,7 @@ const ReceiveRequest = () => {
                                       "OutOfStock"
                                     )
                                   }
-                                  className="bg-red-500 text-white px-3 py-1 rounded-md text-sm cursor-pointer mr-9"
+                                  
                                 >
                                   Out of Stock
                                 </button>
