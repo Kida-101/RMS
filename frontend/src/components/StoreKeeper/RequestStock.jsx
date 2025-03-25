@@ -1,9 +1,23 @@
-import React, { useActionState, useState } from "react";
+import React, { useActionState, useState, useEffect } from "react";
 import RequestDetails from "./RequestDetails";
 
-const RequestStock = ({ suppliersInfo }) => {
+const RequestStock = ({ suppliersInfo, prefilledMaterial, onComplete }) => {
   const [isPopup, setIsPopup] = useState(false);
-  const [materials, setMaterials] = useState([{ material: "", quantity: "" }]);
+  const [materials, setMaterials] = useState([
+    { material: "", quantity: "", unit: "" },
+  ]);
+
+  useEffect(() => {
+    if (prefilledMaterial && materials[0].material === "") {
+      setMaterials([
+        {
+          material: prefilledMaterial.material,
+          quantity: "",
+          unit: prefilledMaterial.unit,
+        },
+      ]);
+    }
+  }, [prefilledMaterial]);
 
   const handleSubmit = (prevState, formData) => {
     const supplierId = formData.get("supplier");
@@ -14,10 +28,11 @@ const RequestStock = ({ suppliersInfo }) => {
     const items = materials.map((item) => ({
       material: item.material,
       quantity: item.quantity,
+      unit: item.unit,
     }));
 
     setIsPopup(true);
-    console.log(items, "supplier", selectedSupplier);
+    // console.log(items, "supplier", selectedSupplier);
     return {
       success: true,
       items,
@@ -28,7 +43,7 @@ const RequestStock = ({ suppliersInfo }) => {
   const [message, formAction, isPending] = useActionState(handleSubmit, null);
 
   const addMaterialField = () => {
-    setMaterials([...materials, { material: "", quantity: "" }]);
+    setMaterials([...materials, { material: "", quantity: "", unit: "" }]);
   };
 
   const removeMaterialField = (index) => {
@@ -47,10 +62,14 @@ const RequestStock = ({ suppliersInfo }) => {
 
   const closePopup = () => {
     setIsPopup(false);
+    // onComplete();
   };
+
   const clearForm = () => {
-    setMaterials([{ material: "", quantity: "" }]);
+    // onComplete();
+    setMaterials([{ material: "", quantity: "", unit: "" }]);
   };
+
   return (
     <div className="p-4 flex flex-col justify-center items-center">
       <h2 className="text-lg font-semibold mb-14">
@@ -101,8 +120,24 @@ const RequestStock = ({ suppliersInfo }) => {
                 }
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
-                min="1"
-                max="1000"
+                min={1}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Unit
+              </label>
+              <input
+                type="text"
+                name={`unit-${index}`}
+                value={item.unit}
+                onChange={(e) =>
+                  handleMaterialChange(index, "unit", e.target.value)
+                }
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+                minLength={2}
+                maxLength={20}
               />
             </div>
           </div>
