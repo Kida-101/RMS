@@ -126,9 +126,9 @@ button {
   font-family: "Poppins", sans-serif;
 }
 
-input:focus {
+/* input:focus {
   box-shadow: 0 2px 5px rgb(35, 215, 137, 0.2);
-}
+} */
 
 /* button {
   background: #28a745;
