@@ -6,10 +6,10 @@ const ReasonPopup = ({ message, onConfirm, onCancel }) => {
   const [state, submitAction, isPending] = useActionState(
     async (prevState, formData) => {
       const reason = formData.get("reason");
-      if (reason.trim().length < 6) {
+      if (reason.trim().length < 6 && reason.trim().length > 30) {
         return {
           error:
-            "Please provide a understandable reason (at least 6 characters).",
+            "Please provide a understandable reason ( 6 - 30  characters).",
           value: reason,
         };
       }

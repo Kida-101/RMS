@@ -1,88 +1,101 @@
-import React, { useState } from 'react'
-import './Kitchen_menu_bar.css'
-import logo from '../../../assets/logo.png'
-function Kitchen_menu_bar() {
-    const [toogle,setToggle]= useState(0);
-    
-    
+import React, { useState } from 'react';
+import logo from '../../../assets/logo.png';
 
-    if (toogle % 2 == 0) {
-    return (
-    <div className='Kitchen_menu_bar_contener_max'>
-       <div className='maximize_menu'>
-        <div className='menu_logo'>
-          <div className='img'><img src={logo} alt='logo' /></div> &nbsp; <p>Company</p> <button onClick={()=>setToggle(toogle+1)}><i class="fa-sharp fa-solid fa-bars"></i></button>  
-        </div>
-         <div className='menu_button'>
-            <button><i class="fa-solid fa-house"></i>&nbsp;&nbsp; Dashbord</button>
-        </div>
-        <div className='menu_button'>
-            <button><i class="fa-solid fa-clipboard-user"></i>&nbsp;&nbsp; Assigen Order</button>
-        </div>
-        <div className='menu_button'>
-            <button><i class="fa-solid fa-plate-wheat"></i>&nbsp;&nbsp; Served Orders</button>
-        </div>
-        <div className='menu_button'>
-            <button><i class="fa-solid fa-list-check"></i>&nbsp;&nbsp; available  menu</button>
-        </div>
-        <div className='menu_button'>
-            <button> <i class="fa-solid fa-cart-plus"></i>&nbsp;&nbsp; Requst Stoke</button>
-        </div>
-        <div className='menu_button'>
-            <button> <i class="fa-solid fa-reply"></i>&nbsp;&nbsp; Stoke Responde</button>
-        </div>
-        <div className='menu_button'>
-            <button><i class="fa-solid fa-chart-pie"></i>&nbsp;&nbsp; Report</button>
-        </div>
-       </div>
-       <div className='max_logout'>
-         <div className='menu_button'>
-            <button><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp; Logout</button>
-        </div>
-       </div>
-       </div> 
-     )
-    }else{
-        return (
-        <div className='Kitchen_menu_bar_contener_mini'>
-        <div className='minimized_menu'>
-         <div className='menu_logo'>
-           <div className='img'><img src={logo} alt='logo' /></div>
-        </div>
-        <div className='menu_button'>
-            <button onClick={()=>setToggle(toogle+1)}><i class="fa-sharp fa-solid fa-bars"></i></button>
-        </div>
-         <div className='menu_button'>
-            <button><i class="fa-solid fa-house"></i></button>
-        </div>
-        <div className='menu_button'>
-            <button><i class="fa-solid fa-clipboard-user"></i></button>
-        </div>
-        <div className='menu_button'>
-            <button><i class="fa-solid fa-plate-wheat"></i></button>
-        </div>
-        <div className='menu_button'>
-            <button><i class="fa-solid fa-list-check"></i></button>
-        </div>
-         <div className='menu_button'>
-            <button> <i class="fa-solid fa-cart-plus"></i></button>
-        </div>
-        <div className='menu_button'>
-            <button> <i class="fa-solid fa-reply"></i></button>
-        </div>
-        <div className='menu_button'>
-            <button><i class="fa-solid fa-chart-pie"></i></button>
-        </div> 
-       </div>
-       <div className='mini_logout'>
-         <div className='menu_button'>
-            <button><i class="fa-solid fa-right-from-bracket"></i></button>
-        </div>
-       </div>
-       </div>
-    )}
+function Kitchen_menu_bar({ onMenuClick }) {
+    const [toggle, setToggle] = useState(false);
+    const [activeItem, setActiveItem] = useState('Dashboard'); // Default active item
 
-  
+    const handleMenuClick = (menuItem) => {
+        setActiveItem(menuItem);
+        onMenuClick(menuItem);
+    };
+
+    return toggle ? (
+        <div className="flex flex-col justify-between w-20 h-[97vh] border-r border-gray-300">
+            {/* Minimized Menu */}
+            <div className="flex flex-col bg-white">
+                <div className="flex items-center justify-between p-4 border-b border-gray-300">
+                    <div className="min-w-[41px] min-h-[41px]">
+                        <img src={logo} alt="logo" className="w-10 h-10 rounded-full object-cover" />
+                    </div>
+                    <button onClick={() => setToggle(!toggle)} className="text-xl text-black hover:text-blue-700">
+                        <i className="fa-sharp fa-solid fa-bars"></i>
+                    </button>
+                </div>
+
+                <div className="flex flex-col space-y-2">
+                    {[
+                        { name: 'Dashboard', icon: 'fa-house' },
+                        { name: 'Assign Order', icon: 'fa-clipboard-user' },
+                        { name: 'Served Orders', icon: 'fa-plate-wheat' },
+                        { name: 'Delivered orders', icon: 'fa-check' },
+                        { name: 'Available Menu', icon: 'fa-list-check' },
+                        { name: 'Request Stock', icon: 'fa-cart-plus' },
+                        { name: 'Stock Response', icon: 'fa-reply' },
+                        { name: 'Report', icon: 'fa-chart-pie' }
+                    ].map((item) => (
+                        <button
+                            key={item.name}
+                            onClick={() => handleMenuClick(item.name)}
+                            className={`flex justify-center items-center p-4 text-xl transition-all ${
+                                activeItem === item.name ? 'text-blue-500' : 'text-gray-700'
+                            } hover:bg-gray-300`}
+                        >
+                            <i className={`fa-solid ${item.icon}`}></i>
+                        </button>
+                    ))}
+                </div>
+            </div>
+            <div className="flex flex-col space-y-2">
+                <button className="flex justify-center items-center p-4 text-xl hover:bg-gray-300">
+                    <i className="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </div>
+    ) : (
+        <div className="flex flex-col justify-between w-60 h-[97vh] border-r border-gray-300">
+            {/* Maximized Menu */}
+            <div className="flex flex-col bg-white">
+                <div className="flex items-center justify-between p-4 border-b border-gray-300">
+                    <div className="min-w-[41px] min-h-[41px]">
+                        <img src={logo} alt="logo" className="w-10 h-10 rounded-full object-cover" />
+                    </div>
+                    <p className="ml-3 text-xl font-semibold">Company</p>
+                    <button onClick={() => setToggle(!toggle)} className="text-xl text-black hover:text-blue-700">
+                        <i className="fa-sharp fa-solid fa-bars"></i>
+                    </button>
+                </div>
+
+                <div className="flex flex-col space-y-2">
+                    {[
+                        { name: 'Dashboard', icon: 'fa-house' },
+                        { name: 'Assign Order', icon: 'fa-clipboard-user' },
+                        { name: 'Served Orders', icon: 'fa-plate-wheat' },
+                        { name: 'Delivered orders', icon: 'fa-check' },
+                        { name: 'Available Menu', icon: 'fa-list-check' },
+                        { name: 'Request Stock', icon: 'fa-cart-plus' },
+                        { name: 'Stock Response', icon: 'fa-reply' },
+                        { name: 'Report', icon: 'fa-chart-pie' }
+                    ].map((item) => (
+                        <button
+                            key={item.name}
+                            onClick={() => handleMenuClick(item.name)}
+                            className={`flex items-center p-4 text-lg transition-all ${
+                                activeItem === item.name ? 'text-blue-500' : 'text-gray-700'
+                            } hover:bg-gray-300`}
+                        >
+                            <i className={`fa-solid ${item.icon} mr-3`}></i> {item.name}
+                        </button>
+                    ))}
+                </div>
+            </div>
+            <div className="flex flex-col space-y-2">
+                <button className="flex items-center w-full p-4 text-lg hover:bg-gray-300">
+                    <i className="fa-solid fa-right-from-bracket mr-3"></i> Logout
+                </button>
+            </div>
+        </div>
+    );
 }
 
-export default Kitchen_menu_bar
+export default Kitchen_menu_bar;

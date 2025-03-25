@@ -1,0 +1,83 @@
+/* Kitchen_Assign_Order.css */
+.Kitchen_Assign_Order_contener {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(calc(33.5% - 20px), 1fr));
+    gap: 16px;
+    padding: 20px;
+    background-color: #fff;
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.single_recived_order {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    transition: transform 0.2s ease-in-out;
+}
+
+.single_recived_order:hover {
+    transform: scale(1.02);
+}
+
+.single_recived_order h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.single_recived_order ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.single_recived_order ul li {
+    font-size: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+}
+
+.single_recived_order ul li:last-child {
+    border-bottom: none;
+}
+
+.Kitchen_Assign_chef {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background: #f8f9fa;
+}
+
+.assign_shafe {
+    margin-top: 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    background: #007bff;
+    color: white;
+}
+
+.assign_shafe:hover {
+    background: #0056b3;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 1024px) {
+    .Kitchen_Assign_Order_contener {
+        grid-template-columns: repeat(auto-fit, minmax(calc(50% - 20px), 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .Kitchen_Assign_Order_contener {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+    }
+}
