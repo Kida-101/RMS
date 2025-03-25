@@ -1,0 +1,160 @@
+/* Kitchen_request.css */
+.Kitchen_request_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 97vh;
+    background-color: #ffffff;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.Kitchen_request_form {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid #e0e0e0;
+    position: relative;
+}
+
+.Kitchen_request_form legend {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.Kitchen_request_form label {
+    display: block;
+    font-size: 14px;
+    color: #333333;
+    margin-bottom: 8px;
+}
+
+.Kitchen_request_form input,
+.Kitchen_request_form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #000000;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease;
+}
+
+.Kitchen_request_form input:focus,
+.Kitchen_request_form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.Kitchen_request_add_button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.Kitchen_request_add_button:hover {
+    background-color: #0056b3;
+}
+
+.Kitchen_request_item_list {
+    margin-top: 20px;
+}
+
+.Kitchen_request_item_list h3 {
+    font-size: 18px;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.Kitchen_request_item_list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.Kitchen_request_list_item {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #000000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Kitchen_request_remark_textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #000000;
+    background-color: #ffffff;
+    resize: vertical;
+}
+
+.Kitchen_request_submit_button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.Kitchen_request_submit_button:hover {
+    background-color: #0056b3;
+}
+
+/* Floating Suggestion List */
+.suggestions-container {
+    position: relative;
+    width: 100%;
+}
+
+.suggestions-list {
+    position: relative;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 470px;
+    list-style: none;
+    padding: 0;
+    margin-top: 2px;
+    z-index: 1000;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.suggestions-list li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.suggestions-list li:hover {
+    background-color: #f0f0f0;
+}

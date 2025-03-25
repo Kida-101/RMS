@@ -1,0 +1,99 @@
+/* Kitchen_menu_bar.css */
+
+/* Maximized Menu */
+.Kitchen_menu_bar_contener_max {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid #ddd;
+    width: 240px;
+    height: 97vh;
+    margin-right: 5px;
+}
+
+/* Minimized Menu */
+.Kitchen_menu_bar_contener_mini {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid #ddd;
+    width: 80px;
+    height: 97vh;
+    margin-right: 5px;
+}
+
+/* Animated Menu */
+.maximize_menu,
+.minimized_menu {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    width: 100%;
+    transition: width 0.2s ease-in-out;
+}
+
+/* Logo Section */
+.menu_logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+}
+.menu_logo p {
+    font-size: 1.5em;
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+
+
+.menu_logo img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    /* Ensures image maintains aspect ratio */
+}
+
+/* Hamburger Button */
+.menu_logo button {
+    margin-left: auto;
+    border: none;
+    background-color: transparent;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #000;
+}
+.img{
+    min-width: 41px;
+    min-height: 41px;
+}
+/* Menu Buttons */
+.menu_button button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: none;
+    background-color: transparent;
+    font-size: 1.1em;
+    cursor: pointer;
+    color: #000;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.menu_button button:hover {
+    background-color: #f8f9fa;
+    color: #007bff;
+}
+
+/* Center icons in minimized mode */
+.minimized_menu .menu_button button,
+.mini_logout button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    font-size: 1.2em;
+}

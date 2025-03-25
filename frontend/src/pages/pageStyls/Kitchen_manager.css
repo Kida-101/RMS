@@ -1,0 +1,26 @@
+.Kitchen_manager_continer{
+display: flex;
+flex-direction: row;
+}
+.Kitchen_menu_bar{
+    position: relative;
+    top: 0;
+    width: auto;
+    z-index: 10;
+}
+.main {
+    flex-grow: 1;
+    /* Allows .main to grow and take remaining width */
+    display: flex;
+    /* Flex layout to handle child elements */
+    flex-direction: column;
+    /* Stacks children vertically */
+    overflow-y: auto;
+    /* Enables vertical scrolling when content overflows */
+    height: 100%;
+    /* Fits the full height of its parent */
+    width: auto;
+    /* Automatically adjusts to take remaining width */
+    box-sizing: border-box;
+    /* Ensures padding and borders don't affect dimensions */
+}

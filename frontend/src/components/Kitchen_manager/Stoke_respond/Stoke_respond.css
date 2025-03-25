@@ -1,0 +1,98 @@
+/* Stoke_respond.css */
+.stoke_respond_container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(calc(33.5% - 20px), 1fr));
+    gap: 16px;
+    padding: 20px;
+    background-color: #fff;
+    max-height: 100vh;
+    /* Set a fixed height */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+}
+
+.single_stoke_respond {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    transition: transform 0.2s ease-in-out;
+    max-height: auto;
+}
+
+.single_stoke_respond:hover {
+    transform: scale(1.02);
+}
+
+.single_stoke_respond h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.single_stoke_respond ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.single_stoke_respond ul li {
+    font-size: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+}
+
+.single_stoke_respond ul li:last-child {
+    border-bottom: none;
+}
+
+.stoke_respond_buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.stoke_respond_ok_button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    background: #007bff;
+    color: white;
+}
+
+.stoke_respond_ok_button:hover {
+    background: #0056b3;
+}
+
+.stoke_respond_resend_requst_button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    background: #dc3545;
+    color: white;
+}
+
+.stoke_respond_resend_requst_button:hover {
+    background: #a71d2a;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 1024px) {
+    .stoke_respond_container {
+        grid-template-columns: repeat(auto-fit, minmax(calc(50% - 20px), 1fr));
+        /* 2 items per row on tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .stoke_respond_container {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+        /* 1 item per row on smaller screens */
+    }
+}

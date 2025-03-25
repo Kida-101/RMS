@@ -1,0 +1,57 @@
+/* Kitchen_Served_order.css */
+.Kitchen_Served_order_contener {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(calc(33.5% - 20px), 1fr));
+    gap: 16px;
+    padding: 20px;
+    background-color: #fff;
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.single_served_order {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    transition: transform 0.2s ease-in-out;
+}
+
+.single_served_order:hover {
+    transform: scale(1.02);
+}
+
+.single_served_order h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.single_served_order ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.single_served_order ul li {
+    font-size: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+}
+
+.single_served_order ul li:last-child {
+    border-bottom: none;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 1024px) {
+    .Kitchen_Served_order_contener {
+        grid-template-columns: repeat(auto-fit, minmax(calc(50% - 20px), 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .Kitchen_Served_order_contener {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+    }
+}
