@@ -237,7 +237,7 @@ const ReceiveRequest = () => {
                     </div>
                   ))}
                   <div className="flex flex-col">
-                    <p className="text-sm text-gray-600 mb-2">
+                    <p className="text-sm text-gray-600 my-2">
                       <span className="font-medium">Remark:</span>{" "}
                       {` ${request.remark}`}
                     </p>
