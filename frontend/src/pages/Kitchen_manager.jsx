@@ -6,9 +6,11 @@ import Kitchen_Assign_Order from '../components/Kitchen_manager/Kitchen_Assign_O
 import Kitchen_Served_order from '../components/Kitchen_manager/Kitchen_Served_order/Kitchen_Served_order';
 import Kitchen_Available_Menu from '../components/Kitchen_manager/Kitchen_Available_Menu/Kitchen_Available_Menu';
 import Kitchen_delivered_orders from '../components/Kitchen_manager/Kitchen_delivered_orders/Kitchen_delivered_orders';
+import Kitchen_Dashboard from '../components/Kitchen_manager/Kitchen_Dashboard/Kitchen_Dashboard';
+import Kitchen_Report from '../components/Kitchen_manager/Kitchen_Report/Kitchen_Report';
 
 function Kitchen_manager() {
-  const [activeContent, setActiveContent] = useState('Stock Response'); // Default to 'Stock Response'
+  const [activeContent, setActiveContent] = useState('Dashboard'); 
 
   const handleMenuClick = (content) => {
     setActiveContent(content);
@@ -29,6 +31,9 @@ function Kitchen_manager() {
         {activeContent === 'Served Orders' && <Kitchen_Served_order />}
         {activeContent === 'Available Menu' && <Kitchen_Available_Menu />}
         {activeContent === 'Delivered orders' && <Kitchen_delivered_orders />}
+        {activeContent === 'Dashboard' && <Kitchen_Dashboard/>}
+        {activeContent === 'Report' && <Kitchen_Report/>}
+        
       </div>
     </div>
   );
