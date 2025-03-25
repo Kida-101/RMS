@@ -4,7 +4,7 @@ import Menu from "../../components/menu/menu";
 import "../pageStyls/router.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../../components/home/home";
-import Table from "../../components/table/table";
+import TableBooking from "../../components/table/table";
 
 const Routing = () => {
   return (
@@ -18,7 +18,7 @@ const Routing = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/menu" element={<Menu />} />
-              <Route path="/table" element={<Table />} />
+              <Route path="/table" element={<TableBooking />} />
             </Routes>
           </div>
         </div>

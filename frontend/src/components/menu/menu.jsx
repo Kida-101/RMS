@@ -40,7 +40,7 @@ const menuItems = [
     name: "Spaghetti Carbonara",
     price: 200,
     category: "Pasta",
-    image: "../../src/assets/food-items/Spaghetti Carbonara.jfif", // Image URL
+    image: "../../src/assets/food-items/Spaghetti Carbonara.jfif",
     description: "bacon, eggs, and Parmesan.",
   },
   {
@@ -96,25 +96,25 @@ const menuItems = [
     name: "Coffee",
     price: 20,
     category: "Hot-Drinks",
-    image: "../../src/assets/food-items/coffee.jfif", // Image URL
+    image: "../../src/assets/food-items/coffee.jfif",
     description:
-      "A freshly brewed cup of coffee, perfect for a caffeine boost.", // Description
+      "A freshly brewed cup of coffee, perfect for a caffeine boost.",
   },
   {
     id: 13,
     name: "Macchiato",
     price: 50,
     category: "Hot-Drinks",
-    image: "../../src/assets/food-items/Macchiato.jfif", // Image URL
-    description: "espresso drink with a small amount of steamed milk.", // Description
+    image: "../../src/assets/food-items/Macchiato.jfif",
+    description: "espresso drink with a small amount of steamed milk.",
   },
   {
     id: 14,
     name: "Spiced Coffee",
     price: 40,
     category: "Hot-Drinks",
-    image: "../../src/assets/food-items/Spiced Coffee.jfif", // Image URL
-    description: "A coffee drink infused with warm spices like cinnamon.", // Description
+    image: "../../src/assets/food-items/Spiced Coffee.jfif",
+    description: "A coffee drink infused with warm spices like cinnamon.",
   },
 ];
 
