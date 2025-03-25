@@ -1,5 +1,5 @@
 import React from "react";
-import Routing from "./pages/router/router";
+import Routing from "./components/order_reservation/router/router.jsx";
 // import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 // import KitchenManager from "./pages/Kitchen_manager";
 // import StoreKeeper from "./pages/StoreKeeper";

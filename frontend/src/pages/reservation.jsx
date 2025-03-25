@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import PhoneInput from "react-phone-input-2";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-input-2/lib/style.css";
-import "./pageStyls/reservation.css";
+// import "./pageStyls/reservation.css";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
@@ -39,40 +39,20 @@ const ReservationForm = () => {
   //   <p>No order data available.</p>;
   // }
   return (
-    <div className="reservation-container">
-      <div
-        style={{
-          marginBottom: "15px",
-        }}
-      >
-        <h1
-          className=""
-          style={{
-            color: "#45a049",
-            textAlign: "center",
-            fontSize: "40px",
-            fontWeight: "bolder",
-          }}
-        >
+    <div className="reservation-container max-w-[400px] w-full m-[25px_30px] p-[25px] bg-[#dfdfdf] bg-cover rounded-[10px] shadow-[0px_4px_8px_rgba(0,0,0,0.7)]">
+      <div className="mb-4">
+        <h1 className="text-[#45a049] text-center text-[40px] font-extrabold">
           Order form&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <Link to="/" className="nav-link">
-            <i
-              className="fa-solid fa-house"
-              style={{
-                color: "black",
-                alignItems: "center",
-                paddingRight: "10px",
-                fontSize: "24px",
-              }}
-            />
+            <i className="fa-solid fa-house text-black pr-2 text-[24px]" />
           </Link>
         </h1>
       </div>
       <div className="separator"></div>
-      <form onSubmit={handleSubmit}>
-        <div className="full-name">
+      <form className="form-reservation flex flex-col" onSubmit={handleSubmit}>
+        <div className="full-name mb-4">
           <span>
-            <label className="label">Full Name:&nbsp;</label>
+            <label className="label font-semibold">Full Name:&nbsp;</label>
             <input
               type="text"
               name="fullName"
@@ -80,29 +60,29 @@ const ReservationForm = () => {
               value={formData.fullName}
               onChange={handleChange}
               required
-              className="input"
+              className="input w-full p-[10px_20px] border-none rounded-[8px] bg-white focus:ring-[rgba(35,215,137,0.2)]"
             />
           </span>
         </div>
-        <div>
+        <div className="mb-4">
           <span>
-            <label className="label">Phone Number:&nbsp;</label>
-            <div className="custom-phone-input">
+            <label className="label font-semibold">Phone Number:&nbsp;</label>
+            <div className="react-tel-input">
               <PhoneInput
                 country={"et"}
                 value={formData.phone}
                 onChange={(phone) => setFormData({ ...formData, phone })}
                 inputStyle={{ width: "100%" }}
                 required
-                className="phone"
+                className="phone !w-full mt-[3px] rounded-[8px] p-[6px] text-[20px] bg-white border-none shadow-none"
                 id="phone"
               />
             </div>
           </span>
         </div>
-        <div>
+        <div className="mb-4">
           <span>
-            <label className="label">Email:&nbsp;</label>
+            <label className="label font-semibold">Email:&nbsp;</label>
             <input
               type="email"
               id="email"
@@ -110,133 +90,82 @@ const ReservationForm = () => {
               placeholder="Email (optional)"
               value={formData.email}
               onChange={handleChange}
-              className="input"
+              className="input w-full mt-[3px] p-[10px_20px] border-none rounded-[8px] bg-white"
             />
           </span>
         </div>
-        <div className="date">
+        <div className="date mb-4">
           <div>
-            <label className="label">Date:&nbsp;</label>
+            <label className="label font-semibold">Date:&nbsp;</label>
           </div>
           <DatePicker
-            className="date-picker input"
+            className="date-picker !w-full p-[10px] border-2 border-[#45a049] rounded-[8px] bg-white cursor-pointer border-none box-border"
             selected={formData.date}
             onChange={(date) => setFormData({ ...formData, date })}
             dateFormat="yyyy/MM/dd"
           />
         </div>
-        <div className="time">
-          <span className="span-time">
-            <span>
-              <label className="label">Time(start):</label>&nbsp;
-              <input
-                type="time"
-                name="startTime"
-                value={formData.startTime}
-                onChange={handleChange}
-                required
-                className="input"
-              />
-            </span>
-            <span>
-              <label className="label">Time(finish):</label>&nbsp;
-              <input
-                type="time"
-                name="endTime"
-                value={formData.endTime}
-                onChange={handleChange}
-                required
-                className="input"
-              />
-            </span>
-          </span>
+        <div className="time mb-4">
+          <label className="label font-semibold mt-[3px]">Time(start):</label>
+          &nbsp;
+          <input
+            type="time"
+            name="startTime"
+            value={formData.startTime}
+            onChange={handleChange}
+            required
+            className="input !w-full p-[10px_20px] border-none rounded-[8px] bg-white mb-4"
+          />
+          <label className="label font-semibold">Time(finish):</label>&nbsp;
+          <input
+            type="time"
+            name="endTime"
+            value={formData.endTime}
+            onChange={handleChange}
+            required
+            className="input !w-full p-[10px_20px] border-none rounded-[8px] bg-white mb-1"
+          />
         </div>
-        {/* /////////////////////////////////////////////////////////////////////////// */}
-        <div className="menu-nav">
+        <div className="menu-nav mb-4">
           <Link to="/menu" className="nav-link">
-            <span>
-              <button
-                style={{ width: "100%", marginBottom: "15px" }}
-                className="label button"
-              >
-                {/* <i class="fa-solid fa-bars"></i> */}
-                <i class="fa-solid fa-utensils"></i>
-                &nbsp;&nbsp;&nbsp;Go to Menu
-              </button>
-            </span>
+            <button className="label button w-full mb-1 p-[10px] bg-transparent text-[#45a049] rounded-[5px] border-2 border-[#45a049] hover:bg-[#45a049] hover:text-white transition-transform">
+              <i className="fa-solid fa-utensils"></i>&nbsp;&nbsp;&nbsp;Go to
+              Menu
+            </button>
           </Link>
         </div>
-        {/* /////////////////////////////////////////////////////////////////////////// */}
-        <div className="menu-nav">
+        <div className="menu-nav mb-4">
           <Link to="/table" className="nav-link">
-            <span>
-              <button
-                style={{ width: "100%", marginBottom: "15px" }}
-                className="label button"
-                required
-              >
-                <i class="fa-solid fa-chair" />
-                &nbsp;&nbsp;Reserve table
-              </button>
-            </span>
+            <button className="label button w-full mb-1 p-[10px] bg-transparent text-[#45a049] rounded-[5px] border-2 border-[#45a049] hover:bg-[#45a049] hover:text-white transition-transform">
+              <i className="fa-solid fa-chair" />
+              &nbsp;&nbsp;Reserve table
+            </button>
           </Link>
         </div>
-        {/* /////////////////////////////////////////////////////////////////////////// */}
-        <div className="display-detail">
-          <div className="display-container">
+        <div className="display-detail mb-4">
+          <div className="display-container bg-white p-[10px] rounded-[5px] mb-[10px]">
             <p>
-              <span style={{ fontWeight: "bold" }}>Order's:</span>{" "}
+              <span className="font-bold">Order's:</span>{" "}
               {orderData.items.length > 0
                 ? orderData.items.join(" ")
                 : "No items"}
             </p>
             <p>
-              <span style={{ fontWeight: "bold" }}>Total price:</span>
+              <span className="font-bold">Total price:</span>
               {orderData.totalPrice} ETB
             </p>
             <p>
-              <span style={{ fontWeight: "bold" }}>Order Date:</span>{" "}
+              <span className="font-bold">Order Date:</span>{" "}
               {orderData.orderDate
                 ? new Date(orderData.orderDate).toLocaleString()
                 : "N/A"}
             </p>
           </div>
         </div>
-
-        {/* <div className="menu">
-          <select
-            name="menu"
-            value={formData.menu}
-            onChange={handleChange}
-            required
-            className="input"
-          >
-            <option value="">Select Menu</option>
-            {menus.map((item, index) => (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </div> */}
-
-        {/* <div className="table">
-          <select
-            name="table"
-            value={formData.table}
-            onChange={handleChange}
-            required
-            className="input"
-          >
-            <option value="">Select Table</option>
-            {tables.map((item, index) => (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </div> */}
-        <button type="submit" className="label reserve_pay">
+        <button
+          type="submit"
+          className="label reserve_pay button w-full mb-4 p-[10px] bg-[#28a745] rounded-[5px] text-white hover:bg-[#218838]"
+        >
           Reserve and Pay
         </button>
       </form>

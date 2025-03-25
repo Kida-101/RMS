@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <div className="background">
       <div className="bg-image">
-        <img src="../../src/assets/food-bg/3.png" alt="banner-background" />
+        <img src="../../../src/assets/food-bg/3.png" alt="banner-background" />
       </div>
       <div>
         <h1 className="banner-txt">Delicious Meals, Just a Click Away!</h1>

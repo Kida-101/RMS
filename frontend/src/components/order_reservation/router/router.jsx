@@ -1,10 +1,10 @@
 import React from "react";
-import Reservation from "../reservation";
-import Menu from "../../components/menu/menu";
-import "../pageStyls/router.css";
+import Reservation from "../../../pages/reservation";
+import Menu from "../menu/menu";
+import "./router.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "../../components/home/home";
-import TableBooking from "../../components/table/table";
+import Home from "../home/home";
+import TableBooking from "../table/table";
 
 const Routing = () => {
   return (
