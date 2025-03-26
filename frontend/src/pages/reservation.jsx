@@ -142,7 +142,7 @@ const ReservationForm = () => {
             </button>
           </Link>
         </div>
-        <div className="display-detail mb-4">
+        <div className="display-detail">
           <div className="display-container bg-white p-[10px] rounded-[5px] mb-[10px]">
             <p>
               <span className="font-bold">Order's:</span>{" "}
@@ -162,12 +162,21 @@ const ReservationForm = () => {
             </p>
           </div>
         </div>
-        <button
-          type="submit"
-          className="label reserve_pay button w-full mb-4 p-[10px] bg-[#28a745] rounded-[5px] text-white hover:bg-[#218838]"
-        >
-          Reserve and Pay
-        </button>
+        <div>
+          <p className="mb-3 justify-center">
+            Please arrive at the restaurant within 30 to 40 minutes after
+            booking your table. Failure to arrive on time may result in your
+            reservation being canceled. Thank you for your cooperation!
+          </p>
+        </div>
+        <Link to="/paymentSuccessPopup" className="nav-link">
+          <button
+            type="submit"
+            className="label reserve_pay button w-full mb-4 p-[10px] bg-[#28a745] rounded-[5px] text-white hover:bg-[#218838]"
+          >
+            Pay and Reserve
+          </button>
+        </Link>
       </form>
     </div>
   );

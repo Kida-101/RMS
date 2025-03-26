@@ -11,7 +11,7 @@ const Home = () => {
         />
       </div>
       <div>
-        <h1 className="flex text-center text-[70px] italic text-orange-500 font-extrabold mt-[180px] relative z-[1] mb-[5px] shadow-[2px_2px_8px_rgba(0,0,0,0.5)] font-[Rock_Salt,Caveat_Brush,Dancing_Script,cursive]">
+        <h1 className="flex text-center text-[70px] italic text-orange-500 font-extrabold mt-[180px] relative z-[1] mb-[5px]  font-[Rock_Salt,Caveat_Brush,Dancing_Script,cursive]">
           Delicious Meals, Just a Click Away!
         </h1>
       </div>

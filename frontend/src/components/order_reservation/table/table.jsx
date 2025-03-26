@@ -41,38 +41,35 @@ const TableBooking = () => {
   };
 
   return (
-    <div
-      className="flex justify-center items-center min-h-screen bg-[rgba(230,230,230,0.4)]
- bg-opacity-40 rounded-lg"
-    >
-      <div className="shadow-lg px-16 py-4 md:px-16 md:py-10 space-y-8 w-full max-w-4xl bg-white rounded-lg">
+    <div className="flex justify-center items-center min-h-screen bg-gray-200/40 rounded-lg">
+      <div className="shadow-lg px-16 py-4 md:px-16 md:py-10 space-y-8 w-full max-w-4xl rounded-lg">
         <h1 className="text-green-600 text-4xl font-extrabold text-center">
           Table Booking
         </h1>
-        {/* <hr className="w-4/5 h-0.5 bg-gray-300 mx-auto border-none" /> */}
-        {/* <div className="flex flex-wrap justify-center gap-20 text-center">
-          <div className="bg-red-500 text-white px-5 py-1 rounded-half shadow-md">
+        <hr className="w-[87%] h-0.5 bg-gray-300 mx-auto border-none" />
+        <div className="flex flex-wrap justify-center gap-20 text-center">
+          <div className="bg-red-500 text-white px-5 py-1 rounded-[5px] shadow-md">
             Booked
           </div>
-          <div className="bg-green-500 text-white px-5 py-1 rounded-full shadow-md">
+          <div className="bg-green-500 text-white px-5 py-1 rounded-[5px]  shadow-md">
             Available
           </div>
-        </div> */}
+        </div>
 
-        {/* <hr className="w-4/5 h-0.5 bg-gray-300 mx-auto border-none" /> */}
+        <hr className="w-[87%] h-0.5 bg-gray-300 mx-auto border-none" />
         <div className="flex flex-wrap justify-center gap-12">
           {tables.map((table) => (
             <div
               key={table.id}
-              className={`w-28 h-28 flex items-center justify-center rounded-md font-bold cursor-pointer transition-transform transform hover:scale-110 
+              className={`w-22 h-22 flex items-center justify-center rounded-md font-bold cursor-pointer transition-transform transform hover:scale-110 
                 ${
                   table.booked
-                    ? "bg-red-500 text-white cursor-not-allowed"
+                    ? "bg-[#FF0000] text-white cursor-not-allowed"
                     : "bg-green-500 text-white"
                 } 
                 ${
                   selectedTables.includes(table.id)
-                    ? "bg-yellow-400 text-black"
+                    ? "bg-yellow-300 text-black"
                     : ""
                 }`}
               onClick={() => handleTableClick(table)}
