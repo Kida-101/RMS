@@ -111,7 +111,7 @@ function StoreKeeper() {
       .length,
   };
 
-  const [activeComponent, setActiveComponent] = useState("ReceiveRequest");
+  const [activeComponent, setActiveComponent] = useState("ReportAnalysis");
   const [prefilledMaterial, setPrefilledMaterial] = useState(null);
   const [disposedItems, setDesposedItems] = useState([]);
   const handleReorder = (material) => {
@@ -136,6 +136,10 @@ function StoreKeeper() {
       }
     };
   }, [activeComponent]);
+
+  const handleLogout = () => {
+    console.log("logout");
+  };
   const renderComponent = () => {
     switch (activeComponent) {
       case "ReceiveRequest":
@@ -174,6 +178,7 @@ function StoreKeeper() {
       <SideBar
         setActiveComponent={setActiveComponent}
         activeComponent={activeComponent}
+        onLogout={handleLogout}
       />
       <main className="flex-1 p-6 ml-7 sm:64 md:ml-64">
         {renderComponent()}
