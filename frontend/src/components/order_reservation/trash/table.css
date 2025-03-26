@@ -1,0 +1,115 @@
+.table-container {
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  background: rgba(230, 230, 230, 0.4);
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+  padding: 30px 90px;
+}
+
+.separator-line {
+  width: 90%;
+  height: 2px;
+  background-color: #ccc;
+  margin: 20px auto;
+  border: none;
+}
+
+.table-layout {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  margin-top: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+.clr-disc {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 50px;
+  text-align: center;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 23px;
+  margin-top: 15px;
+}
+
+.table-booked,
+.table-available {
+  min-width: 100px;
+  max-width: 200px;
+  height: auto;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 50px;
+  transition: all 0.3s ease-in-out;
+  word-wrap: break-word;
+}
+
+.table-booked {
+  background-color: #d9534f;
+  color: white;
+  box-shadow: 0 4px 10px rgba(217, 83, 79, 0.4);
+}
+
+.table-available {
+  background-color: #4caf50;
+  color: white;
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
+}
+
+.table {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.table.available {
+  background-color: #4caf50;
+  color: white;
+}
+
+.table.booked {
+  background-color: #d9534f;
+  color: white;
+  cursor: not-allowed;
+}
+
+.table.selected {
+  background-color: #ffeb3b;
+  color: black;
+}
+
+.table:hover {
+  transform: scale(1.1);
+}
+
+.tbl-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.tbl-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

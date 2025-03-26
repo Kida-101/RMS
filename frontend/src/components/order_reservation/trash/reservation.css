@@ -1,26 +1,15 @@
-/* .reservation-container {
+.reservation-container {
   max-width: 400px;
   width: 100%;
   margin: 25px 30px;
   padding: 25px;
   background-color: #dfdfdf;
-  background-image: url("../../assets/food-bg/c.jfif");
-  background-position: center;
-  background-blend-mode: darken;
-  background-color: rgba(0, 0, 0, 0.3);
   background-size: cover;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
 }
 
-h1 {
-  text-align: center;
-  font-size: 40px;
-  font-weight: bolder;
-  margin-bottom: 20px;
-}
-
-form {
+.form-reservation {
   display: flex;
   flex-direction: column;
 }
@@ -101,9 +90,8 @@ form {
   font-weight: 600;
 }
 
-input,
-select,
-button {
+.input,
+.button {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -122,17 +110,17 @@ button {
   font-family: "Poppins", sans-serif;
 }
 
-input:focus {
+.input:focus {
   box-shadow: 0 2px 5px rgba(35, 215, 137, 0.2);
 }
 
-button {
+.button {
   background: #28a745;
   color: white;
   cursor: pointer;
 }
 
-button:hover {
+.button:hover {
   background: #218838;
 }
 
@@ -167,4 +155,4 @@ button:hover {
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 10px;
-} */
+}

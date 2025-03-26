@@ -1,4 +1,4 @@
-import "./menu.css";
+// import "./menu.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -40,7 +40,7 @@ const menuItems = [
     name: "Spaghetti Carbonara",
     price: 200,
     category: "Pasta",
-    image: "../../src/assets/food-items/Spaghetti Carbonara.jfif", // Image URL
+    image: "../../src/assets/food-items/Spaghetti Carbonara.jfif",
     description: "bacon, eggs, and Parmesan.",
   },
   {
@@ -96,25 +96,25 @@ const menuItems = [
     name: "Coffee",
     price: 20,
     category: "Hot-Drinks",
-    image: "../../src/assets/food-items/coffee.jfif", // Image URL
+    image: "../../src/assets/food-items/coffee.jfif",
     description:
-      "A freshly brewed cup of coffee, perfect for a caffeine boost.", // Description
+      "A freshly brewed cup of coffee, perfect for a caffeine boost.",
   },
   {
     id: 13,
     name: "Macchiato",
     price: 50,
     category: "Hot-Drinks",
-    image: "../../src/assets/food-items/Macchiato.jfif", // Image URL
-    description: "espresso drink with a small amount of steamed milk.", // Description
+    image: "../../src/assets/food-items/Macchiato.jfif",
+    description: "espresso drink with a small amount of steamed milk.",
   },
   {
     id: 14,
     name: "Spiced Coffee",
     price: 40,
     category: "Hot-Drinks",
-    image: "../../src/assets/food-items/Spiced Coffee.jfif", // Image URL
-    description: "A coffee drink infused with warm spices like cinnamon.", // Description
+    image: "../../src/assets/food-items/Spiced Coffee.jfif",
+    description: "A coffee drink infused with warm spices like cinnamon.",
   },
 ];
 
@@ -193,34 +193,30 @@ const Menu = () => {
   };
 
   return (
-    <div className="menu-container">
-      <h1
-        style={{
-          color: "#45a049",
-          textAlign: "center",
-          fontSize: "40px",
-          fontWeight: "bolder",
-        }}
-      >
+    <div className="max-w-[1800px] p-5 bg-gray-200/40 rounded-lg shadow-lg mx-auto text-center">
+      <h1 className="text-green-600 text-center text-4xl font-bold">
         Restaurant Menu
       </h1>
-
-      <div className="search-container search-box">
+      <div className="mb-3">
         <input
           type="text"
           placeholder="Search menu..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="search-input"
+          className="w-[98%] p-2 pl-7 pr-10  mt-5 rounded-lg border-2 border-white focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-500/50 transition-all"
         />
       </div>
 
-      <div className="category-buttons">
+      <div className="flex flex-row justify-center gap-2 mb-2 py-5 px-6 rounded-full bg-transparent text-green-600 cursor-pointer">
         {categories.map((category) => (
           <button
             key={category.name}
             onClick={() => setSelectedCategory(category.name)}
-            className={selectedCategory === category.name ? "active" : ""}
+            className={`px-3 py-1 text-sm border-2 border-green-600 text-white rounded-full transition-colors duration-300 hover:bg-green-600 hover:text-white ${
+              selectedCategory === category.name
+                ? "bg-green-600 text-white"
+                : ""
+            }`}
           >
             <i className={category.icon}></i>&nbsp;&nbsp;
             {category.name}
@@ -228,33 +224,34 @@ const Menu = () => {
         ))}
       </div>
 
-      <div className="menu-list">
+      <div className="flex flex-wrap justify-center gap-2 mb-10">
         {filteredItems.length > 0 ? (
           filteredItems.map((item) => (
-            <div key={item.id} className="menu-item">
-              <div className="menu-item-lists">
-                <div className="food-image-container">
+            <div
+              key={item.id}
+              className="flex-1 min-w-[200px] max-w-[195px] bg-gray-200/70 p-4 rounded-lg shadow-md text-center hover:scale-105 transition-transform"
+            >
+              <div className="food-item-lists">
+                <div className="flex justify-center mb-4">
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="food-image"
+                    className="w-[110px] h-[110px] object-cover rounded-full border-2 border-green-600 hover:rotate-3 transition-transform"
                   />
                 </div>
-                <h3 className="food-items-header">{item.name}</h3>
-                <p className="item-description">{item.description}</p>
-                <span className="price-slct-btn">
-                  <div className="price-rating">
-                    <p className="price">{item.price} ETB</p>
-                  </div>
-                  <div className="counter-container">
-                    <button
-                      onClick={() => addToCart(item)}
-                      className="select-btn"
-                    >
-                      Select
-                    </button>
-                  </div>
-                </span>
+                <h3 className="text-lg font-bold mb-2">{item.name}</h3>
+                <p className="italic text-sm text-center">{item.description}</p>
+                <div className="flex flex-row gap-2 items-center justify-center w-full mt-2">
+                  <p className="text-green-600 font-bold text-sm">
+                    {item.price} ETB
+                  </p>
+                  <button
+                    onClick={() => addToCart(item)}
+                    className="px-4 py-1 border-2 border-green-600 text-green-600 rounded-full transition-colors duration-300 hover:bg-green-600 hover:text-white"
+                  >
+                    Select
+                  </button>
+                </div>
               </div>
             </div>
           ))
@@ -263,30 +260,21 @@ const Menu = () => {
         )}
       </div>
 
-      <div className="selected-items">
-        <h3 style={{ color: "#45a049", textAlign: "center" }}>
-          Selected Items
-        </h3>
+      <div className="mt-5 p-4 bg-gray-200/70 rounded-lg">
+        <h3 className="text-green-600 text-center">Selected Items</h3>
         {successMessage && (
-          <p style={{ color: "green", textAlign: "center" }}>
-            {successMessage}
-          </p>
+          <p className="text-green-600 text-center">{successMessage}</p>
         )}
         {cart.length === 0 ? (
           <p>No selected items</p>
         ) : (
-          <ul className="list-items">
+          <ul className="list-none p-0 m-0">
             {cart.map((item, index) => (
-              <li key={index}>
-                {item.name} - {item.quantity} × {item.price} ETB ={" "}
-                <strong>{item.quantity * item.price} ETB</strong>
+              <li key={index} className="flex justify-between items-center">
+                {item.name} - {item.quantity} × {item.price} ETB =
+                <strong> {item.quantity * item.price} ETB</strong>
                 <i
-                  style={{
-                    color: "#45a049",
-                    paddingLeft: "5px",
-                    cursor: "pointer",
-                  }}
-                  className="fa-solid fa-trash"
+                  className="fa-solid fa-trash text-green-600 pl-2 cursor-pointer"
                   onClick={() => unSelect(item)}
                 ></i>
               </li>
@@ -295,14 +283,16 @@ const Menu = () => {
         )}
 
         {cart.length > 0 && (
-          <h4
-            style={{ textAlign: "center", marginTop: "10px", color: "#45a049" }}
-          >
+          <h4 className="text-center mt-2 text-green-600">
             Total Price: {calculateTotalPrice()} ETB
           </h4>
         )}
 
-        <button className="sub-odr" type="submit" onClick={handleConfirmOrder}>
+        <button
+          className="bg-green-600 text-white px-5 py-2 rounded-md mt-3 hover:bg-green-700"
+          type="submit"
+          onClick={handleConfirmOrder}
+        >
           Confirm selection
         </button>
       </div>
