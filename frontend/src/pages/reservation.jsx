@@ -7,13 +7,13 @@ import "react-phone-input-2/lib/style.css";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-const ReservationForm = () => {
-  const location = useLocation();
-  const orderData = location.state?.orderData || {
-    totalPrice: 0,
-    items: [],
-    orderDate: "",
-  };
+const ReservationForm = ({ activecomponent }) => {
+  // const location = useLocation();
+  // const orderData = location.state?.orderData || {
+  //   totalPrice: 0,
+  //   items: [],
+  //   orderDate: "",
+  // };
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -43,15 +43,32 @@ const ReservationForm = () => {
       <div className="mb-4">
         <h1 className="text-[#45a049] text-center text-[40px] font-extrabold">
           Order form&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Link to="/" className="nav-link">
+          <button onClick={() => activecomponent("/")} className="nav-link">
             <i className="fa-solid fa-house text-black pr-2 text-[24px]" />
-          </Link>
+          </button>
         </h1>
       </div>
       <div className="separator"></div>
       <form className="form-reservation flex flex-col" onSubmit={handleSubmit}>
         <div className="full-name mb-4">
-          <span>
+          <div className="relative">
+            <input
+              type="text"
+              id="fullName"
+              className="block rounded-t-lg px-3 pb-3 pt-5 mt-[10px] w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              // value={formData.fullName}
+              onChange={handleChange}
+              required
+            />
+            <label
+              htmlFor="fullName"
+              className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+            >
+              Full Name
+            </label>
+          </div>
+          {/* <span>
             <label className="label font-semibold">Full Name:&nbsp;</label>
             <input
               type="text"
@@ -62,7 +79,7 @@ const ReservationForm = () => {
               required
               className="input w-full p-[10px_20px] border-none rounded-[8px] bg-white focus:ring-[rgba(35,215,137,0.2)]"
             />
-          </span>
+          </span> */}
         </div>
         <div className="mb-4">
           <span>
@@ -127,56 +144,56 @@ const ReservationForm = () => {
           />
         </div>
         <div className="menu-nav mb-4">
-          <Link to="/menu" className="nav-link">
-            <button className="label button w-full mb-1 p-[10px] bg-transparent text-[#45a049] rounded-[5px] border-2 border-[#45a049] hover:bg-[#45a049] hover:text-white transition-transform">
-              <i className="fa-solid fa-utensils"></i>&nbsp;&nbsp;&nbsp;Go to
-              Menu
-            </button>
-          </Link>
+          <button
+            onClick={() => activecomponent("menu")}
+            className="nav-link label button w-full mb-1 p-[10px] bg-transparent text-[#45a049] rounded-[5px] border-2 border-[#45a049] hover:bg-[#45a049] hover:text-white transition-transform"
+          >
+            <i className="fa-solid fa-utensils"></i>&nbsp;&nbsp;&nbsp;Go to Menu
+          </button>
         </div>
         <div className="menu-nav mb-4">
-          <Link to="/table" className="nav-link">
-            <button className="label button w-full mb-1 p-[10px] bg-transparent text-[#45a049] rounded-[5px] border-2 border-[#45a049] hover:bg-[#45a049] hover:text-white transition-transform">
-              <i className="fa-solid fa-chair" />
-              &nbsp;&nbsp;Reserve table
-            </button>
-          </Link>
+          <button
+            onClick={() => activecomponent("table")}
+            className="label button w-full mb-1 p-[10px] bg-transparent text-[#45a049] rounded-[5px] border-2 border-[#45a049] hover:bg-[#45a049] hover:text-white transition-transform"
+          >
+            <i className="fa-solid fa-chair" />
+            &nbsp;&nbsp;Reserve table
+          </button>
         </div>
         <div className="display-detail">
           <div className="display-container bg-white p-[10px] rounded-[5px] mb-[10px]">
             <p>
               <span className="font-bold">Order's:</span>{" "}
-              {orderData.items.length > 0
+              {/* {orderData.items.length > 0
                 ? orderData.items.join(" ")
-                : "No items"}
+                : "No items"} */}
             </p>
             <p>
               <span className="font-bold">Total price:</span>
-              {orderData.totalPrice} ETB
+              {/* {orderData.totalPrice} ETB */}
             </p>
             <p>
               <span className="font-bold">Order Date:</span>{" "}
-              {orderData.orderDate
+              {/* {orderData.orderDate
                 ? new Date(orderData.orderDate).toLocaleString()
-                : "N/A"}
+                : "N/A"} */}
             </p>
           </div>
         </div>
         <div>
           <p className="mb-3 justify-center">
-            Please arrive at the restaurant within 30 to 40 minutes after
-            booking your table. Failure to arrive on time may result in your
-            reservation being canceled. Thank you for your cooperation!
+            Please arrive within 30 minutes of booking to avoid cancellation.
           </p>
         </div>
-        <Link to="/paymentSuccessPopup" className="nav-link">
-          <button
-            type="submit"
-            className="label reserve_pay button w-full mb-4 p-[10px] bg-[#28a745] rounded-[5px] text-white hover:bg-[#218838]"
-          >
-            Pay and Reserve
-          </button>
-        </Link>
+        {/* <Link to="/paymentSuccessPopup" className="nav-link"> */}
+        <button
+          type="submit"
+          onClick={() => activecomponent("pay")}
+          className="label reserve_pay button w-full mb-4 p-[10px] bg-[#28a745] rounded-[5px] text-white hover:bg-[#218838]"
+        >
+          Pay and Reserve
+        </button>
+        {/* </Link> */}
       </form>
     </div>
   );
