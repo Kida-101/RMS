@@ -22,7 +22,7 @@ const Routing = () => {
 
   return (
     <div
-      className="flex flex-col md:flex-row min-h-screen w-full bg-cover bg-center bg-black/60 bg-blend-darken font-[Poppins]"
+      className="flex flex-col md:flex-row min-h-screen w-full bg-cover bg-center bg-black/80 bg-blend-darken font-[Poppins]"
       style={{ backgroundImage: "url('../../src/assets/food-bg/44.jfif')" }}
     >
       <div className="w-full md:w-1/4 sm:w-auto lg:w-1/4">

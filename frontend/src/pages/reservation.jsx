@@ -44,7 +44,7 @@ const ReservationForm = ({ activecomponent }) => {
         <h1 className="text-[#45a049] text-center text-2xl md:text-3xl font-extrabold">
           Order form&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <button onClick={() => activecomponent("/")} className="nav-link">
-            <i className="fa-solid fa-house text-black pr-2 text-2xl md:text-3xl" />
+            <i className="fa-solid fa-house text-black pr-2" />
           </button>
         </h1>
       </div>
