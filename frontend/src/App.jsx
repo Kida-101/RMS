@@ -1,9 +1,10 @@
 import React from "react";
 import Routing from "./components/order_reservation/router/router.jsx";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+// import Chef from "./pages/Chef";
 import KitchenManager from "./pages/Kitchen_manager";
 import StoreKeeper from "./pages/StoreKeeper";
 import ManagerDashboard from "./pages/managerDashboard";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 const App = () => {
   return (
