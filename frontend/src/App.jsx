@@ -30,14 +30,14 @@ const App = () => {
     //           Kitchen Manager
     //         </Link>
     //       </li>
-    //     </ul>
+            //     </ul>
     //   </nav>
     //   <Routes>
     //     {/* <Route path="/" element={<Routing />} />{" "} */}
     //     <Route path="/manager" element={<ManagerDashboard />} />
     //     <Route path="/storeKepper" element={<StoreKeeper />} />
     //     <Route path="/kitchen" element={<KitchenManager />} />
-    //   </Routes>
+        //   </Routes>
     // </Router>
     <div>
       <Routing />
