@@ -6,13 +6,19 @@ import TableBooking from "../table/table.jsx";
 
 const Routing = () => {
   const [navTo, setNavTo] = useState("/");
+  const [newOrderData, setOrderData] = useState(null);
 
+  // Function to receive data from children
+  const handleChildData = (data) => {
+    console.log("Received from child:", data);
+    setOrderData(data);
+  };
   const renderComponent = () => {
     switch (navTo) {
       case "/":
         return <Home />;
       case "menu":
-        return <Menu />;
+        return <Menu sendDataToParent={handleChildData} />;
       case "table":
         return <TableBooking />;
       default:
@@ -26,7 +32,7 @@ const Routing = () => {
       style={{ backgroundImage: "url('../../src/assets/food-bg/44.jfif')" }}
     >
       <div className="w-full md:w-1/4 sm:w-auto lg:w-1/4">
-        <Reservation activecomponent={setNavTo} />
+        <Reservation activecomponent={setNavTo} propsOrderData={newOrderData} />
       </div>
       <div className="flex-1 p-6 md:ml-6 lg:ml-10 rounded-lg">
         {renderComponent()}

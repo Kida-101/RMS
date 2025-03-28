@@ -127,7 +127,7 @@ const categories = [
   { name: "Hot-Drinks", icon: "fas fa-coffee" },
 ];
 
-const Menu = () => {
+const Menu = ({ sendDataToParent }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [cart, setCart] = useState([]);
@@ -173,17 +173,21 @@ const Menu = () => {
 
   const handleConfirmOrder = () => {
     if (cart.length === 0) return;
-    // const navigate = useNavigate();
 
     const orderData = {
       totalPrice: calculateTotalPrice(),
-      items: cart.map((item) => `${item.quantity}-${item.name}, `),
+      items: cart.map((item) => `${item.quantity}-${item.name}`),
       orderDate: new Date().toISOString(),
     };
-    navigate("/reservation", { state: { orderData } });
-    console.log("Order Data being sent:", orderData);
-    console.log("Order placed:", orderData);
-    // alert("Order selected successfully!", orderData);
+
+    console.log("sendDataToParent:", sendDataToParent);
+    if (sendDataToParent) {
+      sendDataToParent(orderData); // Send data to parent component
+      console.log("Order Data sent to parent:", orderData);
+    } else {
+      console.error("sendDataToParent is not defined!");
+    }
+
     setSuccessMessage("Order selected successfully!");
 
     setTimeout(() => {

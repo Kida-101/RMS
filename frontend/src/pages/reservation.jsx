@@ -4,11 +4,12 @@ import PhoneInput from "react-phone-input-2";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-input-2/lib/style.css";
 // import "./pageStyls/reservation.css";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
-const ReservationForm = ({ activecomponent }) => {
-  // const location = useLocation();
+const ReservationForm = ({ activecomponent, propsOrderData }) => {
+  console.log("order data", propsOrderData);
+  // console.log("First Item:", propsOrderData.items[0]);
+
   // const orderData = location.state?.orderData || {
   //   totalPrice: 0,
   //   items: [],
@@ -148,23 +149,34 @@ const ReservationForm = ({ activecomponent }) => {
             &nbsp;&nbsp;Reserve table
           </button>
         </div>
-        <div className="display-detail">
-          <div className="display-container bg-white p-[10px] rounded-[5px] mb-[10px]">
+
+        <div className="mb-4">
+          <div className="bg-white p-[10px] rounded-[5px] mb-[10px]">
             <p>
               <span className="font-bold">Order's:</span>{" "}
-              {/* {orderData.items.length > 0
-                ? orderData.items.join(" ")
-                : "No items"} */}
+              {propsOrderData?.items?.length > 0
+                ? propsOrderData.items.map((item, index) => {
+                    const [quantity, ...nameParts] = item.split("-");
+                    const itemName = nameParts.join("-");
+                    return (
+                      <span key={index}>
+                        ({quantity.trim()})-{itemName.trim()}
+                        {index < propsOrderData.items.length - 1 && ", "}
+                      </span>
+                    );
+                  })
+                : "No items"}
             </p>
+
             <p>
-              <span className="font-bold">Total price:</span>
-              {/* {orderData.totalPrice} ETB */}
+              <span className="font-bold">Total Price:</span>{" "}
+              {propsOrderData ? propsOrderData.totalPrice : "0"} ETB
             </p>
             <p>
               <span className="font-bold">Order Date:</span>{" "}
-              {/* {orderData.orderDate
-                ? new Date(orderData.orderDate).toLocaleString()
-                : "N/A"} */}
+              {propsOrderData
+                ? new Date(propsOrderData.orderDate).toLocaleString()
+                : "N/A"}
             </p>
           </div>
         </div>
