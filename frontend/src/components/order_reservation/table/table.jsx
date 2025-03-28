@@ -18,7 +18,7 @@ const tablesData = [
   { id: 15, seats: 4, booked: false },
 ];
 
-const TableBooking = () => {
+const TableBooking = ({ sendTableToParent }) => {
   const [tables, setTables] = useState(tablesData);
   const [selectedTables, setSelectedTables] = useState([]);
 
@@ -38,6 +38,12 @@ const TableBooking = () => {
       )
     );
     setSelectedTables([]);
+    if (sendTableToParent) {
+      sendTableToParent(selectedTables);
+      console.log("Table Data sent to parent:", selectedTables);
+    } else {
+      console.error("sendTableToParent is not defined!");
+    }
   };
 
   return (

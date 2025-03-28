@@ -1,42 +1,59 @@
 import React, { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Reservation from "../../../pages/reservation";
-import Menu from "../menu/menu";
-import Home from "../home/home";
-import TableBooking from "../table/table";
-import PaymentSuccessPopup from "../paymentSuccess/PaymentSuccessPopup";
+import Menu from "../../../components/order_reservation/menu/menu.jsx";
+import Home from "../../../components/order_reservation/home/home.jsx";
+import TableBooking from "../table/table.jsx";
 
 const Routing = () => {
-  const [showPopup, setShowPopup] = useState(false);
+  const [navTo, setNavTo] = useState("/");
+  const [newOrderData, setOrderData] = useState(null);
+  const [newTableData, setTableData] = useState(null);
 
-  const orderDetails = {
-    tableNumber: 5,
-    date: "March 25, 2025",
-    startTime: "7:00 PM",
-    endTime: "9:00 PM",
-    items: [
-      { name: "Pizza", quantity: 2 },
-      { name: "Pasta", quantity: 1 },
-    ],
+  const handleChildData = (data) => {
+    console.log("Received from child:", data);
+    setOrderData(data);
+  };
+  const handleTableData = (table) => {
+    console.log("Recived from table:", table);
+    setTableData(table);
+  };
+
+  const renderComponent = () => {
+    switch (navTo) {
+      case "/":
+        return <Home />;
+      case "menu":
+        return <Menu sendDataToParent={handleChildData} />;
+      case "table":
+        return <TableBooking sendTableToParent={handleTableData} />;
+      default:
+        return <Home />;
+    }
   };
 
   return (
-    <BrowserRouter>
-      <div
-        className="flex min-h-screen w-full bg-cover bg-center bg-black/80 bg-blend-darken font-[Poppins]"
-        style={{ backgroundImage: "url('../../src/assets/food-bg/44.jfif')" }}
-      >
-        <div className="flex-1 min-w-[100px] f-screen">
-          <Reservation />
-        </div>
+    <div
+      className="flex flex-col md:flex-row min-h-screen w-full bg-cover bg-center bg-black/80 bg-blend-darken font-[Poppins]"
+      style={{ backgroundImage: "url('../../src/assets/food-bg/44.jfif')" }}
+    >
+      <div className="w-full md:w-1/4 sm:w-auto lg:w-1/4">
+        <Reservation
+          activecomponent={setNavTo}
+          propsOrderData={newOrderData}
+          propsTableData={newTableData}
+        />
+      </div>
+      <div className="flex-1 p-6 md:ml-6 lg:ml-10 rounded-lg">
+        {renderComponent()}
+      </div>
+    </div>
+  );
+};
 
-        <div className="flex-2 p-[25px] mb-[30px]">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/table" element={<TableBooking />} />
-          </Routes>
-          {/* <button
+export default Routing;
+
+{
+  /* <button
             className="bg-green-500 text-white px-4 py-2 rounded-lg mt-4"
             onClick={() => setShowPopup(true)}
           >
@@ -48,11 +65,5 @@ const Routing = () => {
               onClose={() => setShowPopup(false)}
               order={orderDetails}
             />
-          )} */}
-        </div>
-      </div>
-    </BrowserRouter>
-  );
-};
-
-export default Routing;
+          )} */
+}
