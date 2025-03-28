@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import PhoneInput from "react-phone-input-2";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-input-2/lib/style.css";
@@ -56,7 +56,7 @@ const ReservationForm = ({
               value={formData.fullName}
               onChange={handleChange}
               required
-              className="input w-full p-[10px_20px] border-none rounded-[8px] bg-white outline-none focus:shadow-lg focus:shadow-green-300 "
+              className="input w-full p-[10px_20px] border-none rounded-[8px] bg-white outline-none focus:shadow-lg focus:shadow-green-300"
             />
           </span>
         </div>
@@ -94,12 +94,20 @@ const ReservationForm = ({
           <div>
             <label className="label font-semibold">Date:&nbsp;</label>
           </div>
-          <DatePicker
+          <input
+              type="date"
+              // value={newDate}
+            onChange={(date) => setFormData({ ...formData, date })}
+            dateFormat="yyyy/MM/dd"
+            selected={formData.date}
+              className="input w-full mt-[3px] p-[10px_20px] border-none rounded-[8px] bg-white outline-none focus:shadow-lg focus:shadow-green-300"
+            />
+          {/* <DatePicker
             className="date-picker !w-full p-[10px] border-2 border-[#45a049] rounded-[8px] bg-white cursor-pointer border-none box-border outline-none focus:shadow-lg focus:shadow-green-300"
             selected={formData.date}
             onChange={(date) => setFormData({ ...formData, date })}
             dateFormat="yyyy/MM/dd"
-          />
+          /> */}
         </div>
         <div className="time mb-4">
           <label className="label font-semibold mt-[3px]">Arraival Time:</label>

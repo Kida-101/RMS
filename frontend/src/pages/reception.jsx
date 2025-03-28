@@ -316,54 +316,54 @@ const Reception = () => {
               placeholder="Full Name"
               value={newFullName}
               onChange={(e) => setNewFullName(e.target.value)}
-              className="border p-2 w-full rounded-lg mb-2"
+              className="border p-2 w-full rounded-lg mb-2 bg-white outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
             />
             <input
               type="text"
               placeholder="Phone"
               value={newPhone}
               onChange={(e) => setNewPhone(e.target.value)}
-              className="border p-2 w-full rounded-lg mb-2"
+              className="border p-2 w-full rounded-lg mb-2 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
             />
             <input
               type="email"
               placeholder="Email"
               value={newEmail}
               onChange={(e) => setNewEmail(e.target.value)}
-              className="border p-2 w-full rounded-lg mb-2"
+              className="border p-2 w-full rounded-lg mb-2 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
             />
             <input
               type="date"
               value={newDate}
               onChange={(e) => setNewDate(e.target.value)}
-              className="border p-2 w-full rounded-lg mb-2"
+              className="border p-2 w-full rounded-lg mb-2 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
             />
             <input
               type="time"
               value={newStartTime}
               onChange={(e) => setNewStartTime(e.target.value)}
-              className="border p-2 w-full rounded-lg mb-2"
+              className="border p-2 w-full rounded-lg mb-2 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
             />
             <input
               type="text"
               placeholder="Menu"
               value={newMenu}
               onChange={(e) => setNewMenu(e.target.value)}
-              className="border p-2 w-full rounded-lg mb-2"
+              className="border p-2 w-full rounded-lg mb-2 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
             />
             <input
               type="text"
               placeholder="Table (Optional)"
               value={newTable}
               onChange={(e) => setNewTable(e.target.value)}
-              className="border p-2 w-full rounded-lg mb-2"
+              className="border p-2 w-full rounded-lg mb-2 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
             />
             <input
               type="text"
               placeholder="Special Requests (Optional)"
               value={newRequest}
               onChange={(e) => setNewRequest(e.target.value)}
-              className="border p-2 w-full rounded-lg mb-4"
+              className="border p-2 w-full rounded-lg mb-4 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
             />
 
             <div className="flex justify-end">
