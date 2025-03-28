@@ -52,7 +52,7 @@ const TableBooking = ({ sendTableToParent }) => {
         <h1 className="text-green-600 text-4xl font-extrabold text-center">
           Table Booking
         </h1>
-        <hr className="w-[87%] h-0.5 bg-gray-300 mx-auto border-none" />
+        <hr className="w-[100%] h-0.5 bg-gray-300 mx-auto border-none" />
         <div className="flex flex-wrap justify-center gap-20 text-center">
           <div className="bg-red-500 text-white px-5 py-1 rounded-[5px] shadow-md">
             Booked
@@ -62,7 +62,7 @@ const TableBooking = ({ sendTableToParent }) => {
           </div>
         </div>
 
-        <hr className="w-[87%] h-0.5 bg-gray-300 mx-auto border-none" />
+        <hr className="w-[100%] h-0.5 bg-gray-300 mx-auto border-none" />
         <div className="flex flex-wrap justify-center gap-12">
           {tables.map((table) => (
             <div

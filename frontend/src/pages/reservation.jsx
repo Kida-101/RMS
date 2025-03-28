@@ -32,7 +32,7 @@ const ReservationForm = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Reservation Confirmed!\n" + JSON.stringify(formData, null, 2));
+    // alert("Reservation Confirmed!\n" + JSON.stringify(formData, null, 2));
   };
   return (
     <div className="max-w-[400px] w-full m-[25px_30px] p-[25px] max-w-full sm:max-w-[400px] bg-[#dfdfdf] bg-cover rounded-[10px] shadow-[0px_4px_8px_rgba(0,0,0,0.7)]">
