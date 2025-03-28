@@ -156,7 +156,7 @@ const ordersData = {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-gray-100 min-h-screen">
       {/* Header with Kitchen Manager Title and Filter Dropdown */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-4xl font-bold text-gray-800">Kitchen Manager</h1>

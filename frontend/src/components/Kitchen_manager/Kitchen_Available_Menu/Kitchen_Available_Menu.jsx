@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import Select from "react-select";
 
 function Kitchen_Available_Menu() {
   const [productName, setProductName] = useState("");
-  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const suggestedItems = [
     "Burger",
     "Pizza",
@@ -14,23 +14,14 @@ function Kitchen_Available_Menu() {
     "Noodles",
   ];
 
-  const handleProductChange = (e) => {
-    const value = e.target.value;
-    setProductName(value);
+  // Format suggested items for react-select
+  const options = suggestedItems.map((item) => ({
+    value: item.toLowerCase(),
+    label: item,
+  }));
 
-    if (value) {
-      const filtered = suggestedItems.filter((item) =>
-        item.toLowerCase().includes(value.toLowerCase())
-      );
-      setFilteredSuggestions(filtered.slice(0, 5));
-    } else {
-      setFilteredSuggestions([]);
-    }
-  };
-
-  const handleSuggestionClick = (suggestion) => {
-    setProductName(suggestion);
-    setFilteredSuggestions([]);
+  const handleSelectChange = (selectedOption) => {
+    setProductName(selectedOption ? selectedOption.label : "");
   };
 
   return (
@@ -44,29 +35,16 @@ function Kitchen_Available_Menu() {
           >
             Select Menu Item
           </label>
-          <input
-            type="text"
-            id="Select_menu_item"
-            value={productName}
-            onChange={handleProductChange}
-            required
-            className="block w-full p-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600"
+          <Select
+            options={options}
+            onChange={handleSelectChange}
+            placeholder="Select or type a menu item"
+            className="w-full"
+            menuPortalTarget={document.body} // Render the dropdown in a portal
+            styles={{
+              menuPortal: (base) => ({ ...base, zIndex: 9999 }), // Ensure it floats above other elements
+            }}
           />
-
-          {/* SUGGESTIONS LIST */}
-          {filteredSuggestions.length > 0 && (
-            <ul className="suggestions-list mt-2 space-y-2 bg-white border border-gray-200 shadow-md rounded-md p-2">
-              {filteredSuggestions.map((suggestion, index) => (
-                <li
-                  key={index}
-                  className="cursor-pointer p-2 hover:bg-gray-200 rounded-md"
-                  onClick={() => handleSuggestionClick(suggestion)}
-                >
-                  {suggestion}
-                </li>
-              ))}
-            </ul>
-          )}
 
           <button
             type="button"
@@ -92,7 +70,7 @@ function Kitchen_Available_Menu() {
               type="button"
               className="mt-4 w-full bg-blue-600 text-white p-2 rounded-md transition-all hover:bg-blue-700"
             >
-               Make unavailable
+              Make unavailable
             </button>
           </div>
         </form>
@@ -106,10 +84,7 @@ function Kitchen_Available_Menu() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[...Array(39)].map((_, index) => (
-            <div
-              key={index}
-              className="p-4 bg-gray-50 rounded-lg shadow-md"
-            >
+            <div key={index} className="p-4 bg-gray-50 rounded-lg shadow-md">
               <ul className="list-none text-gray-700">
                 <li className="py-2">
                   <strong>Menu ID:</strong> bu00{index + 1}
@@ -124,7 +99,9 @@ function Kitchen_Available_Menu() {
               <button
                 type="button"
                 className="mt-4 w-full bg-blue-600 text-white p-2 rounded-md transition-all hover:bg-blue-700"
-              >Make available</button>
+              >
+                Make available
+              </button>
             </div>
           ))}
         </div>
