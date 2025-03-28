@@ -8,66 +8,86 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tool
 function Kitchen_Dashboard() {
   const [selectedPeriod, setSelectedPeriod] = useState('daily'); // State to manage the selected period
 
-  // Orders Data
- const ordersData = {
-  daily: { total: 120, assigned: 20, served: 15, delivered: 10 },
-  monthly: { total: 1200, assigned: 200, served: 150, delivered: 120 },
-  yearly: { total: 14000, assigned: 2200, served: 1800, delivered: 1500 },
-  alltime: { total: 50000, assigned: 7000, served: 6000, delivered: 5000 }, // Ensure this matches
+  const dailyData = {
+  labels: ["Total Orders", "Online Orders", "Onsite Orders", "3rd Party Orders", "Pending Orders", "Assigned Orders", "Served Orders", "Delivered Orders"],
+  datasets: [
+    {
+      label: 'Daily Orders',
+      data: [120, 50, 30, 40, 25, 20, 15, 10],
+      backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169', '#ED8936', '#5A67D8', '#48BB78', '#319795'],
+      borderRadius: 8,
+    },
+  ],
 };
 
+const monthlyData = {
+  labels: ["Total Orders", "Online Orders", "Onsite Orders", "3rd Party Orders"],
+  datasets: [
+    {
+      label: 'Monthly Orders',
+      data: [1200, 450, 320, 480],
+      backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'],
+      borderRadius: 8,
+    },
+  ],
+};
 
-  // Daily Orders Data
-  const dailyData = {
-    labels: ["Total Orders", "Online Orders", "Onsite Orders", "3rd Party Orders", "Pending Orders", "Assigned Orders", "Served Orders", "Delivered Orders"],
-    datasets: [
-      {
-        label: 'Daily Orders',
-        data: [120, 50, 30, 40, 25, 20, 15, 10],
-        backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169', '#ED8936', '#5A67D8', '#48BB78', '#319795'],
-        borderRadius: 8,
-      },
-    ],
-  };
+const yearlyData = {
+  labels: ["Total Orders", "Online Orders", "Onsite Orders", "3rd Party Orders"],
+  datasets: [
+    {
+      label: 'Yearly Orders',
+      data: [14000, 5400, 3800, 5000],
+      backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'],
+      borderRadius: 8,
+    },
+  ],
+};
 
-  // Monthly Orders Data
-  const monthlyData = {
-    labels: ["Total Orders", "Online Orders", "Onsite Orders", "3rd Party Orders"],
-    datasets: [
-      {
-        label: 'Monthly Orders',
-        data: [1200, 450, 320, 480],
-        backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'],
-        borderRadius: 8,
-      },
-    ],
-  };
+const allTimeData = {
+  labels: ["Total Orders", "Online Orders", "Onsite Orders", "3rd Party Orders"],
+  datasets: [
+    {
+      label: 'All Time Orders',
+      data: [50000, 18000, 12000, 15000],
+      backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'],
+      borderRadius: 8,
+    },
+  ],
+};
 
-  // Yearly Orders Data (Similar to Monthly)
-  const yearlyData = {
-    labels: ["Total Orders", "Online Orders", "Onsite Orders", "3rd Party Orders"],
-    datasets: [
-      {
-        label: 'Yearly Orders',
-        data: [14000, 5400, 3800, 5000],
-        backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'],
-        borderRadius: 8,
-      },
-    ],
-  };
+// Create ordersData based on the dataset
+const ordersData = {
+  daily: {
+    total: dailyData.datasets[0].data[0],
+    online: dailyData.datasets[0].data[1],
+    onsite: dailyData.datasets[0].data[2],
+    thirdParty: dailyData.datasets[0].data[3],
+    pending: dailyData.datasets[0].data[4],
+    assigned: dailyData.datasets[0].data[5],
+    served: dailyData.datasets[0].data[6],
+    delivered: dailyData.datasets[0].data[7],
+  },
+  monthly: {
+    total: monthlyData.datasets[0].data[0],
+    online: monthlyData.datasets[0].data[1],
+    onsite: monthlyData.datasets[0].data[2],
+    thirdParty: monthlyData.datasets[0].data[3],
+  },
+  yearly: {
+    total: yearlyData.datasets[0].data[0],
+    online: yearlyData.datasets[0].data[1],
+    onsite: yearlyData.datasets[0].data[2],
+    thirdParty: yearlyData.datasets[0].data[3],
+  },
+  alltime: {
+    total: allTimeData.datasets[0].data[0],
+    online: allTimeData.datasets[0].data[1],
+    onsite: allTimeData.datasets[0].data[2],
+    thirdParty: allTimeData.datasets[0].data[3],
+  },
+};
 
-  // All Time Orders Data
-  const allTimeData = {
-    labels: ["Total Orders", "Online Orders", "Onsite Orders", "3rd Party Orders"],
-    datasets: [
-      {
-        label: 'All Time Orders',
-        data: [50000, 18000, 12000, 15000],
-        backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'],
-        borderRadius: 8,
-      },
-    ],
-  };
 
   // Monthly Daily Breakdown Data (New Chart)
   const monthlyDailyData = {
@@ -151,7 +171,8 @@ function Kitchen_Dashboard() {
           <option value="alltime">All Time</option>
         </select>
       </div>
-     
+      
+
       {/* Display charts based on selected period */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {selectedPeriod === 'daily' && (
@@ -250,6 +271,113 @@ function Kitchen_Dashboard() {
           </div>
         </div>
       )}
+      {/* Display data based on selected period */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6 pb-10 w-full">
+  {/* For Daily */}
+  {selectedPeriod === 'daily' && (
+    <>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Total Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].total}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Online Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].online}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Onsite Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].onsite}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">3rd Party Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].thirdParty}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Pending Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].pending}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Assigned Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].assigned}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Served Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].served}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Delivered Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].delivered}</p>
+      </div>
+    </>
+  )}
+
+  {/* For Monthly */}
+  {selectedPeriod === 'monthly' && (
+    <>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Total Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].total}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Online Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].online}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Onsite Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].onsite}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">3rd Party Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].thirdParty}</p>
+      </div>
+    </>
+  )}
+
+  {/* For Yearly */}
+  {selectedPeriod === 'yearly' && (
+    <>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Total Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].total}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Online Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].online}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Onsite Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].onsite}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">3rd Party Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].thirdParty}</p>
+      </div>
+    </>
+  )}
+
+  {/* For All Time */}
+  {selectedPeriod === 'alltime' && (
+    <>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Total Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].total}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Online Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].online}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">Onsite Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].onsite}</p>
+      </div>
+      <div className="bg-white p-4 rounded-xl shadow-xl">
+        <h3 className="text-xl font-semibold text-gray-700">3rd Party Orders</h3>
+        <p className="text-2xl font-bold">{ordersData[selectedPeriod].thirdParty}</p>
+      </div>
+    </>
+  )}
+</div>
+
     </div>
   );
 }
