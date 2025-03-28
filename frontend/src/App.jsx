@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import KitchenManager from "./pages/Kitchen_manager";
 import StoreKeeper from "./pages/StoreKeeper";
 import ManagerDashboard from "./pages/managerDashboard";
+import Casher from "./pages/Casher.jsx";
 
 const App = () => {
   return (
@@ -30,6 +31,11 @@ const App = () => {
               Kitchen Manager
             </Link>
           </li>
+          <li>
+            <Link to="/Casher" className="hover:text-gray-400">
+              Casher
+            </Link>
+          </li>
         </ul>
       </nav>
       <Routes>
@@ -37,6 +43,7 @@ const App = () => {
         <Route path="/manager" element={<ManagerDashboard />} />
         <Route path="/storeKepper" element={<StoreKeeper />} />
         <Route path="/kitchen" element={<KitchenManager />} />
+        <Route path="/Casher" element={<Casher/>} />
       </Routes>
     </Router>
     // <div>
