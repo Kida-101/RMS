@@ -6,15 +6,13 @@ import "react-phone-input-2/lib/style.css";
 // import "./pageStyls/reservation.css";
 // import { Link } from "react-router-dom";
 
-const ReservationForm = ({ activecomponent, propsOrderData }) => {
+const ReservationForm = ({
+  activecomponent,
+  propsOrderData,
+  propsTableData,
+}) => {
   console.log("order data", propsOrderData);
-  // console.log("First Item:", propsOrderData.items[0]);
-
-  // const orderData = location.state?.orderData || {
-  //   totalPrice: 0,
-  //   items: [],
-  //   orderDate: "",
-  // };
+  console.log("order table number is:", propsTableData);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -36,9 +34,6 @@ const ReservationForm = ({ activecomponent, propsOrderData }) => {
     e.preventDefault();
     alert("Reservation Confirmed!\n" + JSON.stringify(formData, null, 2));
   };
-  // if (!orderData) {
-  //   <p>No order data available.</p>;
-  // }
   return (
     <div className="max-w-[400px] w-full m-[25px_30px] p-[25px] max-w-full sm:max-w-[400px] bg-[#dfdfdf] bg-cover rounded-[10px] shadow-[0px_4px_8px_rgba(0,0,0,0.7)]">
       <div className="mb-4">
@@ -177,6 +172,13 @@ const ReservationForm = ({ activecomponent, propsOrderData }) => {
               {propsOrderData
                 ? new Date(propsOrderData.orderDate).toLocaleString()
                 : "N/A"}
+            </p>
+
+            <p>
+              <span className="font-bold">Table No:</span>{" "}
+              {propsTableData?.length > 0
+                ? propsTableData.map((table) => `Table ${table}`).join(", ")
+                : "No table selected"}
             </p>
           </div>
         </div>

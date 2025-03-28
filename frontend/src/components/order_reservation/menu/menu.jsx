@@ -182,7 +182,7 @@ const Menu = ({ sendDataToParent }) => {
 
     console.log("sendDataToParent:", sendDataToParent);
     if (sendDataToParent) {
-      sendDataToParent(orderData); // Send data to parent component
+      sendDataToParent(orderData);
       console.log("Order Data sent to parent:", orderData);
     } else {
       console.error("sendDataToParent is not defined!");

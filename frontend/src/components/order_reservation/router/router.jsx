@@ -7,12 +7,17 @@ import TableBooking from "../table/table.jsx";
 const Routing = () => {
   const [navTo, setNavTo] = useState("/");
   const [newOrderData, setOrderData] = useState(null);
+  const [newTableData, setTableData] = useState(null);
 
-  // Function to receive data from children
   const handleChildData = (data) => {
     console.log("Received from child:", data);
     setOrderData(data);
   };
+  const handleTableData = (table) => {
+    console.log("Recived from table:", table);
+    setTableData(table);
+  };
+
   const renderComponent = () => {
     switch (navTo) {
       case "/":
@@ -20,7 +25,7 @@ const Routing = () => {
       case "menu":
         return <Menu sendDataToParent={handleChildData} />;
       case "table":
-        return <TableBooking />;
+        return <TableBooking sendTableToParent={handleTableData} />;
       default:
         return <Home />;
     }
@@ -32,7 +37,11 @@ const Routing = () => {
       style={{ backgroundImage: "url('../../src/assets/food-bg/44.jfif')" }}
     >
       <div className="w-full md:w-1/4 sm:w-auto lg:w-1/4">
-        <Reservation activecomponent={setNavTo} propsOrderData={newOrderData} />
+        <Reservation
+          activecomponent={setNavTo}
+          propsOrderData={newOrderData}
+          propsTableData={newTableData}
+        />
       </div>
       <div className="flex-1 p-6 md:ml-6 lg:ml-10 rounded-lg">
         {renderComponent()}
@@ -43,18 +52,6 @@ const Routing = () => {
 
 export default Routing;
 
-// const [showPopup, setShowPopup] = useState(false);
-
-// const orderDetails = {
-//   tableNumber: 5,
-//   date: "March 25, 2025",
-//   startTime: "7:00 PM",
-//   endTime: "9:00 PM",
-//   items: [
-//     { name: "Pizza", quantity: 2 },
-//     { name: "Pasta", quantity: 1 },
-//   ],
-// };
 {
   /* <button
             className="bg-green-500 text-white px-4 py-2 rounded-lg mt-4"
