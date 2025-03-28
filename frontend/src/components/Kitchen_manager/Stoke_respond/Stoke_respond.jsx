@@ -2,8 +2,8 @@ import React from 'react';
 
 function StokeRespond() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-5 bg-white max-h-screen overflow-y-auto">
-      <div className="bg-white p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-5 max-h-screen overflow-y-auto">
+      <div className="bg-white p-4 rounded-lg shadow-lg transition-transform transform hover:scale-101">
         <h2 className="text-xl text-gray-800 mb-2">Respond</h2>
         <ul className="list-none p-0">
           <li className="text-lg py-2 border-b border-gray-300 text-gray-600">Apple: Out of stock</li>
