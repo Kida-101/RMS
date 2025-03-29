@@ -17,14 +17,14 @@ function Kitchen_manager() {
   };
 
   return (
-    <div className="flex flex-row h-screen">
+    <div className="flex flex-row h-screen ">
       {/* Sidebar (Kitchen Menu Bar) */}
       <div className="relative top-0 z-10">
         <Kitchen_menu_bar onMenuClick={handleMenuClick} />
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col flex-grow overflow-y-auto h-full w-auto box-border">
+      <div className="flex flex-col flex-grow overflow-y-auto h-full w-auto box-border bg-gray-100">
         {activeContent === 'Stock Response' && <Stoke_respond />}
         {activeContent === 'Request Stock' && <Kitchen_request />}
         {activeContent === 'Assign Order' && <Kitchen_Assign_Order />}

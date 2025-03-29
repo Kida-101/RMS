@@ -1,19 +1,18 @@
 import React, { useState } from "react";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import PhoneInput from "react-phone-input-2";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-input-2/lib/style.css";
 // import "./pageStyls/reservation.css";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
-const ReservationForm = () => {
-  const location = useLocation();
-  const orderData = location.state?.orderData || {
-    totalPrice: 0,
-    items: [],
-    orderDate: "",
-  };
+const ReservationForm = ({
+  activecomponent,
+  propsOrderData,
+  propsTableData,
+}) => {
+  console.log("order data", propsOrderData);
+  console.log("order table number is:", propsTableData);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -33,21 +32,20 @@ const ReservationForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Reservation Confirmed!\n" + JSON.stringify(formData, null, 2));
+    // alert("Reservation Confirmed!\n" + JSON.stringify(formData, null, 2));
   };
-  // if (!orderData) {
-  //   <p>No order data available.</p>;
-  // }
   return (
-    <div className="reservation-container max-w-[400px] w-full m-[25px_30px] p-[25px] bg-[#dfdfdf] bg-cover rounded-[10px] shadow-[0px_4px_8px_rgba(0,0,0,0.7)]">
-      <div className="mb-4">
-        <h1 className="text-[#45a049] text-center text-[40px] font-extrabold">
-          Order form&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Link to="/" className="nav-link">
-            <i className="fa-solid fa-house text-black pr-2 text-[24px]" />
-          </Link>
+    <div className="max-w-[400px] w-full m-[25px_30px] p-[25px] max-w-full sm:max-w-[400px] bg-[#dfdfdf] bg-cover rounded-[10px] shadow-[0px_4px_8px_rgba(0,0,0,0.7)]">
+      <div className="mb-4 flex flex-row justify-between items-center">
+        <h1 className="text-[#45a049] text-6xl md:text-3xl font-extrabold">
+          Order form
         </h1>
+
+        <button onClick={() => activecomponent("/")}>
+          <i className="fa-solid fa-house text-[#45a049] pr-2 text-[20px]" />
+        </button>
       </div>
+      <hr className="mb-4 text-[#45a049]" />
       <div className="separator"></div>
       <form className="form-reservation flex flex-col" onSubmit={handleSubmit}>
         <div className="full-name mb-4">
@@ -60,7 +58,7 @@ const ReservationForm = () => {
               value={formData.fullName}
               onChange={handleChange}
               required
-              className="input w-full p-[10px_20px] border-none rounded-[8px] bg-white focus:ring-[rgba(35,215,137,0.2)]"
+              className="input w-full p-[10px_20px] border-none rounded-[8px] bg-white outline-none focus:shadow-lg focus:shadow-green-300"
             />
           </span>
         </div>
@@ -74,7 +72,7 @@ const ReservationForm = () => {
                 onChange={(phone) => setFormData({ ...formData, phone })}
                 inputStyle={{ width: "100%" }}
                 required
-                className="phone !w-full mt-[3px] rounded-[8px] p-[6px] text-[20px] bg-white border-none shadow-none"
+                className="phone !w-full mt-[3px] rounded-[8px] p-[6px] text-[20px] bg-white border-none outline-none focus:shadow-lg focus:shadow-green-300"
                 id="phone"
               />
             </div>
@@ -90,7 +88,7 @@ const ReservationForm = () => {
               placeholder="Email (optional)"
               value={formData.email}
               onChange={handleChange}
-              className="input w-full mt-[3px] p-[10px_20px] border-none rounded-[8px] bg-white"
+              className="input w-full mt-[3px] p-[10px_20px] border-none rounded-[8px] bg-white outline-none focus:shadow-lg focus:shadow-green-300"
             />
           </span>
         </div>
@@ -98,15 +96,23 @@ const ReservationForm = () => {
           <div>
             <label className="label font-semibold">Date:&nbsp;</label>
           </div>
-          <DatePicker
-            className="date-picker !w-full p-[10px] border-2 border-[#45a049] rounded-[8px] bg-white cursor-pointer border-none box-border"
+          <input
+            type="date"
+            // value={newDate}
+            onChange={(date) => setFormData({ ...formData, date })}
+            dateFormat="yyyy/MM/dd"
+            selected={formData.date}
+            className="input w-full mt-[3px] p-[10px_20px] border-none rounded-[8px] bg-white outline-none focus:shadow-lg focus:shadow-green-300"
+          />
+          {/* <DatePicker
+            className="date-picker !w-full p-[10px] border-2 border-[#45a049] rounded-[8px] bg-white cursor-pointer border-none box-border outline-none focus:shadow-lg focus:shadow-green-300"
             selected={formData.date}
             onChange={(date) => setFormData({ ...formData, date })}
             dateFormat="yyyy/MM/dd"
-          />
+          /> */}
         </div>
         <div className="time mb-4">
-          <label className="label font-semibold mt-[3px]">Time(start):</label>
+          <label className="label font-semibold mt-[3px]">Arraival Time:</label>
           &nbsp;
           <input
             type="time"
@@ -114,9 +120,14 @@ const ReservationForm = () => {
             value={formData.startTime}
             onChange={handleChange}
             required
-            className="input !w-full p-[10px_20px] border-none rounded-[8px] bg-white mb-4"
+            className="input !w-full p-[10px_20px] border-none rounded-[8px] bg-white mb-4 outline-none focus:shadow-lg focus:shadow-green-300"
           />
-          <label className="label font-semibold">Time(finish):</label>&nbsp;
+          <div>
+            <p className="mb-3 justify-center italic text-xs">
+              Please arrive within 30 minutes of booking to avoid cancellation!
+            </p>
+          </div>
+          {/* <label className="label font-semibold">Time(finish):</label>&nbsp;
           <input
             type="time"
             name="endTime"
@@ -124,59 +135,72 @@ const ReservationForm = () => {
             onChange={handleChange}
             required
             className="input !w-full p-[10px_20px] border-none rounded-[8px] bg-white mb-1"
-          />
+          /> */}
         </div>
         <div className="menu-nav mb-4">
-          <Link to="/menu" className="nav-link">
-            <button className="label button w-full mb-1 p-[10px] bg-transparent text-[#45a049] rounded-[5px] border-2 border-[#45a049] hover:bg-[#45a049] hover:text-white transition-transform">
-              <i className="fa-solid fa-utensils"></i>&nbsp;&nbsp;&nbsp;Go to
-              Menu
-            </button>
-          </Link>
+          <button
+            onClick={() => activecomponent("menu")}
+            className="nav-link label button w-full mb-1 p-[10px] bg-transparent text-[#45a049] rounded-[5px] border-2 border-[#45a049] hover:bg-[#45a049] hover:text-white transition-transform"
+          >
+            <i className="fa-solid fa-utensils"></i>&nbsp;&nbsp;&nbsp;Go to Menu
+          </button>
         </div>
         <div className="menu-nav mb-4">
-          <Link to="/table" className="nav-link">
-            <button className="label button w-full mb-1 p-[10px] bg-transparent text-[#45a049] rounded-[5px] border-2 border-[#45a049] hover:bg-[#45a049] hover:text-white transition-transform">
-              <i className="fa-solid fa-chair" />
-              &nbsp;&nbsp;Reserve table
-            </button>
-          </Link>
+          <button
+            onClick={() => activecomponent("table")}
+            className="label button w-full mb-1 p-[10px] bg-transparent text-[#45a049] rounded-[5px] border-2 border-[#45a049] hover:bg-[#45a049] hover:text-white transition-transform"
+          >
+            <i className="fa-solid fa-chair" />
+            &nbsp;&nbsp;Reserve table
+          </button>
         </div>
-        <div className="display-detail">
-          <div className="display-container bg-white p-[10px] rounded-[5px] mb-[10px]">
+
+        <div className="mb-4">
+          <div className="bg-white p-[10px] rounded-[5px] mb-[10px]">
             <p>
               <span className="font-bold">Order's:</span>{" "}
-              {orderData.items.length > 0
-                ? orderData.items.join(" ")
+              {propsOrderData?.items?.length > 0
+                ? propsOrderData.items.map((item, index) => {
+                    const [quantity, ...nameParts] = item.split("-");
+                    const itemName = nameParts.join("-");
+                    return (
+                      <span key={index}>
+                        ({quantity.trim()})-{itemName.trim()}
+                        {index < propsOrderData.items.length - 1 && ", "}
+                      </span>
+                    );
+                  })
                 : "No items"}
             </p>
+
             <p>
-              <span className="font-bold">Total price:</span>
-              {orderData.totalPrice} ETB
+              <span className="font-bold">Total Price:</span>{" "}
+              {propsOrderData ? propsOrderData.totalPrice : "0"} ETB
             </p>
             <p>
               <span className="font-bold">Order Date:</span>{" "}
-              {orderData.orderDate
-                ? new Date(orderData.orderDate).toLocaleString()
+              {propsOrderData
+                ? new Date(propsOrderData.orderDate).toLocaleString()
                 : "N/A"}
+            </p>
+
+            <p>
+              <span className="font-bold">Table No:</span>{" "}
+              {propsTableData?.length > 0
+                ? propsTableData.map((table) => `Table ${table}`).join(", ")
+                : "No table selected"}
             </p>
           </div>
         </div>
-        <div>
-          <p className="mb-3 justify-center">
-            Please arrive at the restaurant within 30 to 40 minutes after
-            booking your table. Failure to arrive on time may result in your
-            reservation being canceled. Thank you for your cooperation!
-          </p>
-        </div>
-        <Link to="/paymentSuccessPopup" className="nav-link">
-          <button
-            type="submit"
-            className="label reserve_pay button w-full mb-4 p-[10px] bg-[#28a745] rounded-[5px] text-white hover:bg-[#218838]"
-          >
-            Pay and Reserve
-          </button>
-        </Link>
+
+        <button
+          type="submit"
+          onClick={() => activecomponent("pay")}
+          className="label reserve_pay button w-full mb-4 p-[10px] bg-[#28a745] rounded-[5px] text-white hover:bg-[#218838]"
+        >
+          Pay and Reserve
+        </button>
+        {/* </Link> */}
       </form>
     </div>
   );
