@@ -23,11 +23,8 @@
     "react-icons": "^5.5.0",
     "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^7.4.0",
-<<<<<<< HEAD
     "react-toastify": "^11.0.5",
-=======
     "react-select": "^5.10.1",
->>>>>>> f96e04cd95fc3b78e0fbe24c373869237e432038
     "tailwindcss": "^4.0.15"
   },
   "devDependencies": {
