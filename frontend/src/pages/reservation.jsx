@@ -36,14 +36,16 @@ const ReservationForm = ({
   };
   return (
     <div className="max-w-[400px] w-full m-[25px_30px] p-[25px] max-w-full sm:max-w-[400px] bg-[#dfdfdf] bg-cover rounded-[10px] shadow-[0px_4px_8px_rgba(0,0,0,0.7)]">
-      <div className="mb-4">
-        <h1 className="text-[#45a049] text-center text-2xl md:text-3xl font-extrabold">
-          Order form&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button onClick={() => activecomponent("/")} className="nav-link">
-            <i className="fa-solid fa-house text-black pr-2" />
-          </button>
+      <div className="mb-4 flex flex-row justify-between items-center">
+        <h1 className="text-[#45a049] text-6xl md:text-3xl font-extrabold">
+          Order form
         </h1>
+
+        <button onClick={() => activecomponent("/")}>
+          <i className="fa-solid fa-house text-[#45a049] pr-2 text-[20px]" />
+        </button>
       </div>
+      <hr className="mb-4 text-[#45a049]" />
       <div className="separator"></div>
       <form className="form-reservation flex flex-col" onSubmit={handleSubmit}>
         <div className="full-name mb-4">
@@ -95,13 +97,13 @@ const ReservationForm = ({
             <label className="label font-semibold">Date:&nbsp;</label>
           </div>
           <input
-              type="date"
-              // value={newDate}
+            type="date"
+            // value={newDate}
             onChange={(date) => setFormData({ ...formData, date })}
             dateFormat="yyyy/MM/dd"
             selected={formData.date}
-              className="input w-full mt-[3px] p-[10px_20px] border-none rounded-[8px] bg-white outline-none focus:shadow-lg focus:shadow-green-300"
-            />
+            className="input w-full mt-[3px] p-[10px_20px] border-none rounded-[8px] bg-white outline-none focus:shadow-lg focus:shadow-green-300"
+          />
           {/* <DatePicker
             className="date-picker !w-full p-[10px] border-2 border-[#45a049] rounded-[8px] bg-white cursor-pointer border-none box-border outline-none focus:shadow-lg focus:shadow-green-300"
             selected={formData.date}
