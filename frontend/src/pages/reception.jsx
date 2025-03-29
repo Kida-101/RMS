@@ -83,7 +83,7 @@ const Reception = () => {
   const [newPhone, setNewPhone] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [newDate, setNewDate] = useState("");
-  const [newStartTime, setNewStartTime] = useState("");
+  const [newArrivalTime, setNewArrivalTime] = useState("");
   const [newMenu, setNewMenu] = useState("");
   const [newTable, setNewTable] = useState("");
   const [newRequest, setNewRequest] = useState("");
@@ -94,7 +94,7 @@ const Reception = () => {
       !newPhone ||
       !newEmail ||
       !newDate ||
-      !newStartTime ||
+      !newArrivalTime ||
       !newMenu
     ) {
       toast.error("Please fill in all fields.");
@@ -107,7 +107,7 @@ const Reception = () => {
       phone: newPhone,
       email: newEmail,
       date: new Date(newDate),
-      startTime: newStartTime,
+      arrivalTime: newArrivalTime,
       menu: newMenu,
       table: newTable || null,
       requests: newRequest ? [newRequest] : [],
@@ -119,7 +119,7 @@ const Reception = () => {
     setNewPhone("");
     setNewEmail("");
     setNewDate("");
-    setNewStartTime("");
+    setNewArrivalTime("");
     setNewMenu("");
     setNewTable("");
     setNewRequest("");
@@ -233,7 +233,7 @@ const Reception = () => {
                 <td className="p-3">{booking.phone}</td>
                 <td className="p-3">{booking.email}</td>
                 <td className="p-3">{booking.date.toDateString()}</td>
-                <td className="p-3">{booking.startTime}</td>
+                <td className="p-3">{booking.arrivalTime}</td>
                 <td className="p-3">{booking.menu}</td>
                 <td className="p-3">
                   {editingTableId === booking.id ? (
@@ -340,8 +340,8 @@ const Reception = () => {
             />
             <input
               type="time"
-              value={newStartTime}
-              onChange={(e) => setNewStartTime(e.target.value)}
+              value={newArrivalTime}
+              onChange={(e) => setNewArrivalTime(e.target.value)}
               className="border p-2 w-full rounded-lg mb-2 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
             />
             <input
