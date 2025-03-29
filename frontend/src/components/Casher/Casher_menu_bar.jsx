@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import logo from '../../assets/logo.png';
 
-function Casher_menu_bar() {
-                            const [toggle, setToggle] = useState(false);
+function Casher_menu_bar({onMenuClick}) {
+    const [toggle, setToggle] = useState(false);
     const [activeItem, setActiveItem] = useState('Dashboard'); // Default active item
 
     const handleMenuClick = (menuItem) => {
@@ -26,8 +26,8 @@ function Casher_menu_bar() {
                 <div className="flex flex-col space-y-2">
                     {[
                         { name: 'Dashboard', icon: 'fa-house' },
-                        { name: 'Receive payment', icon:''},
-                        { name: 'Paid Bills', icon: ''},
+                        { name: 'Receive payment', icon:'fa-money-bill-wave'},
+                        { name: 'Paid Bills', icon: 'fa-file-invoice-dollar'},
                         { name: 'Report', icon: 'fa-chart-pie' }
                     ].map((item) => (
                         <button
@@ -65,8 +65,8 @@ function Casher_menu_bar() {
                 <div className="flex flex-col space-y-2">
                     {[
                         { name: 'Dashboard', icon: 'fa-house' },
-                        { name: 'Receive  payment', icon:''},
-                        { name: 'Paid Bills', icon: ''},
+                        { name: 'Receive payment', icon:'fa-money-bill-wave'},
+                        { name: 'Paid Bills', icon: 'fa-file-invoice-dollar'},
                         { name: 'Report', icon: 'fa-chart-pie' }
                     ].map((item) => (
                         <button

@@ -45,7 +45,7 @@ const ReservationForm = ({
           <i className="fa-solid fa-house text-[#45a049] pr-2 text-[20px]" />
         </button>
       </div>
-      <hr className="mb-4" />
+      <hr className="mb-4 text-[#45a049]" />
       <div className="separator"></div>
       <form className="form-reservation flex flex-col" onSubmit={handleSubmit}>
         <div className="full-name mb-4">

@@ -1,10 +1,10 @@
 import React from "react";
 import Routing from "./components/order_reservation/router/router.jsx";
-// import Chef from "./pages/Chef";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import KitchenManager from "./pages/Kitchen_manager";
 import StoreKeeper from "./pages/StoreKeeper";
 import ManagerDashboard from "./pages/managerDashboard";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Casher from "./pages/Casher.jsx";
 import Reception from "./pages/reception.jsx";
 
 const App = () => {
@@ -37,14 +37,20 @@ const App = () => {
               Kitchen Manager
             </Link>
           </li>
+          <li>
+            <Link to="/Casher" className="hover:text-gray-400">
+              Casher
+            </Link>
+          </li>
         </ul>
       </nav>
       <Routes>
-        <Route path="/reservation" element={<Routing />} />{" "}
-        <Route path="/reception" element={<Reception />} />{" "}
+        <Route path="/reservation" element={<Routing />} />
+        <Route path="/reception" element={<Reception />} />
         <Route path="/manager" element={<ManagerDashboard />} />
         <Route path="/storeKepper" element={<StoreKeeper />} />
         <Route path="/kitchen" element={<KitchenManager />} />
+        <Route path="/Casher" element={<Casher />} />
       </Routes>
     </Router>
   );

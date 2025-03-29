@@ -1,32 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
 
 function Kitchen_request() {
   const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('1');
   const [remark, setRemark] = useState('');
   const [items, setItems] = useState([]);
-  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
-  const [requestId, setRequestId] = useState('');
+  const [products, setProducts] = useState([]);
 
-  const suggestedProducts = [
-    "Rice", "Tomatoes", "Chicken", "Onions", "Spices", "Banana", "Cornflower",
-    "Garlic", "Ginger", "Potatoes", "Carrots", "Cabbage", "Beef", "Pork", "Fish",
-    "Milk", "Butter", "Cheese", "Eggs", "Yogurt", "Flour", "Sugar", "Salt",
-    "Black Pepper", "Paprika", "Turmeric", "Oregano", "Basil", "Thyme", "Rosemary",
-    "Lettuce", "Cucumber", "Spinach", "Broccoli", "Cauliflower", "Green Beans",
-    "Mushrooms", "Pumpkin", "Zucchini", "Sweet Corn", "Lemon", "Lime", "Orange",
-    "Apple", "Grapes", "Strawberries", "Blueberries", "Pineapple", "Mango",
-    "Watermelon", "Coconut", "Avocado", "Peanuts", "Almonds", "Walnuts",
-    "Cashews", "Honey", "Olive Oil", "Vegetable Oil", "Soy Sauce", "Vinegar",
-    "Bread", "Pasta", "Noodles", "Lentils", "Chickpeas", "Black Beans", "Kidney Beans",
-    "Green Peas", "Canned Tuna", "Canned Sardines", "Ketchup", "Mayonnaise",
-    "Mustard", "Chili Powder", "Soy Milk", "Coconut Milk", "Tea Leaves",
-    "Coffee Beans", "Instant Coffee", "Cocoa Powder", "Baking Powder",
-    "Baking Soda", "Yeast", "Corn Starch", "Gelatin", "Whipping Cream",
-    "Dark Chocolate", "White Chocolate", "Peanut Butter", "Jam", "Pickles",
-    "Raisins", "Dates", "Sesame Seeds", "Sunflower Seeds", "Energy Drink",
-    "Bottled Water", "Soft Drinks", "Ice Cream", "Yams", "Radish", "Celery"
-  ];
+  // Simulate fetching product names from an API
+  useEffect(() => {
+    // Replace this with an actual API call
+    const fetchProducts = async () => {
+      const suggestedProducts = [
+        "Rice", "Tomatoes", "Chicken", "Onions", "Spices", "Banana", "Cornflower",
+        "Garlic", "Ginger", "Potatoes", "Carrots", "Cabbage", "Beef", "Pork", "Fish",
+        "Milk", "Butter", "Cheese", "Eggs", "Yogurt", "Flour", "Sugar", "Salt",
+        "Black Pepper", "Paprika", "Turmeric", "Oregano", "Basil", "Thyme", "Rosemary",
+        "Lettuce", "Cucumber", "Spinach", "Broccoli", "Cauliflower", "Green Beans",
+        "Mushrooms", "Pumpkin", "Zucchini", "Sweet Corn", "Lemon", "Lime", "Orange",
+        "Apple", "Grapes", "Strawberries", "Blueberries", "Pineapple", "Mango",
+        "Watermelon", "Coconut", "Avocado", "Peanuts", "Almonds", "Walnuts",
+        "Cashews", "Honey", "Olive Oil", "Vegetable Oil", "Soy Sauce", "Vinegar",
+        "Bread", "Pasta", "Noodles", "Lentils", "Chickpeas", "Black Beans", "Kidney Beans",
+        "Green Peas", "Canned Tuna", "Canned Sardines", "Ketchup", "Mayonnaise",
+        "Mustard", "Chili Powder", "Soy Milk", "Coconut Milk", "Tea Leaves",
+        "Coffee Beans", "Instant Coffee", "Cocoa Powder", "Baking Powder",
+        "Baking Soda", "Yeast", "Corn Starch", "Gelatin", "Whipping Cream",
+        "Dark Chocolate", "White Chocolate", "Peanut Butter", "Jam", "Pickles",
+        "Raisins", "Dates", "Sesame Seeds", "Sunflower Seeds", "Energy Drink",
+        "Bottled Water", "Soft Drinks", "Ice Cream", "Yams", "Radish", "Celery"
+      ];
+      setProducts(suggestedProducts.map((product) => ({ value: product.toLowerCase(), label: product })));
+    };
+
+    fetchProducts();
+  }, []);
+
+  const handleSelectChange = (selectedOption) => {
+    setProductName(selectedOption ? selectedOption.label : '');
+  };
 
   const addItem = () => {
     if (productName && quantity) {
@@ -51,83 +64,41 @@ function Kitchen_request() {
       }
 
       setProductName('');
-      setQuantity('');
-      setFilteredSuggestions([]);
+      setQuantity('1');
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (items.length > 0) {
-      const dataToSubmit = { requestId, items, remark };
+      const dataToSubmit = { items, remark };
       console.log('Submitting:', dataToSubmit);
       alert('Stock request submitted successfully!');
       setItems([]);
       setRemark('');
-      setRequestId('');
     } else {
       alert('Please add at least one item to the list before submitting.');
     }
   };
 
-  const handleProductChange = (e) => {
-    const value = e.target.value;
-    setProductName(value);
-
-    if (value) {
-      const filtered = suggestedProducts
-        .filter((product) => product.toLowerCase().includes(value.toLowerCase()))
-        .slice(0, 5);
-      setFilteredSuggestions(filtered);
-    } else {
-      setFilteredSuggestions([]);
-    }
-  };
-
-  const handleSuggestionClick = (suggestion) => {
-    setProductName(suggestion);
-    setFilteredSuggestions([]);
-  };
-
   return (
-    <div className="flex justify-center items-center h-[97vh] bg-white p-5 overflow-hidden overflow-y-auto">
+    <div className="flex justify-center items-center h-[97vh] p-5 overflow-hidden overflow-y-auto">
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg w-full max-w-[500px] border border-gray-200 relative">
         <legend className="text-2xl font-bold text-black mb-5 text-center">Stock Request Form</legend>
 
-        <label htmlFor="request_id" className="block text-sm text-gray-700 mb-2">Request ID</label>
-        <input
-          type="text"
-          id="request_id"
-          placeholder="Request ID"
-          value={requestId}
-          onChange={(e) => setRequestId(e.target.value)}
-          required
-          className="w-full p-2 mb-4 border border-gray-300 rounded-lg text-black"
-        />
-
-       <div className="relative w-full">
-  <input
-    type="text"
-    id="product_name"
-    value={productName}
-    onChange={handleProductChange}
-    required
-    className="w-full p-2 border border-gray-300 rounded-md text-black focus:outline-none focus:border-blue-500"
-  />
-  {filteredSuggestions.length > 0 && (
-    <ul className="absolute left-0 right-0 bg-white border border-gray-300 rounded-md mt-1 shadow-md z-10">
-      {filteredSuggestions.map((suggestion, index) => (
-        <li
-          key={index}
-          onClick={() => handleSuggestionClick(suggestion)}
-          className="p-2 cursor-pointer hover:bg-gray-100"
-        >
-          {suggestion}
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
+        <div className="mb-4">
+          <label htmlFor="product_name" className="block text-sm text-gray-700 mb-2">Product Name:</label>
+          <Select
+            options={products}
+            onChange={handleSelectChange}
+            placeholder="Select or type a product"
+            className="w-full"
+            menuPortalTarget={document.body} // Render the dropdown in a portal
+            styles={{
+              menuPortal: (base) => ({ ...base, zIndex: 9999 }), // Ensure it floats above other elements
+            }}
+          />
+        </div>
 
         <label htmlFor="quantity" className="block text-sm text-gray-700 mb-2">Quantity:</label>
         <input
@@ -166,7 +137,6 @@ function Kitchen_request() {
             rows="4"
             className="w-full p-2 mb-4 border border-gray-300 rounded-lg text-black"
           />
-
         </div>
 
         <button
