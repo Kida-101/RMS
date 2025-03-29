@@ -20,6 +20,7 @@ const SideBarForChef = ({ setActiveComponent, activeComponent, onLogout }) => {
       label: "Report served",
     },
     { name: "ChefHistory", icon: <FaHistory />, label: "My History" },
+    { name: "RequestItem", icon: <FaHistory />, label: "Request Stock" },
   ];
 
   const handleClick = (name) => {
