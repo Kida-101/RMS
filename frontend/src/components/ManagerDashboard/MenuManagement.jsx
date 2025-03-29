@@ -50,24 +50,24 @@ const MenuManagement = () => {
   };
 
   return (
-    <section className="bg-white p-6 rounded-lg shadow">
-      <h2 className="text-xl font-semibold mb-4">Update Menu</h2>
+    <section className="bg-white p-6 rounded-lg shadow max-w-4xl mx-auto">
+      <h2 className="text-xl font-semibold mb-4 text-center">Update Menu</h2>
 
-      <div className="flex gap-4 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
         <input type="text" placeholder="Item Name" value={newItem.name} onChange={(e) => setNewItem({ ...newItem, name: e.target.value })} className="border p-2 rounded w-full" />
         <input type="number" placeholder="Price" value={newItem.price} onChange={(e) => setNewItem({ ...newItem, price: e.target.value })} className="border p-2 rounded w-full" />
         <input type="text" placeholder="Category" value={newItem.category} onChange={(e) => setNewItem({ ...newItem, category: e.target.value })} className="border p-2 rounded w-full" />
-        <input type="text" placeholder="Description" value={newItem.description} onChange={(e) => setNewItem({ ...newItem, description: e.target.value })} className="border p-2 rounded w-full" />
+        <input type="text" placeholder="Description" value={newItem.description} onChange={(e) => setNewItem({ ...newItem, description: e.target.value })} className="border p-2 rounded w-full col-span-2" />
         <input type="file" accept="image/*" onChange={(e) => setNewItem({ ...newItem, image: e.target.files[0] })} className="border p-2 rounded w-full" />
-        <button onClick={handleAddMenuItem} className="bg-green-500 text-white px-4 py-2 rounded">Add Item</button>
+        <button onClick={handleAddMenuItem} className="bg-green-500 text-white px-4 py-2 rounded w-full">Add Item</button>
       </div>
 
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500 text-center">{error}</p>}
 
       <ul className="space-y-2">
         {menuItems.map((item) => (
-          <li key={item.id} className="flex justify-between items-center bg-gray-100 p-2 rounded">
-            {item.name} - ${item.price}
+          <li key={item.id} className="flex flex-wrap justify-between items-center bg-gray-100 p-2 rounded">
+            <span className="text-sm md:text-base">{item.name} - ${item.price}</span>
             <button onClick={() => handleDeleteMenuItem(item.id)} className="bg-red-500 text-white px-3 py-1 rounded">❌</button>
           </li>
         ))}
