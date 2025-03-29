@@ -346,7 +346,7 @@ const Reception = () => {
             />
             <input
               type="text"
-              placeholder="Menu"
+              placeholder="Food items"
               value={newMenu}
               onChange={(e) => setNewMenu(e.target.value)}
               className="border p-2 w-full rounded-lg mb-2 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
