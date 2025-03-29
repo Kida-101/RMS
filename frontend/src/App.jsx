@@ -1,11 +1,13 @@
 import React from "react";
 import Routing from "./components/order_reservation/router/router.jsx";
+import Chef from "./pages/Chef";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import KitchenManager from "./pages/Kitchen_manager";
 import StoreKeeper from "./pages/StoreKeeper";
 import ManagerDashboard from "./pages/managerDashboard";
 import Casher from "./pages/Casher.jsx";
 import Reception from "./pages/reception.jsx";
+
 
 const App = () => {
   return (
@@ -14,6 +16,7 @@ const App = () => {
         <ul className="flex space-x-6 text-white">
           <li>
             <Link to="/reservation" className="hover:text-gray-400">
+
               Reservation
             </Link>
           </li>
@@ -38,6 +41,8 @@ const App = () => {
             </Link>
           </li>
           <li>
+            <Link to="/chef" className="hover:text-gray-400">
+              Chef
             <Link to="/Casher" className="hover:text-gray-400">
               Casher
             </Link>
@@ -45,6 +50,7 @@ const App = () => {
         </ul>
       </nav>
       <Routes>
+        <Route path="/chef" element={<Chef />} />
         <Route path="/reservation" element={<Routing />} />
         <Route path="/reception" element={<Reception />} />
         <Route path="/manager" element={<ManagerDashboard />} />

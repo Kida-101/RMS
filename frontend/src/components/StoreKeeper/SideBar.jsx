@@ -5,6 +5,7 @@ import {
   FaExclamationTriangle,
   FaClipboardList,
   FaUserTie,
+  FaPlusSquare,
   FaChartLine,
   FaSignOutAlt,
 } from "react-icons/fa";
@@ -21,6 +22,7 @@ const SideBar = ({ setActiveComponent, activeComponent, onLogout }) => {
     },
     { name: "StockInfo", icon: <FaClipboardList />, label: "Stock Info" },
     { name: "SupplierInfo", icon: <FaUserTie />, label: "Supplier Info" },
+    { name: "AddStock", icon: <FaPlusSquare />, label: "Add Stock" },
   ];
 
   const handleClick = (name) => {
