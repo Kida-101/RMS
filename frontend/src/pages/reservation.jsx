@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-input-2/lib/style.css";
-// import "./pageStyls/reservation.css";
-// import { Link } from "react-router-dom";
 
 const ReservationForm = ({
   activecomponent,
@@ -19,10 +17,11 @@ const ReservationForm = ({
     phone: "",
     email: "",
     date: new Date(),
-    startTime: "",
-    endTime: "",
+    arrivalTime: "",
     menu: "",
     table: "",
+    requests: "",
+    status: "Pending",
   });
 
   const handleChange = (e) => {
@@ -116,8 +115,8 @@ const ReservationForm = ({
           &nbsp;
           <input
             type="time"
-            name="startTime"
-            value={formData.startTime}
+            name="arrivalTime"
+            value={formData.arrivalTime}
             onChange={handleChange}
             required
             className="input !w-full p-[10px_20px] border-none rounded-[8px] bg-white mb-4 outline-none focus:shadow-lg focus:shadow-green-300"
@@ -145,7 +144,7 @@ const ReservationForm = ({
             <i className="fa-solid fa-utensils"></i>&nbsp;&nbsp;&nbsp;Go to Menu
           </button>
         </div>
-        <div className="menu-nav mb-4">
+        <div className="mb-4">
           <button
             onClick={() => activecomponent("table")}
             className="label button w-full mb-1 p-[10px] bg-transparent text-[#45a049] rounded-[5px] border-2 border-[#45a049] hover:bg-[#45a049] hover:text-white transition-transform"
@@ -190,6 +189,23 @@ const ReservationForm = ({
                 ? propsTableData.map((table) => `Table ${table}`).join(", ")
                 : "No table selected"}
             </p>
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <div className="">
+            <label className="label font-semibold mt-[3px]">
+              Additional Request/Message:
+            </label>
+            <textarea
+              type="textarea"
+              name="requests"
+              placeholder="Your request or massage..."
+              value={formData.requests}
+              onChange={handleChange}
+              className="input !w-full min-h-[100px] p-[10px_20px] border-none rounded-[8px] bg-white mb-4 outline-none focus:shadow-lg focus:shadow-green-300"
+              rows="4"
+            />
           </div>
         </div>
 
