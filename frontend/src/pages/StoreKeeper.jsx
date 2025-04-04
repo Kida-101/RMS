@@ -622,9 +622,7 @@ function StoreKeeper() {
         activeComponent={activeComponent}
         onLogout={handleLogout}
       />
-      <main className="flex-1 p-6 ml-7 sm:64 md:ml-64">
-        {renderComponent()}
-      </main>
+      <main className="flex-1 p-6 ">{renderComponent()}</main>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaBoxOpen,
   FaTruckLoading,
@@ -9,8 +9,11 @@ import {
   FaChartLine,
   FaSignOutAlt,
 } from "react-icons/fa";
+import logo from "../../assets/logo.png";
 
 const SideBar = ({ setActiveComponent, activeComponent, onLogout }) => {
+  const [toggle, setToggle] = useState(false);
+
   const menuItems = [
     { name: "ReportAnalysis", icon: <FaChartLine />, label: "Report Analysis" },
     { name: "ReceiveRequest", icon: <FaBoxOpen />, label: "Provide Stock" },
@@ -23,59 +26,90 @@ const SideBar = ({ setActiveComponent, activeComponent, onLogout }) => {
     { name: "StockInfo", icon: <FaClipboardList />, label: "Stock Info" },
     { name: "SupplierInfo", icon: <FaUserTie />, label: "Supplier Info" },
     { name: "AddStock", icon: <FaPlusSquare />, label: "Add Stock" },
+    { name: "logout", icon: <FaSignOutAlt />, label: "Logout" },
   ];
 
   const handleClick = (name) => {
     if (name === "logout") {
-      console.log("Logout clicked");
       onLogout();
     } else {
       setActiveComponent(name);
     }
   };
 
-  return (
-    <aside className="w-16 md:w-64 bg-white p-2 md:p-6 shadow-lg fixed h-full transition-all duration-300">
-      <h2 className="sm:block text-sm md:text-xl lg:text-2xl font-semibold mb-4 p-2">
-        Store Keeper
-      </h2>
-      <nav>
-        <ul className="space-y-2">
-          {menuItems.map((item) => (
-            <li
-              key={item.name}
-              className={`p-5 flex items-center text-md font-medium space-x-3 cursor-pointer rounded-lg transition-colors ${
-                activeComponent === item.name
-                  ? "bg-[#3447AA] text-white"
-                  : "hover:bg-gray-200"
-              }`}
-              onClick={() => handleClick(item.name)}
-            >
-              <span
-                className={`text-2xl ${
-                  activeComponent === item.name
-                    ? "text-white"
-                    : "text-[#3447AA]"
-                }`}
-              >
-                {item.icon}
-              </span>
-              <span className="hidden md:block">{item.label}</span>
-            </li>
-          ))}
-
-          <li
-            className="p-5 flex items-center text-md font-medium space-x-3 cursor-pointer rounded-lg transition-colors hover:bg-gray-200"
-            onClick={() => handleClick("logout")}
+  return toggle ? (
+    <div className="flex flex-col w-20 h-[97vh] border-r border-gray-300">
+      <div className="flex flex-col bg-white">
+        <div className="flex items-center justify-between p-4 border-b border-gray-300">
+          <div className="min-w-[41px] min-h-[41px]">
+            <img
+              src={logo}
+              alt="logo"
+              className="w-10 h-10 rounded-full object-cover"
+            />
+          </div>
+          <button
+            onClick={() => setToggle(!toggle)}
+            className="text-xl text-black hover:text-blue-700"
           >
-            <span className="text-2xl text-[#3447AA]">
-              <FaSignOutAlt />
-            </span>
-            <span className="hidden md:block">Logout</span>
-          </li>
-        </ul>
-      </nav>
-    </aside>
+            <i className="fa-sharp fa-solid fa-bars"></i>
+          </button>
+        </div>
+
+        <div className="flex flex-col">
+          {menuItems.map((item) => (
+            <button
+              key={item.name}
+              onClick={() => handleClick(item.name)}
+              className={`flex justify-center items-center p-4 text-xl transition-all ${
+                activeComponent === item.name
+                  ? "text-blue-500"
+                  : "text-gray-700"
+              } hover:bg-gray-300`}
+            >
+              {item.icon}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div className="flex flex-col w-60 h-[97vh] border-r border-gray-300">
+      <div className="flex flex-col bg-white">
+        <div className="flex items-center justify-between p-4 border-b border-gray-300">
+          <div className="min-w-[41px] min-h-[41px]">
+            <img
+              src={logo}
+              alt="logo"
+              className="w-10 h-10 rounded-full object-cover"
+            />
+          </div>
+          <p className="ml-3 text-xl font-semibold">Store Keeper</p>
+          <button
+            onClick={() => setToggle(!toggle)}
+            className="text-xl text-black hover:text-blue-700"
+          >
+            <i className="fa-sharp fa-solid fa-bars"></i>
+          </button>
+        </div>
+
+        <div className="flex flex-col">
+          {menuItems.map((item) => (
+            <button
+              key={item.name}
+              onClick={() => handleClick(item.name)}
+              className={`flex items-center p-4 text-lg transition-all ${
+                activeComponent === item.name
+                  ? "text-blue-500"
+                  : "text-gray-700"
+              } hover:bg-gray-300`}
+            >
+              <span className="mr-3">{item.icon}</span> {item.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 
