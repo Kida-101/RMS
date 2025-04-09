@@ -46,5 +46,4 @@ const AddUser = () => {
     </section>
   );
 };
-
 export default AddUser;

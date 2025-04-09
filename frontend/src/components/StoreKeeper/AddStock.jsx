@@ -130,6 +130,7 @@ export default function AddStock({
           setSubcategoryCreationStep(2);
           setCustomInput((prev) => ({ ...prev, item: "" }));
           setShowSubcategory(true);
+
         }
       } else {
         // Step 2: Add items to the subcategory group
@@ -138,7 +139,7 @@ export default function AddStock({
             name: customInput.subcategoryItem,
             unit: customInput.unit,
           };
-
+        
           // Get existing subcategories
           const existingItems =
             categoryStructure[selectedCategory]?.subcategories?.[selectedItem]
