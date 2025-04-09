@@ -37,6 +37,7 @@ const TableBooking = ({ sendTableToParent }) => {
         selectedTables.includes(table.id) ? { ...table, booked: true } : table
       )
     );
+
     setSelectedTables([]);
     if (sendTableToParent) {
       sendTableToParent(selectedTables);
@@ -85,7 +86,6 @@ const TableBooking = ({ sendTableToParent }) => {
           ))}
         </div>
 
-        {/* Confirm Button */}
         <div className="text-center">
           <button
             onClick={confirmBooking}

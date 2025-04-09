@@ -1,52 +1,8 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const tablesData = [
-  { id: 1, seats: 4, booked: false },
-  { id: 2, seats: 2, booked: true },
-  { id: 3, seats: 6, booked: false },
-  { id: 4, seats: 4, booked: true },
-  { id: 5, seats: 2, booked: false },
-  { id: 6, seats: 4, booked: true },
-  { id: 7, seats: 4, booked: false },
-  { id: 8, seats: 4, booked: false },
-  { id: 9, seats: 4, booked: true },
-  { id: 10, seats: 4, booked: false },
-  { id: 11, seats: 4, booked: false },
-  { id: 12, seats: 4, booked: false },
-  { id: 13, seats: 4, booked: false },
-  { id: 14, seats: 4, booked: true },
-  { id: 15, seats: 4, booked: false },
-];
 
 const Reception = () => {
-  const [tables, setTables] = useState(tablesData);
-  const [selectedTables, setSelectedTables] = useState([]);
-
-  const handleTableClick = (table) => {
-    if (table.booked) return;
-    setSelectedTables((prev) =>
-      prev.includes(table.id)
-        ? prev.filter((id) => id !== table.id)
-        : [...prev, table.id]
-    );
-  };
-
-  const confirmBooking = () => {
-    setTables((prevTables) =>
-      prevTables.map((table) =>
-        selectedTables.includes(table.id) ? { ...table, booked: true } : table
-      )
-    );
-
-    setSelectedTables([]);
-    if (sendTableToParent) {
-      sendTableToParent(selectedTables);
-      console.log("Table Data sent to parent:", selectedTables);
-    } else {
-      console.error("sendTableToParent is not defined!");
-    }
-  };
   const [search, setSearch] = useState("");
   const [bookings, setBookings] = useState([
     {
@@ -248,7 +204,7 @@ const Reception = () => {
           onClick={() => setIsBookingModalOpen(true)}
           className="bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold px-4 py-3 rounded-lg shadow-lg hover:scale-105 transition"
         >
-          Book Table
+          + Add Booking
         </button>
       </div>
 
@@ -352,55 +308,76 @@ const Reception = () => {
       </table>
 
       {isBookingModalOpen && (
-        <div className="fixed pt-30 top-0 left-0 right-0 bottom-0 flex items-center justify-center overflow-y-auto backdrop-blur-md bg-black/30 z-50 p-4">
-          <div
-            className="rounded-lg shadow-lg w-full max-w-4xl p-6 space-y-8 mt-10 mb-10 bg-cover bg-center bg-black/80 bg-blend-darken font-[Poppins]"
-            style={{
-              backgroundImage: "url('../../src/assets/food-bg/55.jfif')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            <h1 className="text-green-600 text-5xl font-extrabold text-center">
-              Table Booking
-            </h1>
-            <div className="flex flex-wrap justify-center gap-6">
-              {tables.map((table) => (
-                <div
-                  key={table.id}
-                  className={`w-28 h-28 flex flex-col items-center justify-center rounded-md font-bold cursor-pointer transition-transform hover:scale-110 
-              ${
-                table.booked
-                  ? "bg-red-500 text-white cursor-not-allowed"
-                  : "bg-green-500 text-white"
-              } 
-              ${
-                selectedTables.includes(table.id)
-                  ? "bg-yellow-300 text-black"
-                  : ""
-              }`}
-                  onClick={() => handleTableClick(table)}
-                >
-                  Table {table.id}
-                  <br />
-                  Seats: {table.seats}
-                </div>
-              ))}
-            </div>
+        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md shadow-xl bg-opacity-50 backdrop-blur-sm">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h3 className="text-xl font-bold mb-4">Add New Booking</h3>
+            <input
+              type="text"
+              placeholder="Full Name"
+              value={newFullName}
+              onChange={(e) => setNewFullName(e.target.value)}
+              className="border p-2 w-full rounded-lg mb-2 bg-white outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
+            />
+            <input
+              type="text"
+              placeholder="Phone"
+              value={newPhone}
+              onChange={(e) => setNewPhone(e.target.value)}
+              className="border p-2 w-full rounded-lg mb-2 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
+              className="border p-2 w-full rounded-lg mb-2 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
+            />
+            <input
+              type="date"
+              value={newDate}
+              onChange={(e) => setNewDate(e.target.value)}
+              className="border p-2 w-full rounded-lg mb-2 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
+            />
+            <input
+              type="time"
+              value={newArrivalTime}
+              onChange={(e) => setNewArrivalTime(e.target.value)}
+              className="border p-2 w-full rounded-lg mb-2 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
+            />
+            <input
+              type="text"
+              placeholder="Food items"
+              value={newMenu}
+              onChange={(e) => setNewMenu(e.target.value)}
+              className="border p-2 w-full rounded-lg mb-2 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
+            />
+            <input
+              type="text"
+              placeholder="Table (Optional)"
+              value={newTable}
+              onChange={(e) => setNewTable(e.target.value)}
+              className="border p-2 w-full rounded-lg mb-2 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
+            />
+            <input
+              type="text"
+              placeholder="Special Requests (Optional)"
+              value={newRequest}
+              onChange={(e) => setNewRequest(e.target.value)}
+              className="border p-2 w-full rounded-lg mb-4 outline-none focus:border-green-600 focus:shadow-lg focus:shadow-green-300"
+            />
 
-            <div className="text-center space-y-4">
+            <div className="flex justify-end">
               <button
                 onClick={() => setIsBookingModalOpen(false)}
-                className="mt-6 px-8 py-4 mr-5 text-lg bg-blue-500 text-white rounded-md shadow-md"
+                className="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2"
               >
                 Cancel
               </button>
               <button
-                onClick={confirmBooking}
-                disabled={selectedTables.length === 0}
-                className="mt-6 px-8 py-4 text-lg bg-blue-500 text-white rounded-md shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed"
+                onClick={handleAddBooking}
+                className="bg-green-500 text-white px-6 py-2 rounded-lg"
               >
-                Confirm Booking
+                Add Booking
               </button>
             </div>
           </div>
