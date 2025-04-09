@@ -312,6 +312,32 @@ const ReportAnalysis = ({ stockData, disposedItems = [] }) => {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+          <h3 className="text-sm font-medium text-blue-600">Total Items</h3>
+          <p className="text-2xl font-semibold text-blue-800">
+            {filteredData.length}
+          </p>
+        </div>
+        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
+          <h3 className="text-sm font-medium text-yellow-600">Low Stock</h3>
+          <p className="text-2xl font-semibold text-yellow-800">
+            {statusData.low}
+          </p>
+        </div>
+        <div className="bg-red-50 p-4 rounded-lg border border-red-100">
+          <h3 className="text-sm font-medium text-red-600">Expired</h3>
+          <p className="text-2xl font-semibold text-red-800">
+            {statusData.expired}
+          </p>
+        </div>
+        <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
+          <h3 className="text-sm font-medium text-purple-600">Disposed</h3>
+          <p className="text-2xl font-semibold text-purple-800">
+            {filteredDisposedItems.length}
+          </p>
+        </div>
+      </div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-semibold text-gray-800">
           Stock Analysis Dashboard
@@ -340,31 +366,31 @@ const ReportAnalysis = ({ stockData, disposedItems = [] }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 mb-6">
+      <div className="grid grid-cols-1 gap-6 mb-3 ">
         {/* Status chart moved to top */}
-        <div className="bg-white p-4 rounded-lg border border-gray-200 h-80">
-          <h3 className="text-lg font-medium mb-2">Stock Status Overview</h3>
+        <div className="bg-white p-9 rounded-lg border border-gray-200 h-80">
+          <h3 className="text-lg font-medium mb-0">Stock Status Overview</h3>
           {renderChart(statusChartData)}
         </div>
 
         {/* Category charts below */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white p-4 rounded-lg border border-gray-200 h-80">
-            <h3 className="text-lg font-medium mb-2">Quantity by Category</h3>
+          <div className="bg-white p-4 rounded-lg h-80">
+            <h3 className="text-lg font-medium mb-0">Quantity by Category</h3>
             {renderChart(generateChartData("Quantity"))}
           </div>
-          <div className="bg-white p-4 rounded-lg border border-gray-200 h-80">
-            <h3 className="text-lg font-medium mb-2">
+          <div className="bg-white p-4 rounded-lg h-80">
+            <h3 className="text-lg font-medium mb-0">
               Expired Items by Category
             </h3>
             {renderChart(generateChartData("Expired"))}
           </div>
-          <div className="bg-white p-4 rounded-lg border border-gray-200 h-80">
-            <h3 className="text-lg font-medium mb-2">Disposals by Category</h3>
+          <div className="bg-white p-4 rounded-lg h-80">
+            <h3 className="text-lg font-medium mb-0">Disposals by Category</h3>
             {renderChart(generateChartData("Disposed"))}
           </div>
-          <div className="bg-white p-4 rounded-lg border border-gray-200 h-80">
-            <h3 className="text-lg font-medium mb-2">Low Stock by Category</h3>
+          <div className="bg-white p-4 rounded-lg h-80">
+            <h3 className="text-lg font-medium mb-0">Low Stock by Category</h3>
             {renderChart(generateChartData("Low Stock"))}
           </div>
         </div>
@@ -386,33 +412,6 @@ const ReportAnalysis = ({ stockData, disposedItems = [] }) => {
               },
             }}
           />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
-          <h3 className="text-sm font-medium text-blue-600">Total Items</h3>
-          <p className="text-2xl font-semibold text-blue-800">
-            {filteredData.length}
-          </p>
-        </div>
-        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
-          <h3 className="text-sm font-medium text-yellow-600">Low Stock</h3>
-          <p className="text-2xl font-semibold text-yellow-800">
-            {statusData.low}
-          </p>
-        </div>
-        <div className="bg-red-50 p-4 rounded-lg border border-red-100">
-          <h3 className="text-sm font-medium text-red-600">Expired</h3>
-          <p className="text-2xl font-semibold text-red-800">
-            {statusData.expired}
-          </p>
-        </div>
-        <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
-          <h3 className="text-sm font-medium text-purple-600">Disposed</h3>
-          <p className="text-2xl font-semibold text-purple-800">
-            {filteredDisposedItems.length}
-          </p>
         </div>
       </div>
     </div>

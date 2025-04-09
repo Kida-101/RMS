@@ -5,7 +5,7 @@ import { MdOutlineMailOutline } from "react-icons/md";
 const Card = ({ supplier, openModal, handleDeleteClick }) => {
   return (
     <div key={supplier.id} className="group relative w-full sm:w-80 m-2">
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-black shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-cyan-500/25">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-black shadow-2xl ">
         <div className="relative rounded-2xl bg-slate-100 p-6">
           <h3 className="text-xl font-medium normal-case tracking-wider text-blue-800">
             {supplier.name}

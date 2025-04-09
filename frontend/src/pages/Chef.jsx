@@ -461,7 +461,7 @@ const Chef = () => {
         activeComponent={activeComponent}
         onLogout={() => console.log("Logged out")}
       />
-      <main className="flex-1 p-6 ml-16 md:ml-64">{renderComponent()}</main>
+      <main className="flex-1 p-6 ">{renderComponent()}</main>
     </div>
   );
 };
