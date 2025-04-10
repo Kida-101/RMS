@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 
-const Casher = require('./components/Casher/Casher');
+import Casher from './components/Casher/Casher.js';
 app.use('/casher',Casher)
 
 app.get("/", (req, res) => {

@@ -1,8 +1,8 @@
-const express = require('express');
+import express from "express";
 const app = express.Router();
 
-const dashboard = require('./compinents/Casher_dashboard.js');
+import dashboard from'./compinents/Casher_dashboard.js';
 app.use('/dashboard',dashboard)
 
 
-module.exports = app
+export default app;

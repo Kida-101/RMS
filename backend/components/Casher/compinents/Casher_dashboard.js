@@ -1,6 +1,5 @@
 import express from "express";
 const app = express.Router();
-const pool = require('../../../database')
 const getTodayDate = () => {
   const today = new Date();
   return today.toISOString().split("T")[0];
