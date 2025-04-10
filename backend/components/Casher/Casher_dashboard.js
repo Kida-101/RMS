@@ -1,12 +1,12 @@
-const express = require('express');
+import express from "express";
 const app = express.Router();
 
 const getTodayDate = () => {
   const today = new Date();
-  return today.toISOString().split('T')[0];
+  return today.toISOString().split("T")[0];
 };
 
-app.get('/dashboard_day', async (req, res) => {
+app.get("/dashboard_day", async (req, res) => {
   const today = getTodayDate();
 
   const readQuery = `
@@ -25,11 +25,11 @@ app.get('/dashboard_day', async (req, res) => {
     res.json(rows[0]); // Returns { total, online, onsite, third_party }
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error fetching daily dashboard data');
+    res.status(500).send("Error fetching daily dashboard data");
   }
 });
 
-app.get('/dashboard_month', async (req, res) => {
+app.get("/dashboard_month", async (req, res) => {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
@@ -75,12 +75,11 @@ app.get('/dashboard_month', async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error fetching monthly dashboard data');
+    res.status(500).send("Error fetching monthly dashboard data");
   }
 });
 
-
-app.get('/dashboard_year', async (req, res) => {
+app.get("/dashboard_year", async (req, res) => {
   const year = new Date().getFullYear();
 
   const summaryQuery = `
@@ -122,11 +121,11 @@ app.get('/dashboard_year', async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error fetching yearly dashboard data');
+    res.status(500).send("Error fetching yearly dashboard data");
   }
 });
 
-app.get('/dashboard_alltime', async (req, res) => {
+app.get("/dashboard_alltime", async (req, res) => {
   const query = `
     SELECT 
       COALESCE(SUM(s.total_amount), 0) AS total,
@@ -143,10 +142,8 @@ app.get('/dashboard_alltime', async (req, res) => {
     res.json(rows[0]); // Return object with totals
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error fetching all-time dashboard data');
+    res.status(500).send("Error fetching all-time dashboard data");
   }
 });
 
-
-
-module.exports = app
+export default app;
