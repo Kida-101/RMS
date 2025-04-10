@@ -10,9 +10,11 @@ const port = process.env.PORT; // Default to 4000 if PORT is not defined in .env
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Hello, World! Your server is running on the configured port.');
-});
+
+const Casher = require('./components/Casher/Casher');
+app.use('/casher',Casher)
+
+
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

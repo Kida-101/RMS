@@ -1,12 +1,14 @@
 const express = require('express');
 const app = express.Router();
-
+const pool = require('../../../database')
 const getTodayDate = () => {
   const today = new Date();
   return today.toISOString().split('T')[0];
 };
-
-app.get('/dashboard_day', async (req, res) => {
+app.get('/test', (req, res)=>{
+  res.send("caasher is working")
+})
+app.get('/day', async (req, res) => {
   const today = getTodayDate();
 
   const readQuery = `
@@ -29,7 +31,7 @@ app.get('/dashboard_day', async (req, res) => {
   }
 });
 
-app.get('/dashboard_month', async (req, res) => {
+app.get('/month', async (req, res) => {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
@@ -80,7 +82,7 @@ app.get('/dashboard_month', async (req, res) => {
 });
 
 
-app.get('/dashboard_year', async (req, res) => {
+app.get('/year', async (req, res) => {
   const year = new Date().getFullYear();
 
   const summaryQuery = `
@@ -126,7 +128,7 @@ app.get('/dashboard_year', async (req, res) => {
   }
 });
 
-app.get('/dashboard_alltime', async (req, res) => {
+app.get('/alltime', async (req, res) => {
   const query = `
     SELECT 
       COALESCE(SUM(s.total_amount), 0) AS total,
