@@ -163,14 +163,13 @@ const Menu = ({ sendDataToParent }) => {
         .filter((item) => item.quantity > 0)
     );
   };
-
-  const calculateTotalPrice = () => {
+ const calculateTotalPrice = () => {
     return cart.reduce(
       (total, item) => total + (parseFloat(item.price) || 0) * item.quantity,
       0
     );
   };
-
+               
   const handleConfirmOrder = () => {
     if (cart.length === 0) return;
 
@@ -262,7 +261,7 @@ const Menu = ({ sendDataToParent }) => {
                     alt={item.name}
                     className="w-[110px] h-[110px] object-cover rounded-full border-2 border-green-600 hover:rotate-3 transition-transform"
                   />
-                </div>
+                </div> 
                 <h3 className="text-lg font-bold mb-2">{item.name}</h3>
                 <p className="italic text-sm text-center">{item.description}</p>
                 <div className="flex flex-row gap-2 items-center justify-center w-full mt-2">
