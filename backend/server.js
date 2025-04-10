@@ -1,8 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 4000; // Default to 4000 if PORT is not defined in .env
+const pg = require('pg');
+const cors = require('cors');
+const port = process.env.PORT; // Default to 4000 if PORT is not defined in .env
 
+
+// Middleware
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
