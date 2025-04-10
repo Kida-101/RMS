@@ -39,7 +39,6 @@ const ReservationForm = ({
         <h1 className="text-[#45a049] text-6xl md:text-3xl font-extrabold">
           Order form
         </h1>
-
         <button onClick={() => activecomponent("/")}>
           <i className="fa-solid fa-house text-[#45a049] pr-2 text-[20px]" />
         </button>
