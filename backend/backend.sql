@@ -9,6 +9,13 @@ CREATE TABLE users (
     last_login TIMESTAMP
 );
 
+-- Third Party Table
+CREATE TABLE third_party (
+    id SERIAL PRIMARY KEY,
+    company_name VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 -- Suppliers Table
 CREATE TABLE suppliers (
     id SERIAL PRIMARY KEY,
@@ -22,8 +29,8 @@ CREATE TABLE suppliers (
 CREATE TABLE supplier_contacts (
     id SERIAL PRIMARY KEY,
     supplier_id INTEGER NOT NULL REFERENCES suppliers(id) ON DELETE CASCADE,
-    phone_number VARCHAR(20) NOT NULL,
-    email VARCHAR(100),
+    phone_number VARCHAR(20),
+    email VARCHAR(100) UNIQUE,
     address TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -54,22 +61,6 @@ CREATE TABLE table_book (
     table_number INT NOT NULL UNIQUE,
     is_booked BOOLEAN NOT NULL DEFAULT FALSE
 );
-
--- Bookings Table
-CREATE TABLE bookings (
-    id SERIAL PRIMARY KEY,
-    full_name VARCHAR(255) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
-    email VARCHAR(255),
-    booking_date DATE NOT NULL,
-    arrival_time TIME NOT NULL,
-    finish_time TIME,
-    party_size INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    order_id INT UNIQUE REFERENCES orders(id),
-    status VARCHAR(20) DEFAULT 'Pending' CHECK (status IN ('Pending', 'Confirmed', 'Cancelled'))
-);
-
 -- Orders Table
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
@@ -105,13 +96,24 @@ CREATE TABLE order_items (
     UNIQUE (order_id, menu_item_id)
 );
 
--- Third Party Table
-CREATE TABLE third_party (
+-- Bookings Table
+CREATE TABLE bookings (
     id SERIAL PRIMARY KEY,
-    company_name VARCHAR(255) NOT NULL,
+    full_name VARCHAR(255) NOT NULL,
     phone VARCHAR(20) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    email VARCHAR(255),
+    booking_date DATE NOT NULL,
+    arrival_time TIME NOT NULL,
+    finish_time TIME,
+    party_size INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    order_id INT UNIQUE REFERENCES orders(id),
+    status VARCHAR(20) DEFAULT 'Pending' CHECK (status IN ('Pending', 'Confirmed', 'Cancelled'))
 );
+
+
+
+
 
 -- Sales Table
 CREATE TABLE sales (
@@ -121,14 +123,17 @@ CREATE TABLE sales (
     sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     order_id INT REFERENCES orders(id) ON DELETE SET NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    is_paid BOOLEAN DEFAULT FALSE NOT NULL
+    is_paid BOOLEAN DEFAULT FALSE NOT NULL,
+    payment_method VARCHAR(50),
+    discount_amount DECIMAL(10, 2) DEFAULT 0
 );
 
 -- Stock Categories Table
 CREATE TABLE stock_categories (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Subcategories Table
@@ -137,45 +142,68 @@ CREATE TABLE subcategories (
     name VARCHAR(100) NOT NULL,
     category_id INTEGER NOT NULL REFERENCES stock_categories(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (name, category_id)
 );
 
--- Items Table (Inventory)
+-- Items Table (Inventory)-- Create the items table
 CREATE TABLE items (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    category_id INTEGER REFERENCES stock_categories(id),
-    subcategory_id INTEGER REFERENCES subcategories(id),
+    category_id INTEGER REFERENCES stock_categories(id),  -- Reference to stock_categories
+    subcategory_id INTEGER REFERENCES subcategories(id),  -- Reference to subcategories
     unit VARCHAR(20) NOT NULL,
     expiry_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     quantity INTEGER NOT NULL CHECK (quantity >= 0),
     received_date DATE DEFAULT CURRENT_DATE,
-    status VARCHAR(20) GENERATED ALWAYS AS (
-        CASE 
-            WHEN expiry_date < CURRENT_DATE THEN 'expired'
-            WHEN quantity < 10 THEN 'low'
-            ELSE 'normal'
-        END
-    ) STORED,
+    status VARCHAR(20),  -- Status is set via triggers
     last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    -- Hierarchy constraint: either category or subcategory must be set, not both
     CONSTRAINT valid_hierarchy CHECK (
         (category_id IS NOT NULL AND subcategory_id IS NULL) OR
         (category_id IS NULL AND subcategory_id IS NOT NULL)
-    ),
-    CONSTRAINT unique_item_name CHECK (
-        CASE 
-            WHEN category_id IS NOT NULL THEN NOT EXISTS (
-                SELECT 1 FROM items i2 
-                WHERE i2.name = items.name AND i2.category_id = items.category_id
-            )
-            ELSE NOT EXISTS (
-                SELECT 1 FROM items i2 
-                WHERE i2.name = items.name AND i2.subcategory_id = items.subcategory_id
-            )
-        END
     )
 );
+
+-- Create the trigger function that updates the status column
+CREATE OR REPLACE FUNCTION set_item_status() 
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Set the status based on expiry_date and quantity
+    NEW.status := CASE 
+        WHEN NEW.expiry_date < CURRENT_DATE THEN 'expired'
+        WHEN NEW.quantity < 10 THEN 'low'
+        ELSE 'normal'
+    END;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger for INSERT (before insert, set the status)
+CREATE TRIGGER before_insert_item
+BEFORE INSERT ON items
+FOR EACH ROW
+EXECUTE FUNCTION set_item_status();
+
+-- Trigger for UPDATE (before update, set the status)
+CREATE TRIGGER before_update_item
+BEFORE UPDATE ON items
+FOR EACH ROW
+EXECUTE FUNCTION set_item_status();
+
+-- Create a unique partial index on name and category_id
+-- Ensures uniqueness of item names for each category
+CREATE UNIQUE INDEX unique_item_name_category
+    ON items(name, category_id)
+    WHERE category_id IS NOT NULL;
+
+-- Create a unique partial index on name and subcategory_id
+-- Ensures uniqueness of item names for each subcategory
+CREATE UNIQUE INDEX unique_item_name_subcategory
+    ON items(name, subcategory_id)
+    WHERE subcategory_id IS NOT NULL;
+
 
 -- Disposed Items Table
 CREATE TABLE disposed_items (
@@ -186,7 +214,6 @@ CREATE TABLE disposed_items (
     disposed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     disposed_by INTEGER NOT NULL REFERENCES users(id) ON DELETE SET NULL
 );
-
 -- Stock Requests Table
 CREATE TABLE stock_requests (
     id SERIAL PRIMARY KEY,
@@ -194,6 +221,8 @@ CREATE TABLE stock_requests (
     quantity INTEGER NOT NULL CHECK (quantity > 0),
     requester_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
     requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    approved_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    approved_at TIMESTAMP WITH TIME ZONE,
     approved BOOLEAN DEFAULT FALSE,
     status VARCHAR(20) CHECK (status IN ('pending', 'approved', 'rejected')) DEFAULT 'pending',
     fulfilled BOOLEAN DEFAULT FALSE,
