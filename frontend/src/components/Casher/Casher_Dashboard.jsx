@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bar, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
 
@@ -6,102 +6,52 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, T
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
 function Casher_Dashboard() {
-  const [selectedPeriod, setSelectedPeriod] = useState('daily'); // State to manage the selected period
+  const [selectedPeriod, setSelectedPeriod] = useState('day'); // State to manage the selected period
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Example payment data
-  const paymentData = {
-    daily: {
-      total: 1200,
-      online: 500,
-      onsite: 400,
-      thirdParty: 300,
-    },
-    monthly: {
-      total: 36000,
-      online: 15000,
-      onsite: 12000,
-      thirdParty: 9000,
-    },
-    yearly: {
-      total: 432000,
-      online: 180000,
-      onsite: 144000,
-      thirdParty: 108000,
-    },
-    alltime: {
-      total: 1200000,
-      online: 500000,
-      onsite: 400000,
-      thirdParty: 300000,
-    },
-  };
+  // Fetch data from the backend API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        let endpoint = '';
+        
+        switch (selectedPeriod) {
+          case 'day':
+            endpoint = 'day';
+            break;
+          case 'month':
+            endpoint = 'month';
+            break;
+          case 'year':
+            endpoint = 'year';
+            break;
+          case 'alltime':
+            endpoint = 'alltime';
+            break;
+          default:
+            endpoint = 'day';
+        }
 
-  // Monthly daily breakdown data
-  const monthlyDailyData = {
-    labels: Array.from({ length: 30 }, (_, i) => `Day ${i + 1}`), // Days of the month
-    datasets: [
-      {
-        label: 'Total Payment',
-        data: Array.from({ length: 30 }, () => Math.floor(Math.random() * 2000) + 500),
-        backgroundColor: '#4C51BF',
-      },
-      {
-        label: 'Online Payment',
-        data: Array.from({ length: 30 }, () => Math.floor(Math.random() * 1000) + 200),
-        backgroundColor: '#4299E1',
-      },
-      {
-        label: 'Onsite Payment',
-        data: Array.from({ length: 30 }, () => Math.floor(Math.random() * 800) + 100),
-        backgroundColor: '#ECC94B',
-      },
-      {
-        label: '3rd Party Payment',
-        data: Array.from({ length: 30 }, () => Math.floor(Math.random() * 600) + 50),
-        backgroundColor: '#38A169',
-      },
-    ],
-  };
+        const response = await fetch(`http://localhost:4000/casher/dashboard/${endpoint}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setDashboardData(data);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+        console.error('Error fetching dashboard data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Yearly monthly breakdown data
-  const yearlyMonthlyData = {
-    labels: [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ], // Months of the year
-    datasets: [
-      {
-        label: 'Total Payment',
-        data: Array.from({ length: 12 }, () => Math.floor(Math.random() * 50000) + 10000),
-        backgroundColor: '#4C51BF',
-      },
-      {
-        label: 'Online Payment',
-        data: Array.from({ length: 12 }, () => Math.floor(Math.random() * 30000) + 5000),
-        backgroundColor: '#4299E1',
-      },
-      {
-        label: 'Onsite Payment',
-        data: Array.from({ length: 12 }, () => Math.floor(Math.random() * 20000) + 3000),
-        backgroundColor: '#ECC94B',
-      },
-      {
-        label: '3rd Party Payment',
-        data: Array.from({ length: 12 }, () => Math.floor(Math.random() * 15000) + 2000),
-        backgroundColor: '#38A169',
-      },
-    ],
-  };
+    fetchData();
+  }, [selectedPeriod]);
 
   // Chart options
   const chartOptions = {
@@ -126,66 +76,93 @@ function Casher_Dashboard() {
     setSelectedPeriod(e.target.value);
   };
 
-  // Chart data for daily, monthly, yearly, and all-time
-  const dailyData = {
-    labels: ['Total Payment', 'Online Payment', 'Onsite Payment', '3rd Party Payment'],
-    datasets: [
-      {
-        label: 'Daily Payments',
-        data: [paymentData.daily.total, paymentData.daily.online, paymentData.daily.onsite, paymentData.daily.thirdParty],
-        backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'],
-        borderRadius: 8,
-      },
-    ],
+  // Prepare chart data based on the selected period and fetched data
+  const getBarChartData = () => {
+    if (!dashboardData) return null;
+    
+    return {
+      labels: ['Total Payment', 'Online Payment', 'Onsite Payment', '3rd Party Payment'],
+      datasets: [
+        {
+          label: `${selectedPeriod.charAt(0).toUpperCase() + selectedPeriod.slice(1)} Payments`,
+          data: [dashboardData.total || 0, dashboardData.online || 0, dashboardData.onsite || 0, dashboardData.third_party || 0],
+          backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'],
+          borderRadius: 8,
+        },
+      ],
+    };
   };
 
-  const monthlyData = {
-    labels: ['Total Payment', 'Online Payment', 'Onsite Payment', '3rd Party Payment'],
-    datasets: [
-      {
-        label: 'Monthly Payments',
-        data: [paymentData.monthly.total, paymentData.monthly.online, paymentData.monthly.onsite, paymentData.monthly.thirdParty],
-        backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'],
-        borderRadius: 8,
-      },
-    ],
+  // Prepare pie chart data
+  const getPieData = () => {
+    if (!dashboardData) return null;
+    
+    return {
+      labels: ['Online Payment', 'Onsite Payment', '3rd Party Payment'],
+      datasets: [
+        {
+          data: [dashboardData.online || 0, dashboardData.onsite || 0, dashboardData.third_party || 0],
+          backgroundColor: ['#4299E1', '#ECC94B', '#38A169'],
+          borderRadius: 8,
+        },
+      ],
+    };
   };
 
-  const yearlyData = {
-    labels: ['Total Payment', 'Online Payment', 'Onsite Payment', '3rd Party Payment'],
-    datasets: [
-      {
-        label: 'Yearly Payments',
-        data: [paymentData.yearly.total, paymentData.yearly.online, paymentData.yearly.onsite, paymentData.yearly.thirdParty],
-        backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'],
-        borderRadius: 8,
-      },
-    ],
+  // Prepare breakdown data for monthly or yearly views
+  const getBreakdownData = () => {
+    if (!dashboardData || !dashboardData.breakdown) return null;
+    
+    const isMonthly = selectedPeriod === 'month';
+    const labels = isMonthly 
+      ? dashboardData.breakdown.map(item => `Day ${item.day}`)
+      : ['January', 'February', 'March', 'April', 'May', 'June', 
+         'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    return {
+      labels: isMonthly 
+        ? dashboardData.breakdown.map(item => `Day ${item.day}`)
+        : dashboardData.breakdown.map((_, index) => labels[index]),
+      datasets: [
+        {
+          label: 'Total Payment',
+          data: dashboardData.breakdown.map(item => item.total || 0),
+          backgroundColor: '#4C51BF',
+        },
+        {
+          label: 'Online Payment',
+          data: dashboardData.breakdown.map(item => item.online || 0),
+          backgroundColor: '#4299E1',
+        },
+        {
+          label: 'Onsite Payment',
+          data: dashboardData.breakdown.map(item => item.onsite || 0),
+          backgroundColor: '#ECC94B',
+        },
+        {
+          label: '3rd Party Payment',
+          data: dashboardData.breakdown.map(item => item.third_party || 0),
+          backgroundColor: '#38A169',
+        },
+      ],
+    };
   };
 
-  const allTimeData = {
-    labels: ['Total Payment', 'Online Payment', 'Onsite Payment', '3rd Party Payment'],
-    datasets: [
-      {
-        label: 'All Time Payments',
-        data: [paymentData.alltime.total, paymentData.alltime.online, paymentData.alltime.onsite, paymentData.alltime.thirdParty],
-        backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'],
-        borderRadius: 8,
-      },
-    ],
-  };
+  if (loading && !dashboardData) {
+    return (
+      <div className="p-6 bg-gray-100 min-h-screen flex justify-center items-center">
+        <div className="text-xl font-semibold">Loading dashboard data...</div>
+      </div>
+    );
+  }
 
-  // Get pie chart data based on selected period
-  const getPieData = () => ({
-    labels: ['Online Payment', 'Onsite Payment', '3rd Party Payment'],
-    datasets: [
-      {
-        data: [paymentData[selectedPeriod].online, paymentData[selectedPeriod].onsite, paymentData[selectedPeriod].thirdParty],
-        backgroundColor: ['#4299E1', '#ECC94B', '#38A169'],
-        borderRadius: 8,
-      },
-    ],
-  });
+  if (error) {
+    return (
+      <div className="p-6 bg-gray-100 min-h-screen flex justify-center items-center">
+        <div className="text-xl font-semibold text-red-500">Error: {error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -197,84 +174,69 @@ function Casher_Dashboard() {
           onChange={handlePeriodChange}
           className="p-2 rounded border-gray-300 shadow-sm"
         >
-          <option value="daily">Daily</option>
-          <option value="monthly">Monthly</option>
-          <option value="yearly">Yearly</option>
+          <option value="day">Daily</option>
+          <option value="month">Monthly</option>
+          <option value="year">Yearly</option>
           <option value="alltime">All Time</option>
         </select>
       </div>
 
       {/* Display charts based on selected period */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Bar Chart */}
-        <div className="bg-white p-4 rounded-xl shadow-xl">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">
-            {selectedPeriod.charAt(0).toUpperCase() + selectedPeriod.slice(1)} Payment Statistics
-          </h2>
-          <div className="h-72">
-            <Bar
-              data={
-                selectedPeriod === 'daily'
-                  ? dailyData
-                  : selectedPeriod === 'monthly'
-                  ? monthlyData
-                  : selectedPeriod === 'yearly'
-                  ? yearlyData
-                  : allTimeData
-              }
-              options={chartOptions}
-            />
-          </div>
-        </div>
+      {dashboardData && (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Bar Chart */}
+            <div className="bg-white p-4 rounded-xl shadow-xl">
+              <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">
+                {selectedPeriod.charAt(0).toUpperCase() + selectedPeriod.slice(1)} Payment Statistics
+              </h2>
+              <div className="h-72">
+                {getBarChartData() && <Bar data={getBarChartData()} options={chartOptions} />}
+              </div>
+            </div>
 
-        {/* Pie Chart */}
-        <div className="bg-white p-4 rounded-xl shadow-xl">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Payment Distribution</h2>
-          <div className="h-72 flex justify-center items-center">
-            <Pie data={getPieData()} />
+            {/* Pie Chart */}
+            <div className="bg-white p-4 rounded-xl shadow-xl">
+              <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Payment Distribution</h2>
+              <div className="h-72 flex justify-center items-center">
+                {getPieData() && <Pie data={getPieData()} />}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      {/* Yearly Breakdown */}
-      {selectedPeriod === 'yearly' && (
-        <div className="bg-white p-4 rounded-xl shadow-xl mt-6">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Monthly Breakdown (This Year)</h2>
-          <div className="h-96">
-            <Bar data={yearlyMonthlyData} options={chartOptions} />
+          {/* Breakdown Charts */}
+          {(selectedPeriod === 'month' || selectedPeriod === 'year') && dashboardData.breakdown && (
+            <div className="bg-white p-4 rounded-xl shadow-xl mt-6">
+              <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">
+                {selectedPeriod === 'month' ? 'Daily' : 'Monthly'} Breakdown
+              </h2>
+              <div className="h-96">
+                <Bar data={getBreakdownData()} options={chartOptions} />
+              </div>
+            </div>
+          )}
+
+          {/* Summary Section */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 mb-6">
+            <div className="bg-white p-4 rounded-xl shadow-xl">
+              <h3 className="text-lg font-semibold text-gray-700">Total Payment</h3>
+              <p className="text-2xl font-bold text-gray-800">${(dashboardData.total || 0).toLocaleString()}</p>
+            </div>
+            <div className="bg-white p-4 rounded-xl shadow-xl">
+              <h3 className="text-lg font-semibold text-gray-700">Online Payment</h3>
+              <p className="text-2xl font-bold text-gray-800">${(dashboardData.online || 0).toLocaleString()}</p>
+            </div>
+            <div className="bg-white p-4 rounded-xl shadow-xl">
+              <h3 className="text-lg font-semibold text-gray-700">Onsite Payment</h3>
+              <p className="text-2xl font-bold text-gray-800">${(dashboardData.onsite || 0).toLocaleString()}</p>
+            </div>
+            <div className="bg-white p-4 rounded-xl shadow-xl">
+              <h3 className="text-lg font-semibold text-gray-700">3rd Party Payment</h3>
+              <p className="text-2xl font-bold text-gray-800">${(dashboardData.third_party || 0).toLocaleString()}</p>
+            </div>
           </div>
-        </div>
+        </>
       )}
-
-      {/* Monthly Breakdown */}
-      {selectedPeriod === 'monthly' && (
-        <div className="bg-white p-4 rounded-xl shadow-xl mt-6">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Daily Breakdown (This Month)</h2>
-          <div className="h-96">
-            <Bar data={monthlyDailyData} options={chartOptions} />
-          </div>
-        </div>
-      )}
-
-      {/* Summary Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 mb-6">
-        <div className="bg-white p-4 rounded-xl shadow-xl">
-          <h3 className="text-lg font-semibold text-gray-700">Total Payment</h3>
-          <p className="text-2xl font-bold text-gray-800">${paymentData[selectedPeriod].total.toLocaleString()}</p>
-        </div>
-        <div className="bg-white p-4 rounded-xl shadow-xl">
-          <h3 className="text-lg font-semibold text-gray-700">Online Payment</h3>
-          <p className="text-2xl font-bold text-gray-800">${paymentData[selectedPeriod].online.toLocaleString()}</p>
-        </div>
-        <div className="bg-white p-4 rounded-xl shadow-xl">
-          <h3 className="text-lg font-semibold text-gray-700">Onsite Payment</h3>
-          <p className="text-2xl font-bold text-gray-800">${paymentData[selectedPeriod].onsite.toLocaleString()}</p>
-        </div>
-        <div className="bg-white p-4 rounded-xl shadow-xl">
-          <h3 className="text-lg font-semibold text-gray-700">3rd Party Payment</h3>
-          <p className="text-2xl font-bold text-gray-800">${paymentData[selectedPeriod].thirdParty.toLocaleString()}</p>
-        </div>
-      </div>
     </div>
   );
 }
