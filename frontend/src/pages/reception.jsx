@@ -56,6 +56,7 @@ const Reception = () => {
       email: "john@gmail.com",
       date: new Date(),
       arrivalTime: "18:00",
+      endTime: "19:00",
       menu: "Italian Special",
       table: null,
       requests: [],
@@ -68,6 +69,7 @@ const Reception = () => {
       email: "alice@gmail.com",
       date: new Date(),
       arrivalTime: "19:00",
+      endTime: "19:00",
       menu: "Vegan Delight",
       table: 5,
       requests: ["Extra napkins"],
@@ -80,6 +82,7 @@ const Reception = () => {
       email: "alice@gmail.com",
       date: new Date(),
       arrivalTime: "19:00",
+      endTime: "19:00",
       menu: "Vegan Delight",
       table: 5,
       requests: ["Extra napkins"],
@@ -92,6 +95,7 @@ const Reception = () => {
       email: "alice@gmail.com",
       date: new Date(),
       arrivalTime: "19:00",
+      endTime: "19:00",
       menu: "Vegan Delight",
       table: 5,
       requests: ["Extra napkins"],
@@ -104,6 +108,7 @@ const Reception = () => {
       email: "alice@gmail.com",
       date: new Date(),
       arrivalTime: "19:00",
+      endTime: "19:00",
       menu: "Vegan Delight",
       table: 5,
       requests: ["Extra napkins"],
@@ -116,6 +121,7 @@ const Reception = () => {
       email: "alice@gmail.com",
       date: new Date(),
       arrivalTime: "19:00",
+      endTime: "19:00",
       menu: "Vegan Delight",
       table: 5,
       requests: ["Extra napkins"],
@@ -123,53 +129,53 @@ const Reception = () => {
     },
   ]);
 
-  const [newFullName, setNewFullName] = useState("");
-  const [newPhone, setNewPhone] = useState("");
-  const [newEmail, setNewEmail] = useState("");
-  const [newDate, setNewDate] = useState("");
-  const [newArrivalTime, setNewArrivalTime] = useState("");
-  const [newMenu, setNewMenu] = useState("");
-  const [newTable, setNewTable] = useState("");
+  // const [newFullName, setNewFullName] = useState("");
+  // const [newPhone, setNewPhone] = useState("");
+  // const [newEmail, setNewEmail] = useState("");
+  // const [newDate, setNewDate] = useState("");
+  // const [newArrivalTime, setNewArrivalTime] = useState("");
+  // const [newMenu, setNewMenu] = useState("");
+  // const [newTable, setNewTable] = useState("");
   const [newRequest, setNewRequest] = useState("");
 
-  const handleAddBooking = () => {
-    if (
-      !newFullName ||
-      !newPhone ||
-      !newEmail ||
-      !newDate ||
-      !newArrivalTime ||
-      !newMenu
-    ) {
-      toast.error("Please fill in all fields.");
-      return;
-    }
+  // const handleAddBooking = () => {
+  //   if (
+  //     !newFullName ||
+  //     !newPhone ||
+  //     !newEmail ||
+  //     !newDate ||
+  //     !newArrivalTime ||
+  //     !newMenu
+  //   ) {
+  //     toast.error("Please fill in all fields.");
+  //     return;
+  //   }
 
-    const newBooking = {
-      id: bookings.length + 1,
-      fullName: newFullName,
-      phone: newPhone,
-      email: newEmail,
-      date: new Date(newDate),
-      arrivalTime: newArrivalTime,
-      menu: newMenu,
-      table: newTable || null,
-      requests: newRequest ? [newRequest] : [],
-      status: "Pending",
-    };
+  //   const newBooking = {
+  //     id: bookings.length + 1,
+  //     fullName: newFullName,
+  //     phone: newPhone,
+  //     email: newEmail,
+  //     date: new Date(newDate),
+  //     arrivalTime: newArrivalTime,
+  //     menu: newMenu,
+  //     table: newTable || null,
+  //     requests: newRequest ? [newRequest] : [],
+  //     status: "Pending",
+  //   };
 
-    setBookings([...bookings, newBooking]);
-    setNewFullName("");
-    setNewPhone("");
-    setNewEmail("");
-    setNewDate("");
-    setNewArrivalTime("");
-    setNewMenu("");
-    setNewTable("");
-    setNewRequest("");
-    setIsBookingModalOpen(false); // This line is correct and should close the modal
-    alert("New Booking Added!");
-  };
+  //   setBookings([...bookings, newBooking]);
+  //   setNewFullName("");
+  //   setNewPhone("");
+  //   setNewEmail("");
+  //   setNewDate("");
+  //   setNewArrivalTime("");
+  //   setNewMenu("");
+  //   setNewTable("");
+  //   setNewRequest("");
+  //   setIsBookingModalOpen(false); // This line is correct and should close the modal
+  //   alert("New Booking Added!");
+  // };
 
   const [editingTableId, setEditingTableId] = useState(null);
   const [customTable, setCustomTable] = useState("");
@@ -260,7 +266,7 @@ const Reception = () => {
             <th className="p-3">Email</th>
             <th className="p-3">Date</th>
             <th className="p-3">Arrival Time</th>
-            <th className="p-3">Menu</th>
+            <th className="p-3">End Time</th>
             <th className="p-3">Table</th>
             <th className="p-3">Requests</th>
             <th className="p-3">Actions</th>
@@ -278,7 +284,7 @@ const Reception = () => {
                 <td className="p-3">{booking.email}</td>
                 <td className="p-3">{booking.date.toDateString()}</td>
                 <td className="p-3">{booking.arrivalTime}</td>
-                <td className="p-3">{booking.menu}</td>
+                <td className="p-3">{booking.endTime}</td>
                 <td className="p-3">
                   {editingTableId === booking.id ? (
                     <select
@@ -287,14 +293,13 @@ const Reception = () => {
                       className="border p-1 rounded"
                     >
                       <option value="">Select Table</option>
-                      {[
-                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-                        17, 18, 19, 20,
-                      ].map((num) => (
-                        <option key={num} value={num}>
-                          Table {num}
-                        </option>
-                      ))}
+                      {tablesData
+                        .filter((table) => !table.booked)
+                        .map((table) => (
+                          <option key={table.id} value={table.id}>
+                            Table {table.id} ({table.seats} seats)
+                          </option>
+                        ))}
                     </select>
                   ) : booking.table ? (
                     `Table ${booking.table}`
