@@ -8,7 +8,7 @@ function Casher_paid_bill() {
   useEffect(() => {
     const fetchBills = async () => {
       try {
-        const response = await fetch('http://localhost:4000/casher/paid_bill/PaidBill');
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/casher/paid_bill/PaidBill`);
         const data = await response.json();
         setBills(data);  // Update the state with the fetched data
       } catch (error) {
