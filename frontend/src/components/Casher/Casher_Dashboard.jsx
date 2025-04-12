@@ -35,7 +35,7 @@ function Casher_Dashboard() {
             endpoint = 'day';
         }
 
-        const response = await fetch(`http://localhost:4000/casher/dashboard/${endpoint}`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/casher/dashboard/${endpoint}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
