@@ -110,43 +110,47 @@ function Casher_Dashboard() {
   };
 
   // Prepare breakdown data for monthly or yearly views
-  const getBreakdownData = () => {
-    if (!dashboardData || !dashboardData.breakdown) return null;
-    
-    const isMonthly = selectedPeriod === 'month';
-    const labels = isMonthly 
-      ? dashboardData.breakdown.map(item => `Day ${item.day}`)
-      : ['January', 'February', 'March', 'April', 'May', 'June', 
-         'July', 'August', 'September', 'October', 'November', 'December'];
-    
-    return {
-      labels: isMonthly 
-        ? dashboardData.breakdown.map(item => `Day ${item.day}`)
-        : dashboardData.breakdown.map((_, index) => labels[index]),
-      datasets: [
-        {
-          label: 'Total Payment',
-          data: dashboardData.breakdown.map(item => item.total || 0),
-          backgroundColor: '#4C51BF',
-        },
-        {
-          label: 'Online Payment',
-          data: dashboardData.breakdown.map(item => item.online || 0),
-          backgroundColor: '#4299E1',
-        },
-        {
-          label: 'Onsite Payment',
-          data: dashboardData.breakdown.map(item => item.onsite || 0),
-          backgroundColor: '#ECC94B',
-        },
-        {
-          label: '3rd Party Payment',
-          data: dashboardData.breakdown.map(item => item.third_party || 0),
-          backgroundColor: '#38A169',
-        },
-      ],
-    };
+  // Prepare breakdown data for monthly or yearly views
+const getBreakdownData = () => {
+  if (!dashboardData || !dashboardData.breakdown) return null;
+  
+  const isMonthly = selectedPeriod === 'month';
+  const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  
+  const labels = isMonthly 
+    ? dashboardData.breakdown.map(item => `Day ${item.day}`)
+    : dashboardData.breakdown.map(item => monthNames[item.month - 1]); // Map month number to month name
+
+  return {
+    labels: labels,
+    datasets: [
+      {
+        label: 'Total Payment',
+        data: dashboardData.breakdown.map(item => item.total || 0),
+        backgroundColor: '#4C51BF',
+      },
+      {
+        label: 'Online Payment',
+        data: dashboardData.breakdown.map(item => item.online || 0),
+        backgroundColor: '#4299E1',
+      },
+      {
+        label: 'Onsite Payment',
+        data: dashboardData.breakdown.map(item => item.onsite || 0),
+        backgroundColor: '#ECC94B',
+      },
+      {
+        label: '3rd Party Payment',
+        data: dashboardData.breakdown.map(item => item.third_party || 0),
+        backgroundColor: '#38A169',
+      },
+    ],
   };
+};
+
 
   if (loading && !dashboardData) {
     return (
