@@ -7,10 +7,10 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-const menuRoutes = require("./components/menu/menuRoutes");
-const receptionRoutes = require("./components/reception/receptionRoutes");
-const reservationRoutes = require("./components/reservation/reservationRoutes");
-const tableRoutes = require("./components/table/tableRoutes");
+const menu = require("./components/menu/menu");
+const reception = require("./components/reception/reception");
+const reservation = require("./components/reservation/reservation");
+const table = require("./components/table/table");
 
 const pool = new Pool({
   user: "postgres",
@@ -28,7 +28,13 @@ pool.connect((err) => {
   }
 });
 
-app.get("/", (req, res) => res.send("API is running..."));
+app.use("/api/menu", menu);
+// app.use("/api/reception", reception);
+// app.use("/api/reservation", reservation);
+// app.use("/api/table", table);
+
+// Home route
+app.get("/", (req, res) => res.send("Welcome to RMS api"));
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
