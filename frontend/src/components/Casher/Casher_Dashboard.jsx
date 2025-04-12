@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Bar, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
-
+import axios from 'axios';
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
@@ -35,11 +35,8 @@ function Casher_Dashboard() {
             endpoint = 'day';
         }
 
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/casher/dashboard/${endpoint}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/casher/dashboard/${endpoint}`);
+        const data = response.data;
         setDashboardData(data);
         setError(null);
       } catch (err) {
