@@ -1,104 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Casher_paid_bill() {
   const [filter, setFilter] = useState('All');
+  const [bills, setBills] = useState([]);
 
-  const bills = [
-    {
-      table: '02',
-      paidFrom: 'online',
-      foodItems: 'Burger, Pizza, Sushi, Pasta, Tacos, Fried Chicken, Salad, Pancakes, Steak, and Ice Cream.',
-      totalAmount: '$120.00',
-      paymentTime: '2025-03-28 12:30 PM',
-      payer: 'Reservation',
-    },
-    {
-      table: '05',
-      paidFrom: 'onsite',
-      foodItems: 'Pizza, Salad, and Ice Cream.',
-      totalAmount: '$45.00',
-      paymentTime: '2025-03-28 01:15 PM',
-      payer: 'Waiter 011',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-  ];
+  // Fetch the data from the backend API
+  useEffect(() => {
+    const fetchBills = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/casher/paid_bill/PaidBill`);
+        const data = await response.json();
+        setBills(data);  // Update the state with the fetched data
+      } catch (error) {
+        console.error('Error fetching bills:', error);
+      }
+    };
+
+    fetchBills();  // Call the function to fetch the data
+  }, []); // Empty dependency array to run the effect only once on mount
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
 
-  const filteredBills = filter === 'All' ? bills : bills.filter((bill) => bill.paidFrom === filter);
+  // Filter the bills based on the selected filter
+  const filteredBills = filter === 'All' ? bills : bills.filter((bill) => bill.order_type.toLowerCase() === filter);
 
   return (
     <div className="p-5 bg-gray-100 mt-4 mb-0 overflow-y-auto min-h-screen">
@@ -116,7 +42,7 @@ function Casher_paid_bill() {
           <option value="All">All</option>
           <option value="online">Online</option>
           <option value="onsite">Onsite</option>
-          <option value="3rd party delivery">3rd Party Delivery</option>
+          <option value="third-party">Third-Party</option>
         </select>
       </div>
 
@@ -133,16 +59,19 @@ function Casher_paid_bill() {
                 <strong>Table:</strong> {bill.table}
               </li>
               <li className="text-gray-600">
-                <strong>Paid From:</strong> {bill.paidFrom}
+                <strong>Order Type:</strong> {bill.order_type}
               </li>
               <li className="text-gray-600">
-                <strong>Food Items:</strong> {bill.foodItems}
+                <strong>Food Items:</strong> {bill.food_items}
               </li>
               <li className="text-gray-600">
-                <strong>Total Amount:</strong> {bill.totalAmount}
+                <strong>Total Amount:</strong> {bill.total_amount} Birr
               </li>
               <li className="text-gray-600">
-                <strong>Payment Time:</strong> {bill.paymentTime}
+                <strong>Payment Time:</strong> {bill.payment_time}
+              </li>
+              <li className="text-gray-600">
+                <strong>Payment Method:</strong> {bill.payment_method}
               </li>
               <li className="text-gray-600">
                 <strong>Payer:</strong> {bill.payer}

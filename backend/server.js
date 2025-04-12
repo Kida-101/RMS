@@ -1,41 +1,25 @@
-const express = require("express");
+import dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
+import cors from "cors";
+import pg from "pg";
+import appRouter from "./src/routers/index.js";
 const app = express();
-const port = 4000;
-const { Pool } = require("pg");
-const cors = require("cors");
+const port = process.env.PORT; // Default to 4000 if PORT is not defined in .env
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
-const menu = require("./components/menu/menu");
-const reception = require("./components/reception/reception");
-const reservation = require("./components/reservation/reservation");
-const table = require("./components/table/table");
+app.use("/api", appRouter);
+import Casher from "./components/Casher/Casher.js";
+app.use("/casher", Casher);
 
-const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "RMS",
-  password: "199322",
-  port: 5432,
+app.get("/", (req, res) => {
+  res.send("Hello, World! Your server is running on the configured port.");
 });
-
-pool.connect((err) => {
-  if (err) {
-    console.error("Database connection error", err.stack);
-  } else {
-    console.log("Connected to PostgreSQL!");
-  }
-});
-
-app.use("/api/menu", menu);
-// app.use("/api/reception", reception);
-// app.use("/api/reservation", reservation);
-// app.use("/api/table", table);
-
-// Home route
-app.get("/", (req, res) => res.send("Welcome to RMS api"));
 
 app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
