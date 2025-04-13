@@ -26,7 +26,7 @@ function Casher_menu_bar({onMenuClick}) {
                 <div className="flex flex-col space-y-2">
                     {[
                         { name: 'Dashboard', icon: 'fa-house' },
-                        { name: 'Receive payment', icon:'fa-money-bill-wave'},
+                        { name: 'Pending payment', icon:'fa-money-bill-wave'},
                         { name: 'Paid Bills', icon: 'fa-file-invoice-dollar'},
                         { name: 'Report', icon: 'fa-chart-pie' }
                     ].map((item) => (
@@ -65,7 +65,7 @@ function Casher_menu_bar({onMenuClick}) {
                 <div className="flex flex-col space-y-2">
                     {[
                         { name: 'Dashboard', icon: 'fa-house' },
-                        { name: 'Receive payment', icon:'fa-money-bill-wave'},
+                        { name: 'Pending payment', icon:'fa-money-bill-wave'},
                         { name: 'Paid Bills', icon: 'fa-file-invoice-dollar'},
                         { name: 'Report', icon: 'fa-chart-pie' }
                     ].map((item) => (

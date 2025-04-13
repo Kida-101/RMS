@@ -1,392 +1,359 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bar, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
+// Define the base URL for the API from environment variables
+const API_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/Kitchen/dashboard/`;
+
 function Kitchen_Dashboard() {
-  const [selectedPeriod, setSelectedPeriod] = useState('daily'); // State to manage the selected period
+    // State for selected period (matching backend endpoints)
+    const [selectedPeriod, setSelectedPeriod] = useState('day'); // Default to daily view
 
-  const dailyData = {
-  labels: ["Total Orders", "Online Orders", "Onsite Orders", "3rd Party Orders", "Pending Orders", "Assigned Orders", "Served Orders", "Delivered Orders"],
-  datasets: [
-    {
-      label: 'Daily Orders',
-      data: [120, 50, 30, 40, 25, 20, 15, 10],
-      backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169', '#ED8936', '#5A67D8', '#48BB78', '#319795'],
-      borderRadius: 8,
-    },
-  ],
-};
+    // State for fetched data
+    const [summaryData, setSummaryData] = useState(null); // For summary cards and pie chart
+    const [breakdownData, setBreakdownData] = useState(null); // For breakdown bar charts (month/year view)
 
-const monthlyData = {
-  labels: ["Total Orders", "Online Orders", "Onsite Orders", "3rd Party Orders"],
-  datasets: [
-    {
-      label: 'Monthly Orders',
-      data: [1200, 450, 320, 480],
-      backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'],
-      borderRadius: 8,
-    },
-  ],
-};
+    // State for loading and error handling
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-const yearlyData = {
-  labels: ["Total Orders", "Online Orders", "Onsite Orders", "3rd Party Orders"],
-  datasets: [
-    {
-      label: 'Yearly Orders',
-      data: [14000, 5400, 3800, 5000],
-      backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'],
-      borderRadius: 8,
-    },
-  ],
-};
+    // --- Data Fetching ---
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            setError(null);
+            setSummaryData(null); // Clear previous data
+            setBreakdownData(null); // Clear previous data
 
-const allTimeData = {
-  labels: ["Total Orders", "Online Orders", "Onsite Orders", "3rd Party Orders"],
-  datasets: [
-    {
-      label: 'All Time Orders',
-      data: [50000, 18000, 12000, 15000],
-      backgroundColor: ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'],
-      borderRadius: 8,
-    },
-  ],
-};
+            try {
+                const response = await fetch(`${API_BASE_URL}${selectedPeriod}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
 
-// Create ordersData based on the dataset
-const ordersData = {
-  daily: {
-    total: dailyData.datasets[0].data[0],
-    online: dailyData.datasets[0].data[1],
-    onsite: dailyData.datasets[0].data[2],
-    thirdParty: dailyData.datasets[0].data[3],
-    pending: dailyData.datasets[0].data[4],
-    assigned: dailyData.datasets[0].data[5],
-    served: dailyData.datasets[0].data[6],
-    delivered: dailyData.datasets[0].data[7],
-  },
-  monthly: {
-    total: monthlyData.datasets[0].data[0],
-    online: monthlyData.datasets[0].data[1],
-    onsite: monthlyData.datasets[0].data[2],
-    thirdParty: monthlyData.datasets[0].data[3],
-  },
-  yearly: {
-    total: yearlyData.datasets[0].data[0],
-    online: yearlyData.datasets[0].data[1],
-    onsite: yearlyData.datasets[0].data[2],
-    thirdParty: yearlyData.datasets[0].data[3],
-  },
-  alltime: {
-    total: allTimeData.datasets[0].data[0],
-    online: allTimeData.datasets[0].data[1],
-    onsite: allTimeData.datasets[0].data[2],
-    thirdParty: allTimeData.datasets[0].data[3],
-  },
-};
+                // Separate summary and breakdown data based on period
+                if (selectedPeriod === 'month' || selectedPeriod === 'year') {
+                    const { breakdown, ...summary } = data;
+                    setSummaryData(summary);
+                    setBreakdownData(breakdown || []); // Ensure breakdown is an array
+                } else { // For 'day' and 'alltime'
+                    setSummaryData(data);
+                    setBreakdownData(null); // No breakdown for these periods in the new structure
+                }
+
+            } catch (e) {
+                console.error("Failed to fetch dashboard data:", e);
+                setError(`Failed to load data: ${e.message}`);
+                setSummaryData(null); // Clear data on error
+                setBreakdownData(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [selectedPeriod]); // Re-fetch when selectedPeriod changes
 
 
-  // Monthly Daily Breakdown Data (New Chart)
-  const monthlyDailyData = {
-    labels: Array.from({ length: 30 }, (_, i) => `Day ${i + 1}`),
-    datasets: [
-      { label: 'Total Orders', data: Array.from({ length: 30 }, () => Math.floor(Math.random() * 50) + 10), backgroundColor: '#4C51BF' },
-      { label: 'Online Orders', data: Array.from({ length: 30 }, () => Math.floor(Math.random() * 20) + 5), backgroundColor: '#4299E1' },
-      { label: 'Onsite Orders', data: Array.from({ length: 30 }, () => Math.floor(Math.random() * 15) + 5), backgroundColor: '#ECC94B' },
-      { label: '3rd Party Orders', data: Array.from({ length: 30 }, () => Math.floor(Math.random() * 10) + 5), backgroundColor: '#38A169' },
-    ],
-  };
+    // --- Chart Data Preparation ---
 
-  // Monthly Breakdown Data (For the Year)
-  const yearlyMonthlyData = {
-    labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-    datasets: [
-      { label: 'Total Orders', data: Array.from({ length: 12 }, () => Math.floor(Math.random() * 1000) + 100), backgroundColor: '#4C51BF' },
-      { label: 'Online Orders', data: Array.from({ length: 12 }, () => Math.floor(Math.random() * 500) + 50), backgroundColor: '#4299E1' },
-      { label: 'Onsite Orders', data: Array.from({ length: 12 }, () => Math.floor(Math.random() * 300) + 50), backgroundColor: '#ECC94B' },
-      { label: '3rd Party Orders', data: Array.from({ length: 12 }, () => Math.floor(Math.random() * 400) + 50), backgroundColor: '#38A169' },
-    ],
-  };
+    // Prepare data for the main Bar chart (changes based on period)
+    const getMainBarChartData = () => {
+        if (!summaryData) return { labels: [], datasets: [] };
 
-  // Pie Chart Data (Online vs Onsite vs 3rd Party Ratio for Last 30 Days)
- const getPieData = () => {
-  let data;
-  if (selectedPeriod === "daily") data = [50, 30, 40];
-  else if (selectedPeriod === "monthly") data = [450, 320, 480];
-  else if (selectedPeriod === "yearly") data = [5400, 3800, 5000];
-  else if (selectedPeriod === "alltime") data = [18000, 12000, 15000];
+        let labels = [];
+        let data = [];
+        let label = '';
+        let backgroundColors = [];
 
-  return {
-    labels: ["Online Orders", "Onsite Orders", "3rd Party Orders"],
-    datasets: [
-      {
-        data: data,
-        backgroundColor: ['#4299E1', '#ECC94B', '#38A169'],
-        borderWidth: 2,
-      },
-    ],
-  };
-};
+        if (selectedPeriod === 'day') {
+            labels = ["Total Orders", "Online Orders", "Onsite Orders", "3rd Party Orders", "Pending Orders", "Assigned Orders", "Served Orders", "Delivered Orders"];
+            data = [
+                summaryData.total || 0,
+                summaryData.online || 0,
+                summaryData.onsite || 0,
+                summaryData.thirdParty || 0,
+                summaryData.pending || 0,
+                summaryData.assigned || 0,
+                summaryData.served || 0,
+                summaryData.delivered || 0 // Assuming delivered is present in summaryData for 'day'
+            ];
+            label = 'Daily Order Status';
+            backgroundColors = ['#4C51BF', '#4299E1', '#ECC94B', '#38A169', '#ED8936', '#5A67D8', '#48BB78', '#319795'];
+        } else { // 'month', 'year', 'alltime' show order types
+            labels = ["Total Orders", "Online Orders", "Onsite Orders", "3rd Party Orders"];
+            data = [
+                summaryData.total || 0,
+                summaryData.online || 0,
+                summaryData.onsite || 0,
+                summaryData.thirdParty || 0
+            ];
+            label = `${selectedPeriod.charAt(0).toUpperCase() + selectedPeriod.slice(1)} Order Types`;
+             backgroundColors = ['#4C51BF', '#4299E1', '#ECC94B', '#38A169'];
+        }
+
+        return {
+            labels,
+            datasets: [{
+                label: label,
+                data: data,
+                backgroundColor: backgroundColors,
+                borderRadius: 8,
+            }],
+        };
+    };
+
+    // Prepare data for the Pie Chart (Online vs Onsite vs 3rd Party Ratio)
+    const getPieData = () => {
+        if (!summaryData) {
+           return { labels: ["Online", "Onsite", "3rd Party"], datasets: [{ data: [0, 0, 0], backgroundColor: ['#4299E1', '#ECC94B', '#38A169'], borderWidth: 2 }] };
+        }
+        // Use summary data which is available for all periods
+        const data = [
+            summaryData.online || 0,
+            summaryData.onsite || 0,
+            summaryData.thirdParty || 0
+        ];
+
+        return {
+            labels: ["Online Orders", "Onsite Orders", "3rd Party Orders"],
+            datasets: [{
+                data: data,
+                backgroundColor: ['#4299E1', '#ECC94B', '#38A169'],
+                borderWidth: 2,
+            }],
+        };
+    };
+
+    // Prepare data for the Daily Breakdown Chart (visible in Monthly view)
+    const getMonthlyDailyBreakdownData = () => {
+        if (!breakdownData || selectedPeriod !== 'month') return { labels: [], datasets: [] };
+
+        // Determine the number of days based on the breakdown data or current month
+        const daysInMonth = breakdownData.length > 0 ? Math.max(...breakdownData.map(d => d.day)) : new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+
+        const labels = Array.from({ length: daysInMonth }, (_, i) => `Day ${i + 1}`);
+        const totalData = Array(daysInMonth).fill(0);
+        const onlineData = Array(daysInMonth).fill(0);
+        const onsiteData = Array(daysInMonth).fill(0);
+        const thirdPartyData = Array(daysInMonth).fill(0);
+
+        breakdownData.forEach(item => {
+            const index = item.day - 1;
+            if (index >= 0 && index < daysInMonth) {
+                totalData[index] = item.total || 0;
+                onlineData[index] = item.online || 0;
+                onsiteData[index] = item.onsite || 0;
+                thirdPartyData[index] = item.thirdParty || 0;
+            }
+        });
+
+        return {
+            labels: labels,
+            datasets: [
+                { label: 'Total Orders', data: totalData, backgroundColor: '#4C51BF' },
+                { label: 'Online Orders', data: onlineData, backgroundColor: '#4299E1' },
+                { label: 'Onsite Orders', data: onsiteData, backgroundColor: '#ECC94B' },
+                { label: '3rd Party Orders', data: thirdPartyData, backgroundColor: '#38A169' },
+            ],
+        };
+    };
+
+     // Prepare data for the Monthly Breakdown Chart (visible in Yearly view)
+    const getYearlyMonthlyBreakdownData = () => {
+         if (!breakdownData || selectedPeriod !== 'year') return { labels: [], datasets: [] };
+
+         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+         const totalData = Array(12).fill(0);
+         const onlineData = Array(12).fill(0);
+         const onsiteData = Array(12).fill(0);
+         const thirdPartyData = Array(12).fill(0);
+
+         breakdownData.forEach(item => {
+             const index = item.month - 1; // item.month is 1-12
+             if (index >= 0 && index < 12) {
+                totalData[index] = item.total || 0;
+                onlineData[index] = item.online || 0;
+                onsiteData[index] = item.onsite || 0;
+                thirdPartyData[index] = item.thirdParty || 0;
+             }
+         });
+
+         return {
+             labels: monthNames,
+             datasets: [
+                { label: 'Total Orders', data: totalData, backgroundColor: '#4C51BF' },
+                { label: 'Online Orders', data: onlineData, backgroundColor: '#4299E1' },
+                { label: 'Onsite Orders', data: onsiteData, backgroundColor: '#ECC94B' },
+                { label: '3rd Party Orders', data: thirdPartyData, backgroundColor: '#38A169' },
+             ],
+         };
+     };
 
 
-  // Chart Options
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      title: { display: false },
-      tooltip: {
-        callbacks: {
-          label: (context) => `${context.raw} orders`,
+    // --- Chart Options --- (Adjusted slightly for clarity)
+    const barChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            title: { display: false }, // Title is handled by card headers
+            legend: { display: true, position: 'top' }, // Show legend for breakdown charts
+            tooltip: {
+                callbacks: {
+                    label: (context) => `${context.dataset.label}: ${context.raw} orders`,
+                },
+            },
         },
-      },
-    },
-    scales: {
-      x: { title: { display: true, text: 'Categories' } },
-      y: { title: { display: true, text: 'Count' }, beginAtZero: true },
-    },
-  };
+        scales: {
+            x: { title: { display: true, text: selectedPeriod === 'month' ? 'Day of Month' : selectedPeriod === 'year' ? 'Month' : 'Categories' } },
+            y: { title: { display: true, text: 'Order Count' }, beginAtZero: true },
+        },
+    };
 
-  // Handle the period selection change
-  const handlePeriodChange = (e) => {
-    setSelectedPeriod(e.target.value);
-  };
+     const summaryBarChartOptions = { ...barChartOptions, plugins: { ...barChartOptions.plugins, legend: { display: false } }}; // No legend for summary bar
 
-  return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      {/* Header with Kitchen Manager Title and Filter Dropdown */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-4xl font-bold text-gray-800">Kitchen Manager</h1>
-        <select
-          value={selectedPeriod}
-          onChange={handlePeriodChange}
-          className="p-2 rounded border-gray-300 shadow-sm"
-        >
-          <option value="daily">Daily</option>
-          <option value="monthly">Monthly</option>
-          <option value="yearly">Yearly</option>
-          <option value="alltime">All Time</option>
-        </select>
-      </div>
-      
+    const pieChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false, // Allow resizing
+        plugins: {
+             title: { display: false },
+             legend: { display: true, position: 'top' },
+             tooltip: {
+                 callbacks: {
+                    label: (context) => {
+                        // Calculate percentage for pie chart tooltip
+                        const total = context.dataset.data.reduce((acc, value) => acc + value, 0);
+                        const value = context.raw || 0;
+                        const percentage = total > 0 ? ((value / total) * 100).toFixed(1) + '%' : '0%';
+                        return `${context.label}: ${value} (${percentage})`;
+                    }
+                 },
+             },
+        },
+    };
 
-      {/* Display charts based on selected period */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {selectedPeriod === 'daily' && (
-          <>
-            {/* Daily Orders Chart */}
-            <div className="bg-white p-4 rounded-xl shadow-xl">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Daily Order Statistics</h2>
-              <div className="h-72">
-                <Bar data={dailyData} options={chartOptions} />
-              </div>
-            </div>
-            {/* Pie Chart */}
-            <div className="bg-white p-4 rounded-xl shadow-xl">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Order Distribution</h2>
-              <div className="h-72 flex justify-center items-center">
-                <Pie data={getPieData()} />
-              </div>
-            </div>
-          </>
-        )}
 
-        {selectedPeriod === 'monthly' && (
-          <>
-            {/* Monthly Orders Chart */}
-            <div className="bg-white p-4 rounded-xl shadow-xl">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Monthly Order Statistics</h2>
-              <div className="h-72">
-                <Bar data={monthlyData} options={chartOptions} />
-              </div>
-            </div>
-            {/* Pie Chart for Monthly Orders */}
-            <div className="bg-white p-4 rounded-xl shadow-xl">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Order Distribution </h2>
-              <div className="h-72 flex justify-center items-center">
-                <Pie data={getPieData()} />
-              </div>
-            </div>
-          </>
-        )}
+    // Handle the period selection change
+    const handlePeriodChange = (e) => {
+        setSelectedPeriod(e.target.value);
+    };
 
-        {selectedPeriod === 'yearly' && (
-          <>
-            {/* Yearly Orders Chart */}
-            <div className="bg-white p-4 rounded-xl shadow-xl">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Yearly Order Statistics</h2>
-              <div className="h-72">
-                <Bar data={yearlyData} options={chartOptions} />
-              </div>
-            </div>
-            {/* Pie Chart for Yearly Orders */}
-            <div className="bg-white p-4 rounded-xl shadow-xl">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Order Distribution </h2>
-              <div className="h-72 flex justify-center items-center">
-                <Pie data={getPieData()} />
-              </div>
-            </div>
-          </>
-        )}
+    // Helper to render summary cards
+    const renderSummaryCards = () => {
+        if (!summaryData) return null;
 
-        {selectedPeriod === 'alltime' && (
-          <>
-            {/* All-Time Orders Chart */}
-            <div className="bg-white p-4 rounded-xl shadow-xl">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">All Time Order Statistics</h2>
-              <div className="h-72">
-                <Bar data={allTimeData} options={chartOptions} />
-              </div>
-            </div>
-            {/* Pie Chart for All-Time Orders */}
-            <div className="bg-white p-4 rounded-xl shadow-xl">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Order Distribution (All Time)</h2>
-              <div className="h-72 flex justify-center items-center">
-                <Pie data={getPieData()} />
-              </div>
-            </div>
-          </>
-        )}
-      </div>
+        // Base cards available for all periods
+        const cards = [
+            { title: "Total Orders", value: summaryData.total },
+            { title: "Online Orders", value: summaryData.online },
+            { title: "Onsite Orders", value: summaryData.onsite },
+            { title: "3rd Party Orders", value: summaryData.thirdParty },
+        ];
 
-      {/* Monthly Breakdown (Full width at the bottom for Yearly View) */}
-      {selectedPeriod === 'yearly' && (
-        <div className="bg-white p-4 rounded-xl shadow-xl mt-6">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Monthly Breakdown (This Year)</h2>
-          <div className="h-96">
-            <Bar data={yearlyMonthlyData} options={chartOptions} />
-          </div>
+        // Add daily specific cards
+        if (selectedPeriod === 'day') {
+            cards.push(
+                { title: "Pending Orders", value: summaryData.pending },
+                { title: "Assigned Orders", value: summaryData.assigned },
+                { title: "Served Orders", value: summaryData.served },
+                { title: "Delivered Orders", value: summaryData.delivered } // Assuming 'delivered' is provided
+            );
+        }
+
+        return cards.map(card => (
+            card.value !== undefined && card.value !== null && // Render only if value exists
+                <div key={card.title} className="bg-white p-4 rounded-xl shadow-xl text-center md:text-left">
+                    <h3 className="text-lg font-semibold text-gray-700">{card.title}</h3>
+                    <p className="text-3xl font-bold text-gray-900">{card.value}</p>
+                </div>
+        ));
+    };
+
+    return (
+        <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
+            {/* Header */}
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-800">Kitchen Dashboard</h1>
+                <select
+                    value={selectedPeriod}
+                    onChange={handlePeriodChange}
+                    className="p-2 rounded border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    disabled={loading} // Disable while loading
+                >
+                    {/* Use values matching backend endpoints */}
+                    <option value="day">Daily</option>
+                    <option value="month">Monthly</option>
+                    <option value="year">Yearly</option>
+                    <option value="alltime">All Time</option>
+                </select>
+            </div>
+
+            {/* Loading and Error Display */}
+            {loading && <div className="text-center py-10 text-xl font-semibold text-gray-600">Loading data...</div>}
+            {error && <div className="text-center py-10 text-xl font-semibold text-red-600 bg-red-100 p-4 rounded border border-red-500">{error}</div>}
+
+             {/* Data Display Area (only rendered when not loading and no critical error) */}
+            {!loading && !error && summaryData && (
+                 <>
+                    {/* Summary Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                         {renderSummaryCards()}
+                    </div>
+
+                    {/* Charts Row */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                         {/* Main Bar/Status Chart */}
+                         <div className="bg-white p-4 rounded-xl shadow-xl">
+                             <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">
+                                 {selectedPeriod === 'day' ? 'Daily Order Status' : `${selectedPeriod.charAt(0).toUpperCase() + selectedPeriod.slice(1)} Order Types`}
+                             </h2>
+                             <div className="h-72"> {/* Fixed height container */}
+                                 <Bar data={getMainBarChartData()} options={summaryBarChartOptions} />
+                             </div>
+                         </div>
+
+                         {/* Pie Chart */}
+                         <div className="bg-white p-4 rounded-xl shadow-xl">
+                             <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Order Source Distribution</h2>
+                             <div className="h-72 flex justify-center items-center"> {/* Fixed height container */}
+                                <Pie data={getPieData()} options={pieChartOptions} />
+                             </div>
+                         </div>
+                    </div>
+
+                    {/* Breakdown Charts (Conditional) */}
+                    {/* Monthly Breakdown (shown when 'Monthly' period selected) */}
+                    {selectedPeriod === 'month' && breakdownData && (
+                        <div className="bg-white p-4 rounded-xl shadow-xl mt-6">
+                           <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Daily Breakdown (This Month)</h2>
+                           <div className="h-96"> {/* Larger height for breakdown */}
+                                <Bar data={getMonthlyDailyBreakdownData()} options={barChartOptions} />
+                           </div>
+                        </div>
+                    )}
+
+                     {/* Yearly Breakdown (shown when 'Yearly' period selected) */}
+                    {selectedPeriod === 'year' && breakdownData && (
+                        <div className="bg-white p-4 rounded-xl shadow-xl mt-6">
+                            <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Monthly Breakdown (This Year)</h2>
+                            <div className="h-96"> {/* Larger height for breakdown */}
+                                <Bar data={getYearlyMonthlyBreakdownData()} options={barChartOptions} />
+                            </div>
+                        </div>
+                    )}
+                </>
+            )}
+            {/* Fallback message if data is fetched but empty */}
+             {!loading && !error && !summaryData && selectedPeriod &&
+                 <div className="text-center py-10 text-xl font-semibold text-gray-500">No data available for the selected period.</div>
+             }
+
         </div>
-      )}
-
-      {/* Monthly Breakdown (Full width at the bottom for Monthly View) */}
-      {selectedPeriod === 'monthly' && (
-        <div className="bg-white p-4 rounded-xl shadow-xl mt-6">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Daily Breakdown (This Month)</h2>
-          <div className="h-96">
-            <Bar data={monthlyDailyData} options={chartOptions} />
-          </div>
-        </div>
-      )}
-      {/* Display data based on selected period */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6 pb-10 w-full">
-  {/* For Daily */}
-  {selectedPeriod === 'daily' && (
-    <>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Total Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].total}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Online Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].online}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Onsite Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].onsite}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">3rd Party Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].thirdParty}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Pending Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].pending}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Assigned Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].assigned}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Served Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].served}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Delivered Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].delivered}</p>
-      </div>
-    </>
-  )}
-
-  {/* For Monthly */}
-  {selectedPeriod === 'monthly' && (
-    <>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Total Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].total}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Online Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].online}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Onsite Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].onsite}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">3rd Party Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].thirdParty}</p>
-      </div>
-    </>
-  )}
-
-  {/* For Yearly */}
-  {selectedPeriod === 'yearly' && (
-    <>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Total Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].total}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Online Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].online}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Onsite Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].onsite}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">3rd Party Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].thirdParty}</p>
-      </div>
-    </>
-  )}
-
-  {/* For All Time */}
-  {selectedPeriod === 'alltime' && (
-    <>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Total Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].total}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Online Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].online}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">Onsite Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].onsite}</p>
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow-xl">
-        <h3 className="text-xl font-semibold text-gray-700">3rd Party Orders</h3>
-        <p className="text-2xl font-bold">{ordersData[selectedPeriod].thirdParty}</p>
-      </div>
-    </>
-  )}
-</div>
-
-    </div>
-  );
+    );
 }
 
 export default Kitchen_Dashboard;
-
-
-
-
- 
- 
-      

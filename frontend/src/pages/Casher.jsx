@@ -22,7 +22,7 @@ function Casher() {
             {/* Main Content */}
             <div className="bg-gray-100 flex flex-col flex-grow overflow-y-auto h-full w-auto box-border">
                 {activeContent === 'Dashboard' && <Casher_Dashboard/>}
-                {activeContent === 'Receive payment' && <Casher_payment_receive/>}
+                {activeContent === 'Pending payment' && <Casher_payment_receive/>}
                 {activeContent === 'Paid Bills' && <Casher_paid_bill/>}
                 {activeContent === 'Report' && <Casher_report/>}
             </div>
