@@ -15,6 +15,8 @@ app.use(express.json());
 app.use("/api", appRouter);
 import Casher from './components/Casher/Casher.js';
 app.use('/casher',Casher)
+import Kitchen from './components/Kitchen/Kitchen.js';
+app.use('/Kitchen',Kitchen)
 
 
 app.get("/", (req, res) => {
