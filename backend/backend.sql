@@ -3,6 +3,7 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
+    role VARCHAR(50) CHECK (role IN ('CHEF', 'WAITER', 'STOREKEEPER', 'SUPERADMIN','CASHIER','KITCHEN_MANAGER','MANAGER','RECEPTION')) NOT NULL,
     role VARCHAR(50) CHECK (role IN ('CHEF', 'WAITER', 'STOREKEEPER', 'SUPERADMIN','CASHIER','KITCHEN_MANAGER','MANAGER','RECEPTION','BARTENDER')) NOT NULL,
     password_hash VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -110,6 +111,10 @@ CREATE TABLE bookings (
     order_id INT UNIQUE REFERENCES orders(id),
     status VARCHAR(20) DEFAULT 'Pending' CHECK (status IN ('Pending', 'Confirmed', 'Cancelled'))
 );
+
+
+
+
 
 -- Sales Table
 CREATE TABLE sales (
