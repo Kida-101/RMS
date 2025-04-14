@@ -35,7 +35,7 @@ function Casher_Dashboard() {
             endpoint = 'day';
         }
 
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/casher/dashboard/${endpoint}`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/casher/dashboard/${endpoint}`);
         const data = response.data;
         setDashboardData(data);
         setError(null);

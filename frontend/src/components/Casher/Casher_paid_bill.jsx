@@ -14,7 +14,7 @@ function Casher_paid_bill() {
         setLoading(true);
         setError(null); // Reset error state before fetching
 
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/casher/paid_bill/PaidBill`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/casher/paid_bill/PaidBill`);
         const data = response.data;
         setBills(data); // Correctly update bills state
       } catch (error) {

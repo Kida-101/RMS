@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'; // Import useRef
 import axios from 'axios';
 
-const API_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/casher/casher_report`;
+const API_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/casher/casher_report`;
 
 function Casher_report() {
     const [filter, setFilter] = useState('Daily');

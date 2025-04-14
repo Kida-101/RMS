@@ -1,6 +1,6 @@
 // dashboardRoutes.js
 import express from "express";
-import pool from "../../../database.js";  // Ensure correct relative path
+import pool from "../../../../database.js";  // Ensure correct relative path
 
 const app = express.Router();
 
