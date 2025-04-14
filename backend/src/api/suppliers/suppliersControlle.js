@@ -191,7 +191,13 @@ const suppliersController = {
 
       const { id, name, stockType, address, contacts, email } =
         parseResult.data;
-
+      if (contacts.length === 0 && email.length === 0 && address.length === 0) {
+        await query("ROLLBACK");
+        return res.status(400).json({
+          success: false,
+          message: "At least one contact, email, or address is required.",
+        });
+      }
       // Begin transaction
       await query("BEGIN");
 
