@@ -76,9 +76,7 @@ const suppliersSchema = {
       )
       .max(5, "Email array cannot exceed 5 items")
       .optional()
-      .refine((emails) => emails?.length > 0, {
-        message: "At least one email is required",
-      }),
+      .default([]),
   }),
 };
 
