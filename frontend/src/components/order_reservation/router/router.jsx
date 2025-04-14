@@ -7,15 +7,20 @@ import TableBooking from "../table/table.jsx";
 const Routing = () => {
   const [navTo, setNavTo] = useState("/");
   const [newOrderData, setOrderData] = useState(null);
-  const [newTableData, setTableData] = useState(null);
+  const [newTableData, setTableData] = useState({
+    selectedTables: [],
+    price: 0,
+  });
 
   const handleChildData = (data) => {
-    console.log("Received from child:", data);
+    console.log("Received from child (Menu):", data);
     setOrderData(data);
   };
-  const handleTableData = (table) => {
-    console.log("Recived from table:", table);
-    setTableData(table);
+
+  const handleTableData = ({ selectedTables, price }) => {
+    console.log("Received Tables:", selectedTables);
+    console.log("Received Price:", price);
+    setTableData({ selectedTables, price });
   };
 
   const renderComponent = () => {
@@ -51,19 +56,3 @@ const Routing = () => {
 };
 
 export default Routing;
-
-{
-  /* <button
-            className="bg-green-500 text-white px-4 py-2 rounded-lg mt-4"
-            onClick={() => setShowPopup(true)}
-          >
-            Show Payment Success
-          </button>
-          {showPopup && (
-            <PaymentSuccessPopup
-              isOpen={showPopup}
-              onClose={() => setShowPopup(false)}
-              order={orderDetails}
-            />
-          )} */
-}

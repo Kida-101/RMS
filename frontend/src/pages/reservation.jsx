@@ -153,7 +153,6 @@ const ReservationForm = ({
             &nbsp;&nbsp;Reserve table
           </button>
         </div>
-
         <div className="mb-4">
           <div className="bg-white p-[10px] rounded-[5px] mb-[10px]">
             <p>
@@ -185,9 +184,21 @@ const ReservationForm = ({
 
             <p>
               <span className="font-bold">Table No:</span>{" "}
-              {propsTableData?.length > 0
-                ? propsTableData.map((table) => `Table ${table}`).join(", ")
+              {propsTableData?.selectedTables?.length > 0
+                ? propsTableData.selectedTables
+                    .map((table) => `Table ${table}`)
+                    .join(", ")
                 : "No table selected"}
+            </p>
+            <p>
+              <span className="font-bold">Price/table:</span>{" "}
+              {propsTableData?.price ? `${propsTableData.price} ETB` : "0 ETB"}
+            </p>
+
+            <p className="mt-2 font-bold text-green-600">
+              Total Sum:{" "}
+              {(propsOrderData?.totalPrice || 0) + (propsTableData?.price || 0)}{" "}
+              ETB
             </p>
           </div>
         </div>

@@ -1,25 +1,23 @@
 import dotenv from "dotenv";
-dotenv.config();
-
 import express from "express";
 import cors from "cors";
-import pg from "pg";
 import appRouter from "./src/routers/index.js";
-const app = express();
-const port = process.env.PORT; // Default to 4000 if PORT is not defined in .env
+import Casher from "./components/Casher/Casher.js";
 
-// Middleware
+const app = express();
+const PORT = process.env.PORT || 4000;
+dotenv.config();
+
 app.use(cors());
 app.use(express.json());
 
 app.use("/api", appRouter);
-import Casher from "./components/Casher/Casher.js";
 app.use("/casher", Casher);
 
 app.get("/", (req, res) => {
   res.send("Hello, World! Your server is running on the configured port.");
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

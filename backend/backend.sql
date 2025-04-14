@@ -111,10 +111,6 @@ CREATE TABLE bookings (
     status VARCHAR(20) DEFAULT 'Pending' CHECK (status IN ('Pending', 'Confirmed', 'Cancelled'))
 );
 
-
-
-
-
 -- Sales Table
 CREATE TABLE sales (
     id SERIAL PRIMARY KEY,

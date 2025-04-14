@@ -1,14 +1,21 @@
 // database.js
-import pkg from 'pg'; // Import pg as a default import to avoid common module issues
+import pkg from "pg";
 const { Pool } = pkg;
 
-
 const pool = new Pool({
-  user: 'postgres',
-  password: 'Nesra@8899',
-  host: 'localhost',
+  user: "postgres",
+  host: "localhost",
+  database: "RMS",
+  password: "199322",
   port: 5432,
-  database: 'RMS'
 });
 
-export default pool; // Ensure correct export syntax.
+pool.connect((err) => {
+  if (err) {
+    console.error("Database connection error", err.stack);
+  } else {
+    console.log("Connected to PostgreSQL!");
+  }
+});
+
+export default pool;
