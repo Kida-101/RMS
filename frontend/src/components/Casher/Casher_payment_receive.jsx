@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios
 
 // Base URL construction (ensure VITE_BACKEND_URL is set correctly)
-const API_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/casher/casher_payment_receive`;
+const API_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/casher/casher_payment_receive`;
 
 function Casher_payment_receive() {
     const [unpaidOrders, setUnpaidOrders] = useState([]);

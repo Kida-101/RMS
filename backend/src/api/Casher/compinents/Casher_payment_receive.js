@@ -1,5 +1,5 @@
 import express from "express";
-import pool from "../../../database.js"; // Make sure this path is correct
+import pool from "../../../../database.js"; // Make sure this path is correct
 
 // Use 'router' convention for Express Router
 const router = express.Router();

@@ -6,7 +6,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, T
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
 // Define the base URL for the API from environment variables
-const API_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/Kitchen/dashboard/`;
+const API_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/Kitchen/dashboard/`;
 
 function Kitchen_Dashboard() {
     // State for selected period (matching backend endpoints)

@@ -1,7 +1,7 @@
 // src/routes/api/cashier-report.js
 
 import express from "express";
-import pool from "../../../database.js"; // Adjust path as needed
+import pool from "../../../../database.js"; // Adjust path as needed
 
 const router = express.Router();
 
