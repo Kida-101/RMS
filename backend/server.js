@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import appRouter from "./src/routers/index.js";
-import Casher from "./components/Casher/Casher.js";
+
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -12,7 +12,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api", appRouter);
-app.use("/casher", Casher);
 
 app.get("/", (req, res) => {
   res.send("Hello, World! Your server is running on the configured port.");
