@@ -9,4 +9,10 @@ app.use("/paid_bill", paid_bill);
 import Casher_payment_receive from "./compinents/Casher_payment_receive.js";
 app.use("/casher_payment_receive", Casher_payment_receive);
 
+import Casher_payment_receive from "./compinents/Casher_payment_receive.js";
+app.use("/casher_payment_receive", Casher_payment_receive);
+
+import Casher_report from "./compinents/Casher_report.js";
+app.use("/casher_report", Casher_report);
+
 export default app;
