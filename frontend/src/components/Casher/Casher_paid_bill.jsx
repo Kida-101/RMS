@@ -1,104 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function Casher_paid_bill() {
   const [filter, setFilter] = useState('All');
+  const [bills, setBills] = useState([]);
+  const [error, setError] = useState(null); // Error state for feedback
+  const [loading, setLoading] = useState(true); // Loading state
 
-  const bills = [
-    {
-      table: '02',
-      paidFrom: 'online',
-      foodItems: 'Burger, Pizza, Sushi, Pasta, Tacos, Fried Chicken, Salad, Pancakes, Steak, and Ice Cream.',
-      totalAmount: '$120.00',
-      paymentTime: '2025-03-28 12:30 PM',
-      payer: 'Reservation',
-    },
-    {
-      table: '05',
-      paidFrom: 'onsite',
-      foodItems: 'Pizza, Salad, and Ice Cream.',
-      totalAmount: '$45.00',
-      paymentTime: '2025-03-28 01:15 PM',
-      payer: 'Waiter 011',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-    {
-      table: '10',
-      paidFrom: '3rd party delivery',
-      foodItems: 'Burger, Fries, and Soda.',
-      totalAmount: '$30.00',
-      paymentTime: '2025-03-28 02:00 PM',
-      payer: 'BeuDelivery',
-    },
-  ];
+  // Fetch the data from the backend API
+  useEffect(() => {
+    const fetchBills = async () => {
+      try {
+        setLoading(true);
+        setError(null); // Reset error state before fetching
+
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/casher/paid_bill/PaidBill`);
+        const data = response.data;
+        setBills(data); // Correctly update bills state
+      } catch (error) {
+        console.error('Error fetching bills:', error);
+        setError('Failed to fetch bills. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBills(); // Call the function to fetch the data
+  }, []); // Empty dependency array to run the effect only once on mount
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
 
-  const filteredBills = filter === 'All' ? bills : bills.filter((bill) => bill.paidFrom === filter);
+  // Filter the bills based on the selected filter
+  const filteredBills = filter === 'All' ? bills : bills.filter((bill) => bill.order_type.toLowerCase() === filter);
 
   return (
     <div className="p-5 bg-gray-100 mt-4 mb-0 overflow-y-auto min-h-screen">
@@ -116,41 +51,54 @@ function Casher_paid_bill() {
           <option value="All">All</option>
           <option value="online">Online</option>
           <option value="onsite">Onsite</option>
-          <option value="3rd party delivery">3rd Party Delivery</option>
+          <option value="third-party">Third-Party</option>
         </select>
       </div>
 
+      {/* Loading and Error Handling */}
+      {loading && <div className="text-center text-lg text-gray-700">Loading bills...</div>}
+      {error && <div className="text-center text-lg text-red-500">{error}</div>}
+
       {/* Bills List */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredBills.map((bill, index) => (
-          <div
-            key={index}
-            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-          >
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Bill Details</h2>
-            <ul className="list-none space-y-2">
-              <li className="text-gray-600">
-                <strong>Table:</strong> {bill.table}
-              </li>
-              <li className="text-gray-600">
-                <strong>Paid From:</strong> {bill.paidFrom}
-              </li>
-              <li className="text-gray-600">
-                <strong>Food Items:</strong> {bill.foodItems}
-              </li>
-              <li className="text-gray-600">
-                <strong>Total Amount:</strong> {bill.totalAmount}
-              </li>
-              <li className="text-gray-600">
-                <strong>Payment Time:</strong> {bill.paymentTime}
-              </li>
-              <li className="text-gray-600">
-                <strong>Payer:</strong> {bill.payer}
-              </li>
-            </ul>
-          </div>
-        ))}
-      </div>
+      {!loading && !error && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredBills.length > 0 ? (
+            filteredBills.map((bill, index) => (
+              <div
+                key={index}
+                className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+              >
+                <h2 className="text-xl font-semibold text-gray-800 mb-4">Bill Details</h2>
+                <ul className="list-none space-y-2">
+                  <li className="text-gray-600">
+                    <strong>Table:</strong> {bill.table}
+                  </li>
+                  <li className="text-gray-600">
+                    <strong>Order Type:</strong> {bill.order_type}
+                  </li>
+                  <li className="text-gray-600">
+                    <strong>Food Items:</strong> {bill.food_items}
+                  </li>
+                  <li className="text-gray-600">
+                    <strong>Total Amount:</strong> {bill.total_amount} Birr
+                  </li>
+                  <li className="text-gray-600">
+                    <strong>Payment Time:</strong> {bill.payment_time}
+                  </li>
+                  <li className="text-gray-600">
+                    <strong>Payment Method:</strong> {bill.payment_method}
+                  </li>
+                  <li className="text-gray-600">
+                    <strong>Payer:</strong> {bill.payer}
+                  </li>
+                </ul>
+              </div>
+            ))
+          ) : (
+            <div className="text-center text-lg text-gray-700">No bills found for the selected filter.</div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

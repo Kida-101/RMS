@@ -18,6 +18,7 @@ const ReservationForm = ({
     email: "",
     date: new Date(),
     arrivalTime: "",
+    endTime: "",
     menu: "",
     table: "",
     requests: "",
@@ -31,7 +32,7 @@ const ReservationForm = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // alert("Reservation Confirmed!\n" + JSON.stringify(formData, null, 2));
+    //alert("Reservation Confirmed!\n" + JSON.stringify(formData, null, 2));
   };
   return (
     <div className="max-w-[400px] w-full m-[25px_30px] p-[25px] max-w-full sm:max-w-[400px] bg-[#dfdfdf] bg-cover rounded-[10px] shadow-[0px_4px_8px_rgba(0,0,0,0.7)]">
@@ -110,7 +111,7 @@ const ReservationForm = ({
           /> */}
         </div>
         <div className="time mb-4">
-          <label className="label font-semibold mt-[3px]">Arraival Time:</label>
+          <label className="label font-semibold mt-[3px]">Start-Time:</label>
           &nbsp;
           <input
             type="time"
@@ -120,20 +121,20 @@ const ReservationForm = ({
             required
             className="input !w-full p-[10px_20px] border-none rounded-[8px] bg-white mb-4 outline-none focus:shadow-lg focus:shadow-green-300"
           />
-          <div>
-            <p className="mb-3 justify-center italic text-xs">
-              Please arrive within 30 minutes of booking to avoid cancellation!
-            </p>
-          </div>
-          {/* <label className="label font-semibold">Time(finish):</label>&nbsp;
+          <label className="label font-semibold">Finish-Time:</label>&nbsp;
           <input
             type="time"
             name="endTime"
             value={formData.endTime}
             onChange={handleChange}
             required
-            className="input !w-full p-[10px_20px] border-none rounded-[8px] bg-white mb-1"
-          /> */}
+            className="input !w-full p-[10px_20px] border-none rounded-[8px] bg-white mb-4 outline-none focus:shadow-lg focus:shadow-green-300"
+          />
+          <div>
+            <p className="mb-3 justify-center italic text-xs">
+              Please arrive within 30 minutes of booking to avoid cancellation!
+            </p>
+          </div>
         </div>
         <div className="menu-nav mb-4">
           <button
@@ -152,7 +153,6 @@ const ReservationForm = ({
             &nbsp;&nbsp;Reserve table
           </button>
         </div>
-
         <div className="mb-4">
           <div className="bg-white p-[10px] rounded-[5px] mb-[10px]">
             <p>
@@ -184,9 +184,21 @@ const ReservationForm = ({
 
             <p>
               <span className="font-bold">Table No:</span>{" "}
-              {propsTableData?.length > 0
-                ? propsTableData.map((table) => `Table ${table}`).join(", ")
+              {propsTableData?.selectedTables?.length > 0
+                ? propsTableData.selectedTables
+                    .map((table) => `Table ${table}`)
+                    .join(", ")
                 : "No table selected"}
+            </p>
+            <p>
+              <span className="font-bold">Price/table:</span>{" "}
+              {propsTableData?.price ? `${propsTableData.price} ETB` : "0 ETB"}
+            </p>
+
+            <p className="mt-2 font-bold text-green-600">
+              Total Sum:{" "}
+              {(propsOrderData?.totalPrice || 0) + (propsTableData?.price || 0)}{" "}
+              ETB
             </p>
           </div>
         </div>

@@ -4,7 +4,6 @@ CREATE TABLE users (
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     role VARCHAR(50) CHECK (role IN ('CHEF', 'WAITER', 'STOREKEEPER', 'SUPERADMIN','CASHIER','KITCHEN_MANAGER','MANAGER','RECEPTION')) NOT NULL,
-    role VARCHAR(50) CHECK (role IN ('CHEF', 'WAITER', 'STOREKEEPER', 'SUPERADMIN','CASHIER','KITCHEN_MANAGER','MANAGER','RECEPTION','BARTENDER')) NOT NULL,
     password_hash VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_login TIMESTAMP
@@ -66,7 +65,7 @@ CREATE TABLE table_book (
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
     table_id INT REFERENCES table_book(id) ON DELETE SET NULL,
-    status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (status IN ('assigned', 'pending', 'ready', 'served' ,'started')),
+    status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (status IN ('assigned', 'pending', 'ready', 'served')),
     order_type VARCHAR(20) DEFAULT 'Onsite' CHECK (order_type IN ('Online', 'Onsite', 'Third-Party')),
     served_time TIMESTAMP,
     assigned_time TIMESTAMP,
